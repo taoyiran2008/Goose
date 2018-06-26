@@ -104,4 +104,7 @@ dependencies {
     //compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
     // 沉浸式状态栏碎片化解决方案，支持Android4.4(API 19)以上
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+
+    // 解决5.0以下模块化导致dagger报错：java.lang.NoClassDefFoundError: com.goose.app.di.DaggerAppComponent$Builder
+    api 'com.android.support:multidex:1.0.1'
 }

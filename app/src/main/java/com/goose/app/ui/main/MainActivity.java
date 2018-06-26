@@ -136,7 +136,10 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
         ImageView img_icon = view.findViewById(R.id.img_icon);
         TextView txt_title = view.findViewById(R.id.txt_title);
 
+        // Android 4.4 setImageResource Resources$NotFoundException
+        // 不是vector导致的，也不是模块化依赖导致的，是我把图片仅放到了drawable-v24文件夹下面
         img_icon.setImageResource(mIcons[position]);
+        //img_icon.setImageDrawable(ContextCompat.getDrawable(this, mIcons[position]));
         txt_title.setText(mTabTitles[position]);
         return view;
     }

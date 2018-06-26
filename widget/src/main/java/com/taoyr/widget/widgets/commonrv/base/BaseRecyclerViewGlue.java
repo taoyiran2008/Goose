@@ -8,6 +8,7 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
+import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.taoyr.widget.widgets.commonrv.decorator.GridSpacingItemDecoration;
@@ -17,6 +18,28 @@ import java.util.List;
 
 /**
  * Created by taoyiran on 2018/1/13.
+ * 仿三星Bixby主页，列表滑动时的吸附效果。
+ * 最开始的实现思路是，动态改变滑动后新出现的item的margin。用一个队列报错所有待处理的View，并使用
+ * 单线程工作流模型处理动画效果，放弃使用更简单的多线程模式（每个View的动画幽一个线程处理），并使用
+ * synchronize/wait/notify，根据工作队列的情况，对线程进行休眠和唤醒。
+ *
+ * 问题发生了，因synchronize的问题，post方法有时候并不会被执行，导致margin无法改变。于是去掉synchronize，
+ * 但担心性能问题。最终从new Thread转头mHandler.postDelay，借助android自身的消息队列和延迟，实现动态
+ * 改变margin的目的（AysncTask应该也可以）。
+ *
+ * 上面的做法很好的实现了列表上滑，item的粘滞效果，不过要实现列表下滑，上面的item往下吸附却表现不佳。
+ * 因为我们改变的是margin，无论改变new item的bottom/top margin，还是改变new item下面item的top margin，
+ * 都会呈现，下面的item先被设置的margin顶开的不和谐效果。
+ *
+ * 视图通过scroll来抵消这个顶开的效果，但是表现不佳。
+ *
+ * 然后尝试设置padding，虽然能解决顶开的问题，但是如果item有一个背景边框，padding只会把item的边框和内容
+ * 撑开。
+ *
+ * 看来得转换思路了，那么用setY能否解决了。这个思路让我联想到Android的动画。于是这个版本就基于这个思路实现的。
+ * 效果和性能表现都不错，跟Sumsung Bixby主页的效果基本一致。
+ *
+ * 设置margin的思路是属性动画，而位置平移的思路是补间动画
  */
 
 public class BaseRecyclerViewGlue<T> extends RecyclerView {
@@ -25,10 +48,13 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
     public static final int ORIENTATION_VERTICAL = 2;
     public static final int ITEM_SPACE = 20; // dp
 
+    // 平移动画相关
     private static final int DIRECTION_UP = 1;
     private static final int DIRECTION_DOWN = 2;
     private static final int DIRECTION_LEFT = 3;
     private static final int DIRECTION_RIGHT = 4;
+    private static final int GLUE_DURATION_IN_MS = 360;
+    private static final int GLUE_DISTANCE_IN_DP = 200;
 
     Context mContext;
     LayoutManager mManager;
@@ -38,9 +64,7 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
 
     int mFirstVisiblePosition;
     int mLastVisiblePosition;
-    // 平移动画相关
-    int mGlueDistanceInDip = 60;
-    int mGlueDurationInMs = 300;
+    int mGlueDistanceInPx;
 
     public BaseRecyclerViewGlue(Context context) {
         super(context);
@@ -112,6 +136,7 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
         setAdapter(mAdapter);
         mAdapter.refresh(null);
 
+        mGlueDistanceInPx = dip2px(mContext, GLUE_DISTANCE_IN_DP);
         setOnScrollListener();
     }
 
@@ -188,26 +213,29 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
         switch (direction) {
             case DIRECTION_UP:
                 animation = new TranslateAnimation(0, 0,
-                        dip2px(mContext, mGlueDistanceInDip), 0);
+                        mGlueDistanceInPx, 0);
                 break;
             case DIRECTION_DOWN:
                 animation = new TranslateAnimation(0, 0,
-                        -dip2px(mContext, mGlueDistanceInDip), 0);
+                        -mGlueDistanceInPx, 0);
                 break;
             case DIRECTION_LEFT:
-                animation = new TranslateAnimation(dip2px(mContext, mGlueDistanceInDip),
+                animation = new TranslateAnimation(mGlueDistanceInPx,
                         0, 0, 0);
                 break;
             case DIRECTION_RIGHT:
-                animation = new TranslateAnimation(-dip2px(mContext, mGlueDistanceInDip),
+                animation = new TranslateAnimation(-mGlueDistanceInPx,
                         0, 0, 0);
                 break;
             default:
                 animation = new TranslateAnimation(0, 0,
-                        dip2px(mContext, mGlueDistanceInDip), 0);
+                        mGlueDistanceInPx, 0);
         }
 
-        animation.setDuration(mGlueDurationInMs);
+        // 实现逐渐减速的吸附效果
+        animation.setInterpolator(new DecelerateInterpolator());
+        //animation.setInterpolator(new AccelerateInterpolator());
+        animation.setDuration(GLUE_DURATION_IN_MS);
         view.startAnimation(animation);
     }
 

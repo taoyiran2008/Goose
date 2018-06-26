@@ -5,6 +5,7 @@ import android.app.Application;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.support.multidex.MultiDex;
 
 import com.google.gson.Gson;
 import com.taoyr.app.rxbus.RxBus;
@@ -270,5 +271,11 @@ public abstract class BaseApplication extends DaggerApplication {
     public void setToken(String token) {
         this.token = token;
         mSp.edit().putString("token", token).apply();
+    }
+
+    @Override
+    protected void attachBaseContext(Context base) {
+        super.attachBaseContext(base);
+        MultiDex.install(base);
     }
 }

@@ -2,6 +2,11 @@ apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 26
+    buildToolsVersion "26.0.3"
+
+    dexOptions {
+        jumboMode true
+    }
 
     aaptOptions {
         cruncherEnabled = false
