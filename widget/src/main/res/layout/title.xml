@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- 公用标题栏 -->
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:id="@+id/top_bar"
+             android:layout_width="match_parent"
+             android:background="@color/white"
+             android:layout_height="40dp">
+
+    <!-- 左侧按钮区域 -->
+    <!--beforeDescendants属性设置的必要性，如果使用者同时为title_left_linear和title_left_btn注册了
+    OnClick监听事件，却只在onClick中为外层的title_left_linear写了响应事件，则点击title_left_btn
+    是无法响应的。-->
+    <LinearLayout
+        android:id="@+id/ll_left_area"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="left|center_vertical"
+        android:gravity="center_vertical"
+        android:orientation="horizontal">
+
+        <ImageView
+            android:id="@+id/img_back"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:layout_marginLeft="20dp"
+            android:scaleType="fitCenter"
+            android:src="@drawable/back_icon"/>
+
+    </LinearLayout>
+
+    <!-- 居中部分 -->
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <com.taoyr.widget.widgets.CustomTextView
+            android:id="@+id/title"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:singleLine="true"
+            android:scrollHorizontally="true"
+            android:gravity="center"
+            tools:text="测试标题各种长度"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:textSize="16sp"
+            android:textStyle="bold"/>
+    </LinearLayout>
+
+    <!-- 右侧按钮区域 -->
+    <LinearLayout
+        android:id="@+id/ll_right_area"
+        android:layout_width="80dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center_vertical"
+        android:gravity="right|center_vertical"
+        android:paddingRight="20dp"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/txt_function"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"/>
+
+        <ImageView
+            android:id="@+id/img_function"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:scaleType="fitCenter"/>
+    </LinearLayout>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_gravity="bottom"
+        android:background="@color/gainsboro"/>
+</FrameLayout>

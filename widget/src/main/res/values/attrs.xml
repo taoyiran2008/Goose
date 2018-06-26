@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <declare-styleable name="EntryView">
+        <attr name="ev_icon" format="reference" />
+        <attr name="ev_title" format="string" />
+        <attr name="ev_divider" format="boolean" />
+        <attr name="ev_color" format="integer"/>
+    </declare-styleable>
+</resources>

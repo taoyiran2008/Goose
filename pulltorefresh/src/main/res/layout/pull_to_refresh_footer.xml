@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<!--下拉刷新Header-->
+<!--header、footer、listview、content以独立的模块组合更好-->
+<RelativeLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/pull_to_refresh_footer"
+    android:layout_width="fill_parent"
+    android:layout_height="60dip">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="60dip"
+        android:layout_marginLeft="20dp"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:orientation="horizontal">
+
+        <FrameLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content">
+
+            <ImageView
+                android:id="@+id/arrow"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginRight="10dp"
+                android:src="@drawable/arrow_plane"/>
+
+            <ProgressBar
+                android:id="@+id/progress_bar"
+                android:layout_width="30dip"
+                android:layout_height="30dip"
+                android:layout_marginRight="10dp"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+        <TextView
+            android:id="@+id/description"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="上拉加载更多"/>
+    </LinearLayout>
+</RelativeLayout>

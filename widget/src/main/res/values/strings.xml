@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">widget</string>
+    <string name="common_loading_progress">"加载中(%d%%)"</string>
+</resources>

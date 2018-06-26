@@ -1,0 +1,4 @@
+<manifest
+    package="com.taoyr.app"/>
+<!--子模块的package name不能出现相同的，不然会报错Multiple dex files define BuildConfig
+https://stackoverflow.com/questions/25103288/multiple-dex-files-define-my-package-buildconfig-cant-find-the-cause-->

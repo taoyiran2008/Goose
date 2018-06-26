@@ -1,0 +1,16 @@
+<resources>
+    <string name="common_pull_to_refresh">下拉刷新</string>
+    <string name="common_release_to_refresh">释放刷新...</string>
+    <string name="common_now_refreshing">刷新中...</string>
+    <string name="common_updated_at">最近刷新:</string>
+    <string name="common_updated_seconds_ago">"%s秒前"</string>
+    <string name="common_updated_minutes_ago">"%s分钟前"</string>
+    <string name="common_updated_hours_ago">"%s小时前"</string>
+    <string name="common_updated_day_ago">"%s天前"</string>
+    <string name="common_updated_month_ago">"%s个月前"</string>
+    <string name="common_updated_year_ago">"%s年前"</string>
+    <string name="common_refresh_error">刷新失败，请再试一次</string>
+    <string name="common_pull_up_to_load_more">上拉加载更多</string>
+    <string name="common_release_to_load_more">释放加载...</string>
+    <string name="common_now_loading_more">正在加载...</string>
+</resources>

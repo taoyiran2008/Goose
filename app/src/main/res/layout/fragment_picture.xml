@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gainsboro"
+              android:orientation="vertical">
+
+    <!--<include layout="@layout/title"/>-->
+    <com.taoyr.widget.widgets.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"/>
+
+    <com.taoyr.pulltorefresh.PullToRefreshViewGroup
+        android:id="@+id/pull_to_refresh"
+        android:padding="10dp"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue
+            android:id="@+id/base_recycler_view"
+            android:nestedScrollingEnabled="false"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+    </com.taoyr.pulltorefresh.PullToRefreshViewGroup>
+</LinearLayout>

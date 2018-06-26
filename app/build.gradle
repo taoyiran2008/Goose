@@ -1,0 +1,49 @@
+apply plugin: 'com.android.application'
+
+android {
+    compileSdkVersion 26
+
+    aaptOptions {
+        cruncherEnabled = false
+        useNewCruncher = false
+        additionalParameters "--no-version-vectors"
+    }
+
+    dexOptions {
+        jumboMode true
+    }
+
+    defaultConfig {
+        applicationId "com.goose.app"
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
+        vectorDrawables.useSupportLibrary = true
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+}
+
+dependencies {
+    // api project(':library')
+    implementation project(':base')
+    implementation project(':thirdparty')
+    implementation project(':utility')
+    implementation project(':widget')
+    implementation project(':pulltorefresh')
+
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+    // annotationProcessor必须定义在本gradle文件中，而不能仅仅在third party中定义，不然该模块编译期间
+    // 不能生成DaggerAppComponent，并报错cannot resolve symbol DaggerAppComponent。
+    // 同理，butterknife注解也无法被正确的执行和编译，导致@BindView的组件为null，从而报NPE异常
+
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+}

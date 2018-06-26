@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent">
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingLeft="20dp"
+        android:paddingRight="40dp"/>
+
+    <TextView
+        android:id="@+id/hint_text"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:layout_gravity="center"
+        android:background="@drawable/shape_circle_blue"
+        android:gravity="center"
+        android:textStyle="bold"
+        android:textColor="#ffffffff"
+        android:textSize="30sp"
+        android:visibility="invisible"/>
+
+    <com.ceair.ticketapp.checkin.widget.indexrecyclerview.SideBar
+        android:id="@+id/side_bar"
+        android:layout_width="40dp"
+        android:layout_height="match_parent"
+        android:layout_gravity="right|center"/>
+</FrameLayout>

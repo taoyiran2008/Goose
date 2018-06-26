@@ -1,0 +1,107 @@
+apply plugin: 'com.android.library'
+
+android {
+    compileSdkVersion 26
+
+
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 26
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+
+}
+
+dependencies {
+    // android sdk相关内容，暂挪到thirdparty module中管理
+    /*compile 'com.android.support:appcompat-v7:26.+'
+    compile fileTree(include: ['*.jar'], dir: 'libs')
+    androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    })
+    testCompile 'junit:junit:4.12'*/
+
+    implementation 'com.android.support:appcompat-v7:26.0.0'
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+    testImplementation 'junit:junit:4.12'
+    //androidTestImplementation 'com.android.support.test:runner:0.5'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    // dagger2
+    compile 'com.google.dagger:dagger:2.11'
+    // 编译期间，dagger使用APT生成需要的DI代码的工具
+    //apt 'com.google.dagger:dagger-compiler:2.11'
+    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    //java注解，支持使用@Inject 和@Named注解
+    //compile 'org.glassfish:javax.annotation:10.0-b28'
+    provided 'org.glassfish:javax.annotation:10.0-b28'
+    // dagger android
+    compile 'com.google.dagger:dagger-android:2.11'
+    compile 'com.google.dagger:dagger-android-support:2.11'
+    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+
+    // greendao
+    compile 'org.greenrobot:greendao:3.0.1'
+    compile 'org.greenrobot:greendao-generator:3.0.0'
+    // gson
+    compile 'com.google.code.gson:gson:2.8.0'
+    // glide
+    compile 'com.github.bumptech.glide:glide:3.7.0'
+    // recycler view
+    compile 'com.android.support:recyclerview-v7:26+'
+    // TabLayout
+    compile 'com.android.support:design:26+'
+    // 简体/繁体汉字转拼音
+    compile files('libs/pinyin4j-2.5.0.jar')
+    // ----------------------------------
+    //  Rx dependencies
+    // retrofit + rxjava2 + okhttp3
+    compile 'io.reactivex.rxjava2:rxjava:2.0.7'
+    compile 'io.reactivex.rxjava2:rxandroid:2.0.1'
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    compile 'com.squareup.retrofit2:adapter-rxjava2:2.2.0'
+    compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    // compile 'com.squareup.retrofit2:converter-jackson:2.3.0' // 使用jackson作为json到对象的ORM转换
+    compile 'com.squareup.okhttp3:okhttp:3.6.0'
+    compile 'com.squareup.okhttp3:logging-interceptor:3.6.0'
+    compile 'com.github.akarnokd:rxjava2-extensions:0.16.0'
+    compile 'com.jakewharton.rxrelay2:rxrelay:2.0.0'
+    compile 'com.jakewharton.rxbinding2:rxbinding:2.0.0'
+    // ----------------------------------
+    // 注解框架（同样出自Square大神jake wharton之手）
+    compile 'com.jakewharton:butterknife:8.8.1'
+    annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    // Resolve conflicts between main and test APK
+    // 参考google mvp dagger sample
+    androidTestCompile 'com.google.code.findbugs:jsr305:3.0.1'
+    // otto event bus
+    compile 'com.squareup:otto:+'
+    // bottom navigation bar
+    compile 'com.ashokvarma.android:bottom-navigation-bar:2.0.4'
+    // flow layout
+    compile 'cn.lankton:flowlayout:3.1.0'
+    // 毛玻璃效果
+    compile 'jp.wasabeef:glide-transformations:2.0.1'
+    // 纵向（垂直）tab layout
+    compile 'q.rorbin:VerticalTabLayout:1.2.5'
+    // 滚动选择器
+    compile 'cn.aigestudio.wheelpicker:WheelPicker:1.1.2'
+    // pull to refresh（支持scrollview）
+    compile 'com.jwenfeng.pulltorefresh:library:1.0.3'
+    // 支持APP内部查看PDF文件，这个库的依赖会导致原本5M的APK，变胖到20M
+    //compile 'com.github.barteksc:android-pdf-viewer:2.6.1'
+    // 沉浸式状态栏碎片化解决方案，支持Android4.4(API 19)以上
+    compile 'com.gyf.barlibrary:barlibrary:2.3.0'
+}
