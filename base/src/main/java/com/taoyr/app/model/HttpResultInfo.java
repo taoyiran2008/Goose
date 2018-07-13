@@ -14,8 +14,7 @@ package com.taoyr.app.model;
 
 public class HttpResultInfo<T> {
 
-    public boolean success;
-    public String resultCode;
-    public String resultDesc;
-    public T result;
+    public String code; // 200
+    public String message;
+    public T datas;
 }

@@ -5,4 +5,16 @@ package com.goose.app.model;
  */
 
 public class PictureInfo {
+
+    public String title;
+    public String tag;
+    public String url;
+    public String cover;
+    public int view;
+    public int support;
+    public int collect;
+    public String createTime;
+    public float download_price;
+    public int view_price;
+    public int star;
 }

@@ -113,7 +113,8 @@ public class OkHttpUtils {
 
                     response = chain.proceed(builder.build());
                 } catch (Exception e) {
-                    // 在假网环境下（连着没有Internet访问的wifi），会报IOException
+                    // 在假网环境下（连着没有Internet访问的wifi），会报IOException。
+                    // 如果Manifest没有加权限，访问会出现404，retrofit端会报NPE。
                     LogMan.logError(e);
                 }
 

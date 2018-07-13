@@ -39,6 +39,8 @@ import android.widget.TextView;
 import com.taoyr.utility.R;
 
 import java.io.File;
+import java.io.IOException;
+import java.io.InputStream;
 import java.lang.reflect.Field;
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;
@@ -58,13 +60,23 @@ import static android.os.Build.VERSION_CODES.N;
 
 public class CommonUtils {
 
-    // 调试不求人，本地数据模拟HTTP请求数据
-    // NOTE: 测试或者发布时，一定记得关闭开关
-    private static final boolean LOCAL_MOCKING = false;
-    public static final int MOCKING_TIME_IN_MS = 200;
-
-    public static boolean isMockingEnv() {
-        return LOCAL_MOCKING;
+    public static String readFileFromAssets(Context context, String fileName) {
+        InputStream is = null;
+        try {
+            is = context.getAssets().open(fileName);
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+            return new String(buffer, "UTF-8");
+        } catch (Exception e) {
+            // e.printStackTrace();
+            LogMan.logDebug(e.getMessage());
+        } finally {
+            try {
+                if (is != null) is.close();
+            } catch (IOException e) {
+            }
+        }
+        return "";
     }
 
     public static int[] getScreenDimensionInPx(Context context) {
@@ -756,6 +768,10 @@ public class CommonUtils {
                 int originHeight = view.getMeasuredHeight();*/
                 //int originWidth = CommonUtils.getViewDimensionInPx(view)[0];
                 int originWidth = view.getWidth();
+                // 在OPP R9s手机上，通过view.getWidth()，有的recycler item view的宽度获取为0
+                if (originWidth <= 0) {
+                    originWidth = getViewDimensionInPx2(view)[0];
+                }
 
                 int screenWidth = wm.getDefaultDisplay().getWidth();
 

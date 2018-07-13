@@ -8,7 +8,6 @@ import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.AttributeSet;
 import android.view.View;
-import android.view.animation.DecelerateInterpolator;
 import android.view.animation.TranslateAnimation;
 
 import com.taoyr.widget.widgets.commonrv.decorator.GridSpacingItemDecoration;
@@ -54,7 +53,7 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
     private static final int DIRECTION_LEFT = 3;
     private static final int DIRECTION_RIGHT = 4;
     private static final int GLUE_DURATION_IN_MS = 360;
-    private static final int GLUE_DISTANCE_IN_DP = 200;
+    private static final int GLUE_DISTANCE_IN_DP = 160;
 
     Context mContext;
     LayoutManager mManager;
@@ -204,10 +203,15 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
         return positions;
     }
 
-    void startGlueAnimation(View view, int direction) {
+    void startGlueAnimation(final View view, int direction) {
         if (view == null) {
             return;
         }
+
+        /*String item_animated = (String) view.getTag(R.id.animated);
+        if ("true".equals(item_animated)) {
+            return;
+        }*/
 
         TranslateAnimation animation;
         switch (direction) {
@@ -233,9 +237,25 @@ public class BaseRecyclerViewGlue<T> extends RecyclerView {
         }
 
         // 实现逐渐减速的吸附效果
-        animation.setInterpolator(new DecelerateInterpolator());
+        //animation.setInterpolator(new DecelerateInterpolator());
         //animation.setInterpolator(new AccelerateInterpolator());
         animation.setDuration(GLUE_DURATION_IN_MS);
+        /*animation.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+                view.setTag(R.id.animated, "true");
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                view.setTag(R.id.animated, "false");
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });*/
         view.startAnimation(animation);
     }
 

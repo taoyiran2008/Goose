@@ -3,7 +3,7 @@ package com.taoyr.app.di.modules;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import com.taoyr.app.configs.UrlConfig;
+import com.taoyr.app.configs.BaseConfig;
 
 import javax.inject.Singleton;
 
@@ -33,7 +33,7 @@ public class NetModule {
     @Singleton
     Retrofit provideRetrofit(OkHttpClient okHttpClient) {
         Retrofit retrofit = new Retrofit.Builder()
-                .baseUrl(UrlConfig.BASE_URL) // 服务器地址
+                .baseUrl(BaseConfig.API_SERVER) // 服务器地址
                 .addConverterFactory(GsonConverterFactory.create()) // 使用默认的gson转换器，当然也可以自己构造gson对象传进来
                 .addCallAdapterFactory(RxJava2CallAdapterFactory.create()) // 添加rxjava转换器
                 .client(okHttpClient) // okhttp对象

@@ -1,7 +1,13 @@
 package com.goose.app.di;
 
+import com.goose.app.ui.login.LoginActivity;
+import com.goose.app.ui.login.LoginModule;
 import com.goose.app.ui.main.MainActivity;
 import com.goose.app.ui.main.MainModule;
+import com.goose.app.ui.personal.SignUpPersonalActivity;
+import com.goose.app.ui.personal.SignUpPersonalModule;
+import com.goose.app.ui.signup.SignUpTelActivity;
+import com.goose.app.ui.signup.SignUpTelModule;
 import com.taoyr.app.di.scope.ActivityScoped;
 
 import dagger.Module;
@@ -22,4 +28,16 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = MainModule.class)
     abstract MainActivity mainActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = LoginModule.class)
+    abstract LoginActivity loginActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = SignUpTelModule.class)
+    abstract SignUpTelActivity signUpTelActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = SignUpPersonalModule.class)
+    abstract SignUpPersonalActivity signUpPersonalActivity();
 }

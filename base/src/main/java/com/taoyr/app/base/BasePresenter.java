@@ -5,8 +5,6 @@ import android.text.TextUtils;
 
 import com.taoyr.app.ifs.UiCallback;
 import com.taoyr.app.model.HttpResultInfo;
-import com.taoyr.app.utility.CommonUtils;
-import com.taoyr.app.utility.LogMan;
 import com.taoyr.app.utility.NetUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -74,14 +72,14 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
      * 对结果进行统一处理。
      * TODO: 对于有返回原始数据ResponseBody的，对请求数据filter，flatMap，zip等特殊处理的，另外的增加统一处理的方法。
      */
-    protected <T> void doRequest(final Observable<HttpResultInfo<T>> request, final int cancelable, final UiCallback<T> callback) {
+    protected void doRequest(final Observable<HttpResultInfo> request, final int cancelable, final UiCallback callback) {
         // 检查网络连接
         if (!NetUtils.isConnected(BaseApplication.getContext())) {
             mView.showToast("网络未连接，请检查您的网络设置");
             return;
         }
 
-        request.compose(this.<HttpResultInfo<T>>setThread()).subscribe(new Observer<HttpResultInfo<T>>() {
+        request.compose(this.<HttpResultInfo>setThread()).subscribe(new Observer<HttpResultInfo>() {
             @Override
             public void onSubscribe(final Disposable d) {
                 //mDisposable = d;
@@ -111,30 +109,20 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
             }
 
             @Override
-            public void onNext(HttpResultInfo<T> httpResultInfo) {
-                if (httpResultInfo.success) {
+            public void onNext(HttpResultInfo httpResultInfo) {
+                if ("200".equals(httpResultInfo.code)) {
                     if (callback != null) {
-                        if (httpResultInfo.result == null) {
-                            Class type = CommonUtils.getSuperClassGenricType(callback.getClass());
-                            try {
-                                // 根据泛型创建对象
-                                T obj = (T) type.newInstance();
-                                callback.onSuccess(obj);
-                            } catch (Exception e) {
-                                LogMan.logError(e);
-                            }
-                        } else {
-                            callback.onSuccess(httpResultInfo.result);
-                        }
+                        callback.onSuccess(httpResultInfo.datas);
                     }
                 } else {
                     /*mView.showToast("errorCode: " + httpResultInfo.resultCode
                             + ", errorMsg: " + httpResultInfo.resultDesc);*/
-                    if (!TextUtils.isEmpty(httpResultInfo.resultDesc)) {
-                        mView.showToast(httpResultInfo.resultDesc);
-                    } else {
-                        mView.showToast("未知的网络异常");
+                    String errorMessage = "网络请求异常";
+                    if (!TextUtils.isEmpty(httpResultInfo.message)) {
+                        errorMessage = httpResultInfo.message;
                     }
+                    mView.showToast(errorMessage);
+                    callback.onFailure(errorMessage);
                 }
 
                 dismissLoadingDialog();
@@ -142,13 +130,10 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
 
             @Override
             public void onError(Throwable e) {
-                mView.showToast("网络请求异常");
+                String errorMessage = "未知的错误";
+                mView.showToast(errorMessage);
                 if (callback != null) {
-                    try {
-                        callback.onSuccess(null);
-                    } catch (Exception e2) {
-                        LogMan.logError(e2);
-                    }
+                    callback.onFailure(errorMessage);
                 }
 
                 dismissLoadingDialog();
@@ -179,7 +164,7 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
         };
     }
 
-    protected T getApiService(Class<T> clz) {
+    protected <T> T getApiService(Class<T> clz) {
         return mRetrofit.create(clz);
     }
 }
