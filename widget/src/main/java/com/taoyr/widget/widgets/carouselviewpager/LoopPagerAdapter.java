@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by taoyr on 2018/6/28.
@@ -15,8 +16,8 @@ import java.util.ArrayList;
 public abstract class LoopPagerAdapter<T> extends PagerAdapter implements ViewPager.OnPageChangeListener {
 
     protected Context mContext;
-    protected ArrayList<T> mList;
-    protected ArrayList<View> views = new ArrayList<>();
+    protected List<T> mList;
+    protected List<View> views = new ArrayList<>();
     CarouselViewPager mViewPager;
     int currentPosition = 0;
 
@@ -25,7 +26,7 @@ public abstract class LoopPagerAdapter<T> extends PagerAdapter implements ViewPa
         mViewPager = viewPager;
     }
 
-    public void refresh(ArrayList<T> list) {
+    public void refresh(List<T> list) {
         mList = list;
         prepareData();
         notifyDataSetChanged();

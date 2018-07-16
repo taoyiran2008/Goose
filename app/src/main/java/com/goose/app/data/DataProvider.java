@@ -38,7 +38,10 @@ public class DataProvider {
     IApiService mService;
     Context mContext;
     Gson mGson;
-    HttpResultInfo mDummyHttpResultInfo;
+
+    public static String DATA_TYPE_PICTURE = "picture";
+    public static String DATA_TYPE_NOVEL = "novel";
+    public static String DATA_TYPE_VIDEO = "video";
 
     public enum OperationType {
         LOGIN,
@@ -63,55 +66,57 @@ public class DataProvider {
      * 最初的想法是，使用泛型结合传进来的Class<T> clazz，根据传入的对象类型，在mocking环境下返回相应的dummy数据，
      * 以及在真实环境下调用对应的接口。但是有个问题，有可能不同的请求地址，返回的结果数据结构一致，比如登录和注册。
      */
-    public Observable provideObservable(OperationType opt, Object... params) {
+    public Observable provideObservable(final OperationType opt, Object... params) {
         Observable request = null;
-        String responseBody = "";
 
         if (BaseConfig.LOCAL_MOCKING) {
-            mDummyHttpResultInfo = null;
-
-            switch (opt) {
-                case LOGIN:
-                case REGISTER:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/login.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<UserDetailInfo>>() {}.getType());
-                    break;
-                case UPDATE_USER:
-                    break;
-                case UPLOAD_FILE:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/file.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<JsonObject>>() {}.getType());
-                    break;
-                case GET_CATEGORY_LIST:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/category_list.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<CategoryInfo>>>() {}.getType());
-                    break;
-                case GET_FAVOR_LIST:
-                case GET_PRODUCT_LIST:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_list.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<PictureInfo>>>() {}.getType());
-                    break;
-                case GET_PRODUCT_DETAIL:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_detail.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureInfo>>() {}.getType());
-                    break;
-                case OPERATE_PRODUCT:
-                    break;
-                case GET_BANNER_LIST:
-                    responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/banner_list.json");
-                    mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<BannerInfo>>>() {}.getType());
-                    break;
-            }
-
-            if (mDummyHttpResultInfo == null) {
-                mDummyHttpResultInfo = new HttpResultInfo();
-                mDummyHttpResultInfo.code = "200";
-            }
-
             request = new Observable<HttpResultInfo>() {
                 @Override
                 protected void subscribeActual(Observer observer) {
                     SystemClock.sleep(BaseConfig.MOCKING_TIME_IN_MS); // 模拟响应时间;
+
+                    String responseBody = "";
+
+                    HttpResultInfo mDummyHttpResultInfo = null;
+
+                    switch (opt) {
+                        case LOGIN:
+                        case REGISTER:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/login.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<UserDetailInfo>>() {}.getType());
+                            break;
+                        case UPDATE_USER:
+                            break;
+                        case UPLOAD_FILE:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/file.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<JsonObject>>() {}.getType());
+                            break;
+                        case GET_CATEGORY_LIST:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/category_list.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<CategoryInfo>>>() {}.getType());
+                            break;
+                        case GET_FAVOR_LIST:
+                        case GET_PRODUCT_LIST:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_list.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<PictureInfo>>>() {}.getType());
+                            break;
+                        case GET_PRODUCT_DETAIL:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_detail.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureInfo>>() {}.getType());
+                            break;
+                        case OPERATE_PRODUCT:
+                            break;
+                        case GET_BANNER_LIST:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/banner_list.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<BannerInfo>>>() {}.getType());
+                            break;
+                    }
+
+                    if (mDummyHttpResultInfo == null) {
+                        mDummyHttpResultInfo = new HttpResultInfo();
+                        mDummyHttpResultInfo.code = "200";
+                    }
+
                     observer.onNext(mDummyHttpResultInfo);
                 }
             };

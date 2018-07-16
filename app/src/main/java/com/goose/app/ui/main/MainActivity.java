@@ -12,6 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.goose.app.R;
+import com.goose.app.ui.picture.PictureFragment;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.base.IBasePresenter;
 import com.taoyr.app.base.IBaseView;

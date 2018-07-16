@@ -14,7 +14,6 @@ import android.widget.RelativeLayout;
 
 import com.goose.app.R;
 import com.goose.app.model.CategoryInfo;
-import com.taoyr.app.utility.CommonUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -63,6 +62,11 @@ public class TopBarGoose extends RelativeLayout {
         mContext = context;
         mRootView = LayoutInflater.from(mContext).inflate(R.layout.top_bar_goose, this);
         ButterKnife.bind(this, mRootView);
+    }
+
+    public void initialize(List<CategoryInfo> list, Callback callback) {
+        mCategoryList = list;
+        mCallback = callback;
         initTab();
     }
 
@@ -121,6 +125,6 @@ public class TopBarGoose extends RelativeLayout {
 
         // 根据tab layout的内容动态调整显示模式
         // TODO 这里有个bug，研报的tab会出现中间的tab item丢失text appearance，从而显示默认的小字体
-        CommonUtils.tuneIndicatorMode(tab);
+        //CommonUtils.tuneIndicatorMode(tab);
     }
 }
