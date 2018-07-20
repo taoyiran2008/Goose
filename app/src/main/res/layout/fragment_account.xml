@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              xmlns:app="http://schemas.android.com/apk/res-auto"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/ll_frame"
+        android:layout_width="match_parent"
+        android:layout_height="220dp"
+        android:background="@drawable/profile_bg"
+        android:orientation="horizontal"
+        android:gravity="center"
+        android:paddingLeft="10dp"
+        android:paddingRight="10dp">
+
+        <LinearLayout
+            android:id="@+id/ll_download"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="10dp"
+            android:layout_weight="1"
+            android:gravity="center"
+            android:orientation="vertical">
+
+            <FrameLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/img_head"
+                    android:layout_width="100dp"
+                    android:layout_height="100dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/logo"/>
+
+                <ImageView
+                    android:id="@+id/img_gender"
+                    android:layout_width="26dp"
+                    android:layout_height="26dp"
+                    android:layout_gravity="right|bottom"
+                    android:layout_marginBottom="3dp"
+                    android:layout_marginRight="3dp"
+                    android:scaleType="centerCrop"
+                    android:src="@drawable/male_icon"/>
+            </FrameLayout>
+
+            <TextView
+                android:id="@+id/txt_nick_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:text="刘晓雯"
+                android:textColor="@color/white"
+                android:textSize="20sp"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="5dp"
+                android:gravity="center">
+                <TextView
+                    android:id="@+id/txt_coin"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="金币：100"
+                    android:textColor="@color/white"
+                    android:textSize="20sp"/>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:gravity="center"
+                    android:layout_marginLeft="20dp"
+                    android:orientation="horizontal">
+                    <ImageView
+                        android:layout_width="20dp"
+                        android:layout_height="20dp"
+                        android:src="@drawable/treasure_checked"/>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="5dp"
+                        android:text="签到领金币"
+                        android:textColor="@color/white"
+                        android:textSize="20sp"/>
+
+                </LinearLayout>
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="5dp"
+        android:orientation="vertical">
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_my_video"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/selector_download"
+            app:ev_title="我的视频"/>
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_my_picture"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/selector_download"
+            app:ev_title="我的图库"/>
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_my_book"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/selector_download"
+            app:ev_title="我的书架"/>
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_my_treasure"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/selector_download"
+            app:ev_title="我的收藏"/>
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_buy_coin"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/selector_download"
+            app:ev_title="金币充值"/>
+
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_setting"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:ev_icon="@drawable/selector_setting"
+            app:ev_title="设置"/>
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

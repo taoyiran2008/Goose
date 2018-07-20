@@ -125,7 +125,7 @@ public class ProgressImageView extends RelativeLayout {
                 .using(mProgressModelLoader)
                 .load(url)
                 .diskCacheStrategy(DiskCacheStrategy.NONE)
-                .centerCrop()
+                //.centerCrop()
                 //.error(R.drawable.logo)
                 .listener(mGlideListener)
                 .into(img_content);

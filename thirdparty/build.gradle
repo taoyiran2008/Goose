@@ -39,6 +39,9 @@ dependencies {
     //androidTestImplementation 'com.android.support.test:runner:0.5'
     //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 
+    // ViewHelper，支持缩放等手势识别和操作
+    //compile files('libs/nineoldandroids-2.4.0.jar')
+
     // dagger2
     compile 'com.google.dagger:dagger:2.11'
     // 编译期间，dagger使用APT生成需要的DI代码的工具
@@ -107,4 +110,11 @@ dependencies {
 
     // 解决5.0以下模块化导致dagger报错：java.lang.NoClassDefFoundError: com.goose.app.di.DaggerAppComponent$Builder
     api 'com.android.support:multidex:1.0.1'
+
+    // photo viewer需要用到的库
+    //compile 'com.android.support:appcompat-v7:25.1.1'
+    compile 'com.github.chrisbanes.photoview:library:1.2.3'
+    compile 'com.facebook.rebound:rebound:0.3.8'
+    //compile 'com.github.bumptech.glide:glide:3.7.0'
+    compile 'com.nineoldandroids:library:2.4.0'
 }

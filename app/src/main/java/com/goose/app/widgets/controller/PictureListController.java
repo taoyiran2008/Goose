@@ -1,6 +1,7 @@
-package com.goose.app.widgets;
+package com.goose.app.widgets.controller;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -10,7 +11,9 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.ui.picture.PictureDetailActivity;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.widget.widgets.commonrv.base.BaseRvController;
@@ -61,12 +64,16 @@ public class PictureListController extends BaseRvController<PictureInfo> {
         holder.txt_title.setText(struct.title);
         holder.txt_count.setText(String.valueOf(urls.length));
         holder.txt_views.setText(String.valueOf(struct.view));
+
         return true;
     }
 
     @Override
     public void onSelected(PictureInfo info, int position, RvAdapter<PictureInfo> adapter) {
         super.onSelected(info, position, adapter);
+        Intent intent = new Intent(mContext, PictureDetailActivity.class);
+        intent.putExtra(Configs.EXTRA_ID, info.id);
+        mContext.startActivity(intent);
     }
 
     static final class ViewHolder extends RecyclerView.ViewHolder {

@@ -6,6 +6,7 @@ package com.goose.app.model;
 
 public class PictureDetailInfo {
 
+    public String id;
     public String title;
     public String tag;
     public String url;

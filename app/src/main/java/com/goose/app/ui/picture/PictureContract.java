@@ -1,7 +1,6 @@
 package com.goose.app.ui.picture;
 
 import com.goose.app.model.BannerInfo;
-import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureInfo;
 import com.taoyr.app.base.IBasePresenter;
 import com.taoyr.app.base.IBaseView;
@@ -18,12 +17,10 @@ public interface PictureContract {
     interface View extends IBaseView<Presenter> {
         void getBannerListOnUi(List<BannerInfo> list);
         void getProductListOnUi(List<PictureInfo> list);
-        void getCategoryListOnUi(List<CategoryInfo> list);
     }
 
     interface Presenter extends IBasePresenter<View> {
         void getBannerList();
         void getProductList(String category);
-        void getCategoryList();
     }
 }

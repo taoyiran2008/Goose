@@ -1,36 +1,57 @@
 package com.goose.app.ui.main;
 
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.Drawable;
+import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
+import android.support.v4.widget.DrawerLayout;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.animation.GlideAnimation;
+import com.bumptech.glide.request.target.SimpleTarget;
 import com.goose.app.R;
+import com.goose.app.data.DataProvider;
+import com.goose.app.model.CategoryInfo;
+import com.goose.app.rxbus.RefreshProductEvent;
+import com.goose.app.ui.account.AccountFragment;
 import com.goose.app.ui.picture.PictureFragment;
+import com.goose.app.ui.search.SearchActivity;
+import com.goose.app.widgets.TopBarGoose;
 import com.taoyr.app.base.BaseActivity;
-import com.taoyr.app.base.IBasePresenter;
-import com.taoyr.app.base.IBaseView;
 import com.taoyr.app.utility.LogMan;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
  * Created by taoyr on 2018/1/6.
  */
 
-public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View  {
 
     SectionsPagerAdapter mAdapter;
+
+    @BindView(R.id.top_bar_goose)
+    TopBarGoose top_bar_goose;
 
     @BindView(R.id.vp)
     ViewPager vp;
@@ -38,18 +59,33 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
     TabLayout tab;
 
     @Inject
-    PictureFragment mIndex;
+    PictureFragment mPicture;
     @Inject
     TextViewFragment mMy;
     @Inject
     TextViewFragment mCategory;
     @Inject
-    TextViewFragment mAccount;
+    AccountFragment mAccount;
+
+    /*侧滑菜单相关*/
+    //@BindView(R.id.ll_drawer_head)
+    View ll_drawer_head;
+
+    @BindView(R.id.nav)
+    NavigationView nav;
+
+    @BindView(R.id.drawer)
+    DrawerLayout drawer;
+
 
     ArrayList<Fragment> mFragments = new ArrayList<>();
-    String[] mTabTitles = {"主页", "我的", "分类", "帐号"};
+    String[] mTabTitles = {"美图", "视频", "小说", "我的"};
     int[] mIcons = {R.drawable.selector_tab_icon_index, R.drawable.selector_tab_icon_my,
             R.drawable.selector_tab_icon_category, R.drawable.selector_tab_icon_account};
+
+    HashMap<String, List<CategoryInfo>> mCategoryMap = new HashMap<>();
+    int mCurrentPosition = 0;
+    String mProductType = DataProvider.DATA_TYPE_PICTURE;
 
     @Override
     protected int getLayoutResID() {
@@ -59,7 +95,7 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
     @Override
     protected void initView() {
         //asvp.initialize(new MyViewPagerAdapter(this));
-        mFragments.add(mIndex);
+        mFragments.add(mPicture);
         LogMan.logDebug("mPresenter == null : " + (mPresenter == null));
         /*mFragments.add(new Fragment());
         mFragments.add(new Fragment());
@@ -83,6 +119,60 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
         setExitOnDoubleBack(true);
 
         initTab();
+
+        mPresenter.getCategoryList(mProductType);
+
+        initSideBar();
+        initGooseTitleBar();
+    }
+
+    private void initGooseTitleBar() {
+        top_bar_goose.initialize(new ArrayList<CategoryInfo>(), new TopBarGoose.Callback() {
+            @Override
+            public void onCategorySelect(CategoryInfo category) {
+                sendEvent(new RefreshProductEvent(mProductType, category.code));
+            }
+
+            @Override
+            public void onMoreClick() {
+                if (drawer.isDrawerOpen(nav)){
+                    drawer.closeDrawer(nav);
+                }else{
+                    drawer.openDrawer(nav);
+                }
+            }
+
+            @Override
+            public void onSearchClick() {
+                Intent intent = new Intent(mContext, SearchActivity.class);
+                mContext.startActivity(intent);
+            }
+        });
+    }
+
+    private void initSideBar() {
+        ll_drawer_head = nav.getHeaderView(0);
+
+        nav.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.personal:
+                        break;
+                }
+                showToast((String) item.getTitle());
+                return false;
+            }
+        });
+
+        Glide.with(this).load(R.drawable.profile_bg).asBitmap().transform(new BlurTransformation(mContext, 25))
+                .into(new SimpleTarget<Bitmap>() {
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
+                        ll_drawer_head.setBackground(drawable);
+                    }
+                });
     }
 
     private void initTab() {
@@ -97,14 +187,26 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                if (tab.getPosition() == 0) { // 主页
+                if (tab.getPosition() != mCurrentPosition) {
+                    mCurrentPosition = tab.getPosition();
 
-                } else if (tab.getPosition() == 1) { // 我的
+                    top_bar_goose.setVisibility(View.VISIBLE);
+                    if (mCurrentPosition == 0) { // 图片
+                        mProductType = DataProvider.DATA_TYPE_PICTURE;
 
-                } else if (tab.getPosition() == 2) { // 分类
+                    } else if (mCurrentPosition == 1) { // 视频
 
-                } else if (tab.getPosition() == 3) { // 账号
+                    } else if (mCurrentPosition == 2) { // 小说
 
+                    } else if (mCurrentPosition == 3) { // 我的
+                        top_bar_goose.setVisibility(View.GONE);
+                    }
+
+                    if (mCategoryMap.get(mProductType) == null) {
+                        mPresenter.getCategoryList(mProductType);
+                    } else {
+                        top_bar_goose.refresh(mCategoryMap.get(mProductType));
+                    }
                 }
             }
 
@@ -143,6 +245,13 @@ public class MainActivity extends BaseActivity<IBasePresenter<IBaseView>> {
         //img_icon.setImageDrawable(ContextCompat.getDrawable(this, mIcons[position]));
         txt_title.setText(mTabTitles[position]);
         return view;
+    }
+
+    @Override
+    public void getCategoryListOnUi(List<CategoryInfo> list, String type) {
+        mCategoryMap.put(type, list);
+        top_bar_goose.refresh(list);
+        sendEvent(new RefreshProductEvent(type, list.get(0).code));
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {

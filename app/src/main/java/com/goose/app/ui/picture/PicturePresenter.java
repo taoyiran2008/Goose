@@ -2,7 +2,6 @@ package com.goose.app.ui.picture;
 
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.BannerInfo;
-import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureInfo;
 import com.taoyr.app.base.BasePresenter;
 import com.taoyr.app.ifs.UiCallback;
@@ -70,22 +69,6 @@ public final class PicturePresenter extends BasePresenter<PictureContract.View>
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("图片列表信息获取失败");
-                    }
-                });
-    }
-
-    @Override
-    public void getCategoryList() {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_CATEGORY_LIST, DataProvider.DATA_TYPE_PICTURE),
-                SHOW_CANCELABLE_DIALOG, new UiCallback<List<CategoryInfo>>() {
-                    @Override
-                    public void onSuccess(List<CategoryInfo> list) {
-                        mView.getCategoryListOnUi(list);
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        mView.showToast("图片分类获取失败");
                     }
                 });
     }

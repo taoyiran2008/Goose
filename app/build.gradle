@@ -43,6 +43,7 @@ dependencies {
     implementation project(':utility')
     implementation project(':widget')
     implementation project(':pulltorefresh')
+    implementation project(':pictureviewer')
 
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'

@@ -1,5 +1,7 @@
 package com.goose.app;
 
+import java.util.Arrays;
+
 /**
  * Created by taoyr on 2018/6/14.
  */
@@ -20,6 +22,10 @@ public class Test {
                 print(String.format(template, adult, child, infant));
             }
         }
+
+        String url = "a, b,  c,d";
+        String urls[] = url.split(",\\s*");
+        print(Arrays.toString(urls));
     }
 
     void print(Object obj) {

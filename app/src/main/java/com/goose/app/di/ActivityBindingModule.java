@@ -1,11 +1,17 @@
 package com.goose.app.di;
 
+import com.goose.app.ui.favor.FavorListActivity;
+import com.goose.app.ui.favor.FavorListModule;
 import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.ui.login.LoginModule;
 import com.goose.app.ui.main.MainActivity;
 import com.goose.app.ui.main.MainModule;
 import com.goose.app.ui.personal.SignUpPersonalActivity;
 import com.goose.app.ui.personal.SignUpPersonalModule;
+import com.goose.app.ui.picture.PictureDetailActivity;
+import com.goose.app.ui.picture.PictureDetailModule;
+import com.goose.app.ui.search.SearchActivity;
+import com.goose.app.ui.search.SearchModule;
 import com.goose.app.ui.signup.SignUpTelActivity;
 import com.goose.app.ui.signup.SignUpTelModule;
 import com.taoyr.app.di.scope.ActivityScoped;
@@ -30,6 +36,10 @@ public abstract class ActivityBindingModule {
     abstract MainActivity mainActivity();
 
     @ActivityScoped
+    @ContributesAndroidInjector(modules = PictureDetailModule.class)
+    abstract PictureDetailActivity pictureDetailActivity();
+
+    @ActivityScoped
     @ContributesAndroidInjector(modules = LoginModule.class)
     abstract LoginActivity loginActivity();
 
@@ -40,4 +50,12 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = SignUpPersonalModule.class)
     abstract SignUpPersonalActivity signUpPersonalActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = SearchModule.class)
+    abstract SearchActivity searchActivity();
+
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = FavorListModule.class)
+    abstract FavorListActivity favorListActivity();
 }

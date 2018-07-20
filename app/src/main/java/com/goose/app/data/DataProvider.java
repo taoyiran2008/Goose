@@ -10,6 +10,7 @@ import com.google.gson.reflect.TypeToken;
 import com.goose.app.ifs.IApiService;
 import com.goose.app.model.BannerInfo;
 import com.goose.app.model.CategoryInfo;
+import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
 import com.taoyr.app.base.BaseApplication;
 import com.taoyr.app.configs.BaseConfig;
@@ -42,6 +43,10 @@ public class DataProvider {
     public static String DATA_TYPE_PICTURE = "picture";
     public static String DATA_TYPE_NOVEL = "novel";
     public static String DATA_TYPE_VIDEO = "video";
+
+    public static String OPERATION_TYPE_VIEW = "01";
+    public static String OPERATION_TYPE_DOWNLOAD = "02";
+    public static String OPERATION_TYPE_FAVOR = "03";
 
     public enum OperationType {
         LOGIN,
@@ -102,7 +107,7 @@ public class DataProvider {
                             break;
                         case GET_PRODUCT_DETAIL:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_detail.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureInfo>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureDetailInfo>>() {}.getType());
                             break;
                         case OPERATE_PRODUCT:
                             break;

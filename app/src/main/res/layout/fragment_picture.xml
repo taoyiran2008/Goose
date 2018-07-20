@@ -5,12 +5,6 @@
               android:background="@color/gainsboro"
               android:orientation="vertical">
 
-    <!--<include layout="@layout/title"/>-->
-    <com.goose.app.widgets.TopBarGoose
-        android:id="@+id/top_bar_goose"
-        android:layout_width="match_parent"
-        android:layout_height="40dp"/>
-
     <!--<com.taoyr.widget.widgets.coverflow.CoverFlowView
         xmlns:imageCoverFlow="http://schemas.android.com/apk/res-auto"
         android:id="@+id/coverflow"

@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:id="@+id/ll_drawer_head"
+              android:orientation="vertical"
+              android:gravity="center"
+              android:background="@drawable/profile_bg"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent">
+
+    <ImageView
+        android:id="@+id/img_head"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo"/>
+
+    <TextView
+        android:id="@+id/txt_title1"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxLines="1"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="18sp"
+        android:text="小黄鸭"/>
+
+    <TextView
+        android:id="@+id/txt_title2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:maxLines="2"
+        android:gravity="center"
+        android:ellipsize="end"
+        android:textColor="@color/white"
+        android:textSize="16sp"
+        android:text="提供最新鲜的视听资讯"/>
+</LinearLayout>

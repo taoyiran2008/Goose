@@ -1,18 +1,21 @@
 package com.goose.app.ui.picture;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v4.widget.NestedScrollView;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
+import com.goose.app.data.DataProvider;
 import com.goose.app.model.BannerInfo;
-import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureInfo;
-import com.goose.app.widgets.PictureListController;
-import com.goose.app.widgets.TopBarGoose;
+import com.goose.app.rxbus.RefreshProductEvent;
+import com.goose.app.ui.web.WebActivity;
+import com.goose.app.widgets.controller.PictureListController;
 import com.taoyr.app.base.BaseFragment;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.pulltorefresh.PullToRefreshListener;
@@ -28,6 +31,8 @@ import java.util.List;
 import javax.inject.Inject;
 
 import butterknife.BindView;
+import io.reactivex.annotations.NonNull;
+import io.reactivex.functions.Consumer;
 
 /**
  * Created by taoyr on 2017/10/11.
@@ -49,9 +54,6 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
     @BindView(R.id.carousel_view_pager)
     CarouselViewPager carousel_view_pager;
 
-    @BindView(R.id.top_bar_goose)
-    TopBarGoose top_bar_goose;
-
     private List<PictureInfo> mList = new ArrayList<>();
 
     @Inject
@@ -69,7 +71,18 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
         base_recycler_view.initialize(new PictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
 
         mPresenter.getBannerList();
-        mPresenter.getCategoryList();
+
+        subscribeEvent(new Consumer<Object>() {
+            @Override
+            public void accept(@NonNull Object o) throws Exception {
+                if (o instanceof RefreshProductEvent) {
+                    RefreshProductEvent event = (RefreshProductEvent) o;
+                    if (DataProvider.DATA_TYPE_PICTURE.equals(event.productType)) {
+                        mPresenter.getProductList(event.categoryCode);
+                    }
+                }
+            }
+        });
     }
 
     private void initPullToRefreshWidget() {
@@ -98,41 +111,40 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
         base_recycler_view.refresh(list);
     }
 
-    @Override
-    public void getCategoryListOnUi(List<CategoryInfo> list) {
-        top_bar_goose.initialize(list, new TopBarGoose.Callback() {
-            @Override
-            public void onCategorySelect(CategoryInfo category) {
-                mPresenter.getProductList(category.code);
-            }
-
-            @Override
-            public void onMoreClick() {
-
-            }
-
-            @Override
-            public void onSearchClick() {
-
-            }
-        });
-
-        mPresenter.getProductList(list.get(0).code);
-    }
-
     private static class MyLoopPagerAdapter extends LoopPagerAdapter<BannerInfo>  {
+
+        Context mContext;
 
         public MyLoopPagerAdapter(Context context, CarouselViewPager viewPager) {
             super(context, viewPager);
+            mContext = context;
         }
 
         @Override
-        protected View getItemView(BannerInfo info) {
-            ImageView view = new ImageView(mContext);
+        protected View getItemView(final BannerInfo info) {
+            /*ImageView view = new ImageView(mContext);
             view.setScaleType(ImageView.ScaleType.FIT_XY);
             PictureLoader.simpleLoad(view, info.image);
-            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
-            return view;
+            view.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));*/
+            View itemView = LayoutInflater.from(mContext).inflate(
+                    R.layout.banner_item_view, null);
+            ImageView img = itemView.findViewById(R.id.img);
+            TextView txt_title = itemView.findViewById(R.id.txt_title);
+
+            PictureLoader.simpleLoad(img, info.image);
+            txt_title.setText(info.title);
+
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Intent intent = new Intent(mContext, WebActivity.class);
+                    intent.putExtra(Configs.EXTRA_URL, info.url);
+                    intent.putExtra(Configs.EXTRA_TITLE, info.title);
+                    mContext.startActivity(intent);
+                }
+            });
+
+            return itemView;
         }
     }
 }

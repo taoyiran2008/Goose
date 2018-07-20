@@ -5,6 +5,7 @@ package com.goose.app.ui.main;
  */
 
 
+import com.goose.app.ui.account.AccountFragment;
 import com.goose.app.ui.picture.PictureContract;
 import com.goose.app.ui.picture.PictureFragment;
 import com.goose.app.ui.picture.PicturePresenter;
@@ -25,9 +26,17 @@ abstract public class MainModule {
     @ContributesAndroidInjector
     abstract TextViewFragment textViewFragment();
 
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract AccountFragment accountFragment();
+
     @ActivityScoped
     @Binds
-    abstract IBasePresenter<IBaseView> textViewPresenter(BasePresenter<IBaseView> presenter);
+    abstract IBasePresenter<IBaseView> indexPresenter(BasePresenter<IBaseView> presenter);
+
+    @ActivityScoped
+    @Binds
+    abstract MainContract.Presenter textViewPresenter(MainPresenter presenter);
 
     @FragmentScoped
     @ContributesAndroidInjector

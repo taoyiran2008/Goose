@@ -65,8 +65,12 @@ public class TopBarGoose extends RelativeLayout {
     }
 
     public void initialize(List<CategoryInfo> list, Callback callback) {
-        mCategoryList = list;
         mCallback = callback;
+        refresh(list);
+    }
+
+    public void refresh(List<CategoryInfo> list) {
+        mCategoryList = list;
         initTab();
     }
 
@@ -87,6 +91,8 @@ public class TopBarGoose extends RelativeLayout {
     }
 
     private void initTab() {
+        tab.removeAllTabs();
+
         tab.setVisibility(View.VISIBLE);
         tab.setTabMode(TabLayout.MODE_SCROLLABLE);
         tab.setTabTextColors(ContextCompat.getColor(mContext, R.color.tf_grey),
