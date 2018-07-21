@@ -49,6 +49,8 @@ public class FavorListActivity extends BaseActivity<FavorListContract.Presenter>
         base_recycler_view.initialize(new PictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1);
 
         initPullToRefreshWidget();
+
+        mPageManager.refreshPage();
     }
 
     private void initPullToRefreshWidget() {

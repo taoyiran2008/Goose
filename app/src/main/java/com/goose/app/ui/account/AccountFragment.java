@@ -15,11 +15,11 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goose.app.GooseApplication;
 import com.goose.app.R;
+import com.goose.app.model.sign.LastSignInfo;
 import com.goose.app.ui.favor.FavorListActivity;
+import com.goose.app.widgets.dialog.ClockInDialog;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.base.BaseFragment;
-import com.taoyr.app.base.IBasePresenter;
-import com.taoyr.app.base.IBaseView;
 import com.taoyr.app.model.UserDetailInfo;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
@@ -36,7 +36,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  * 暂时一级画面
  */
 
-public class AccountFragment extends BaseFragment<IBasePresenter<IBaseView>> {
+public class AccountFragment extends BaseFragment<AccountContract.Presenter> implements AccountContract.View {
 
     @BindView(R.id.ll_frame)
     LinearLayout ll_frame;
@@ -47,9 +47,13 @@ public class AccountFragment extends BaseFragment<IBasePresenter<IBaseView>> {
     ImageView img_gender;
     @BindView(R.id.txt_nick_name)
     TextView txt_nick_name;
+    @BindView(R.id.ll_clock_in)
+    LinearLayout ll_clock_in;
 
     @BindView(R.id.ev_my_picture)
     EntryView ev_open_live;
+
+    ClockInDialog mClockInDialog;
 
     @Inject
     public AccountFragment() {
@@ -82,7 +86,7 @@ public class AccountFragment extends BaseFragment<IBasePresenter<IBaseView>> {
         activity.setStatusBarTransparent(false);*/
     }
 
-    @OnClick({R.id.ev_my_picture, R.id.img_head})
+    @OnClick({R.id.ev_my_picture, R.id.img_head, R.id.ll_clock_in})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ev_my_picture:
@@ -90,6 +94,9 @@ public class AccountFragment extends BaseFragment<IBasePresenter<IBaseView>> {
                 startActivity(intent);
                 break;
             case R.id.img_head:
+                break;
+            case R.id.ll_clock_in:
+                mPresenter.getLastSignInfo();
                 break;
         }
     }
@@ -140,5 +147,31 @@ public class AccountFragment extends BaseFragment<IBasePresenter<IBaseView>> {
                 }
             }
         });*/
+    }
+
+    void showClockInDialog(LastSignInfo info) {
+        if (mClockInDialog == null) {
+            mClockInDialog = new ClockInDialog(mContext);
+            mClockInDialog.setSignButtonOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    mPresenter.sign();
+                }
+            });
+        }
+        mClockInDialog.initialize(info);
+        mClockInDialog.show();
+    }
+
+    @Override
+    public void getLastSignInfoOnUi(LastSignInfo info) {
+        showClockInDialog(info);
+    }
+
+    @Override
+    public void signOnUi() {
+        if (mClockInDialog != null) {
+            mClockInDialog.setSignButtonDisabled(true);
+        }
     }
 }

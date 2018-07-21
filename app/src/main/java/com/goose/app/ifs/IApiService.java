@@ -4,6 +4,7 @@ import com.google.gson.JsonObject;
 import com.goose.app.model.BannerInfo;
 import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.model.sign.LastSignInfo;
 import com.taoyr.app.model.HttpResultInfo;
 import com.taoyr.app.model.LoginVo;
 import com.taoyr.app.model.RegisterVo;
@@ -86,4 +87,10 @@ public interface IApiService { // RetrofitService
 
     @GET("api/banner/list")
     Observable<HttpResultInfo<List<BannerInfo>>> getBannerList(@Query("type") String type);
+
+    @GET("api/user/lastSignInfo")
+    Observable<HttpResultInfo<LastSignInfo>> getLastSignInfo(@Query("uid") String uid);
+
+    @GET("api/user/sign")
+    Observable<HttpResultInfo> sign(@Query("uid") String uid);
 }

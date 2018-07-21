@@ -14,6 +14,23 @@ android {
         additionalParameters "--no-version-vectors"
     }
 
+    signingConfigs {
+        release {
+            try {
+                storeFile file("./keystore/release.keystore")
+                storePassword "123456"
+                keyAlias "taoyr"
+                keyPassword "123456"
+            } catch (ex) {
+//                throw new InvalidUserDataException(ex.toString())
+            }
+            storeFile file('./keystore/release.keystore')
+        }
+        debug {
+            storeFile file("./keystore/debug.keystore")
+        }
+    }
+
     dexOptions {
         jumboMode true
     }
@@ -28,10 +45,23 @@ android {
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
     }
+
     buildTypes {
+        debug {
+            minifyEnabled false
+            shrinkResources false
+            debuggable true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
+            applicationIdSuffix '.debug'
+        }
+
         release {
             minifyEnabled false
+            shrinkResources false
+            debuggable true // 如果应用发生问题，比如混淆导致崩溃，可打开开关并重装release版本进行调试
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
         }
     }
 }
@@ -43,13 +73,10 @@ dependencies {
     implementation project(':utility')
     implementation project(':widget')
     implementation project(':pulltorefresh')
-    implementation project(':pictureviewer')
-
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     // annotationProcessor必须定义在本gradle文件中，而不能仅仅在third party中定义，不然该模块编译期间
     // 不能生成DaggerAppComponent，并报错cannot resolve symbol DaggerAppComponent。
     // 同理，butterknife注解也无法被正确的执行和编译，导致@BindView的组件为null，从而报NPE异常
-
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
 }

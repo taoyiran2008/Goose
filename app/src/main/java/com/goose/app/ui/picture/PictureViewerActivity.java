@@ -1,6 +1,7 @@
 package com.goose.app.ui.picture;
 
 import android.content.Intent;
+import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
@@ -21,6 +22,7 @@ import com.taoyr.widget.widgets.progress.glide.ProgressModelLoader;
 
 import butterknife.BindView;
 import uk.co.senab.photoview.PhotoView;
+import uk.co.senab.photoview.PhotoViewAttacher;
 
 import static android.view.View.GONE;
 
@@ -94,6 +96,12 @@ public class PictureViewerActivity extends SimpleActivity {
     @Override
     protected void initView() {
         mProgressModelLoader = new ProgressModelLoader(mProgressListener);
+        img_content.setOnPhotoTapListener(new PhotoViewAttacher.OnPhotoTapListener() {
+            @Override
+            public void onPhotoTap(View view, float x, float y) {
+                finish();
+            }
+        });
         loadImage(mUrl);
     }
 

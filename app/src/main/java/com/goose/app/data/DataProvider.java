@@ -12,6 +12,7 @@ import com.goose.app.model.BannerInfo;
 import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.model.sign.LastSignInfo;
 import com.taoyr.app.base.BaseApplication;
 import com.taoyr.app.configs.BaseConfig;
 import com.taoyr.app.model.HttpResultInfo;
@@ -58,7 +59,9 @@ public class DataProvider {
         GET_PRODUCT_DETAIL,
         OPERATE_PRODUCT,
         GET_FAVOR_LIST,
-        GET_BANNER_LIST
+        GET_BANNER_LIST,
+        SIGN,
+        GET_LAST_SIGN_INFO,
     }
 
     public DataProvider(IApiService service, Gson gson) {
@@ -88,32 +91,45 @@ public class DataProvider {
                         case LOGIN:
                         case REGISTER:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/login.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<UserDetailInfo>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<UserDetailInfo>>() {
+                            }.getType());
                             break;
                         case UPDATE_USER:
                             break;
                         case UPLOAD_FILE:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/file.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<JsonObject>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<JsonObject>>() {
+                            }.getType());
                             break;
                         case GET_CATEGORY_LIST:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/category_list.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<CategoryInfo>>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<CategoryInfo>>>() {
+                            }.getType());
                             break;
                         case GET_FAVOR_LIST:
                         case GET_PRODUCT_LIST:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_list.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<PictureInfo>>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<PictureInfo>>>() {
+                            }.getType());
                             break;
                         case GET_PRODUCT_DETAIL:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/product_detail.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureDetailInfo>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<PictureDetailInfo>>() {
+                            }.getType());
                             break;
                         case OPERATE_PRODUCT:
                             break;
                         case GET_BANNER_LIST:
                             responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/banner_list.json");
-                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<BannerInfo>>>() {}.getType());
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<List<BannerInfo>>>() {
+                            }.getType());
+                            break;
+                        case GET_LAST_SIGN_INFO:
+                            responseBody = CommonUtils.readFileFromAssets(mContext, "dummy/last_sign_info.json");
+                            mDummyHttpResultInfo = mGson.fromJson(responseBody, new TypeToken<HttpResultInfo<LastSignInfo>>() {
+                            }.getType());
+                            break;
+                        default:
                             break;
                     }
 

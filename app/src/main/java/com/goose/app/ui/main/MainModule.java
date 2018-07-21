@@ -5,13 +5,12 @@ package com.goose.app.ui.main;
  */
 
 
+import com.goose.app.ui.account.AccountContract;
 import com.goose.app.ui.account.AccountFragment;
+import com.goose.app.ui.account.AccountPresenter;
 import com.goose.app.ui.picture.PictureContract;
 import com.goose.app.ui.picture.PictureFragment;
 import com.goose.app.ui.picture.PicturePresenter;
-import com.taoyr.app.base.BasePresenter;
-import com.taoyr.app.base.IBasePresenter;
-import com.taoyr.app.base.IBaseView;
 import com.taoyr.app.di.scope.ActivityScoped;
 import com.taoyr.app.di.scope.FragmentScoped;
 
@@ -32,7 +31,11 @@ abstract public class MainModule {
 
     @ActivityScoped
     @Binds
-    abstract IBasePresenter<IBaseView> indexPresenter(BasePresenter<IBaseView> presenter);
+    abstract AccountContract.Presenter accountPresenter(AccountPresenter presenter);
+
+    /*@ActivityScoped
+    @Binds
+    abstract IBasePresenter<IBaseView> indexPresenter(BasePresenter<IBaseView> presenter);*/
 
     @ActivityScoped
     @Binds
