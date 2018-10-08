@@ -13,7 +13,6 @@ import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.ui.personal.SignUpPersonalActivity;
 import com.taoyr.app.base.BaseActivity;
-import com.taoyr.app.utility.AccountValidateUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -61,16 +60,16 @@ public class SignUpTelActivity extends BaseActivity<SignUpTelContract.Presenter>
         switch (v.getId()) {
             case R.id.txt_next:
                 mMobile = edt_tel.getText().toString();
-                if (!AccountValidateUtil.isMobileLoose(mMobile)) {
+                /*if (!AccountValidateUtil.isMobileLoose(mMobile)) {
                     showToast("手机号格式不正确");
                     return;
-                }
+                }*/
 
                 mPassword = edt_pw.getText().toString();
-                if (mPassword.length() < 6 || !AccountValidateUtil.isPassword(mPassword)) {
+                /*if (mPassword.length() < 6 || !AccountValidateUtil.isPassword(mPassword)) {
                     showToast("密码设置不合规，请重新输入");
                     return;
-                }
+                }*/
 
                 mPresenter.register(mMobile, mPassword);
                 break;

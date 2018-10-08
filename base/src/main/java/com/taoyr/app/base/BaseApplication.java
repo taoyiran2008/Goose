@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.support.multidex.MultiDex;
 
+import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.taoyr.app.rxbus.RxBus;
 import com.taoyr.app.utility.LogMan;
@@ -277,5 +278,6 @@ public abstract class BaseApplication extends DaggerApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+        ARouter.init(this);
     }
 }

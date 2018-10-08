@@ -30,16 +30,20 @@ public final class SignUpTelPresenter extends BasePresenter<SignUpTelContract.Vi
 
     @Override
     public void register(String username, String password) {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.LOGIN, username, password),
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.REGISTER, username, password),
                 SHOW_CANCELABLE_DIALOG, new UiCallback<UserDetailInfo>() {
                     @Override
                     public void onSuccess(final UserDetailInfo info) {
-                        if (info != null) {
+                        /*if (info != null) {
                             // 保存用户信息（包括用户令牌token）
                             GooseApplication.getInstance().setUserInfo(info);
                             mView.showToast("注册成功");
                             mView.registerOnUi();
-                        }
+                        }*/
+                        // 保存用户信息（包括用户令牌token）
+                        GooseApplication.getInstance().setUserInfo(info);
+                        mView.showToast("注册成功");
+                        mView.registerOnUi();
                     }
 
                     @Override

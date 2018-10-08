@@ -25,12 +25,13 @@
             android:layout_marginLeft="15dp"
             android:paddingLeft="20dp"
             android:singleLine="true"
+            android:visibility="gone"
             android:imeOptions="actionDone"
             android:textSize="14sp"/>
 
         <LinearLayout
             android:id="@+id/ll_function_area"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginLeft="10dp"
             android:layout_marginRight="10dp"
@@ -62,7 +63,7 @@
             <ImageView
                 android:id="@+id/img_download"
                 android:layout_width="30dp"
-                android:layout_height="30dp"
+                android:layout_height="25dp"
                 android:layout_marginLeft="10dp"
                 android:scaleType="fitXY"
                 android:src="@drawable/selector_download"/>

@@ -17,6 +17,7 @@ import com.goose.app.rxbus.RefreshProductEvent;
 import com.goose.app.ui.web.WebActivity;
 import com.goose.app.widgets.controller.PictureListController;
 import com.taoyr.app.base.BaseFragment;
+import com.taoyr.app.utility.PageManager;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.pulltorefresh.PullToRefreshListener;
 import com.taoyr.pulltorefresh.PullToRefreshViewGroup;
@@ -55,6 +56,14 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
     CarouselViewPager carousel_view_pager;
 
     private List<PictureInfo> mList = new ArrayList<>();
+    String mCategoryCode;
+
+    PageManager mPageManager = new PageManager() {
+        @Override
+        public void loadPage(int pageSize, int pageIndex) {
+            mPresenter.getProductList(mCategoryCode, pageIndex, pageSize);
+        }
+    };
 
     @Inject
     public PictureFragment() {
@@ -77,8 +86,9 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
             public void accept(@NonNull Object o) throws Exception {
                 if (o instanceof RefreshProductEvent) {
                     RefreshProductEvent event = (RefreshProductEvent) o;
+                    mCategoryCode = event.categoryCode;
                     if (DataProvider.DATA_TYPE_PICTURE.equals(event.productType)) {
-                        mPresenter.getProductList(event.categoryCode);
+                        mPageManager.refreshPage();
                     }
                 }
             }
@@ -92,23 +102,48 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
         pull_to_refresh.setOnRefreshListener(new PullToRefreshListener() {
             @Override
             public void onRefresh() {
+                mPageManager.refreshPage();
             }
 
             @Override
             public void onLoadMore() {
+                mPageManager.nextPage();
             }
         }, hashCode());
     }
 
     @Override
     public void getBannerListOnUi(List<BannerInfo> list) {
-        MyLoopPagerAdapter adapter = new MyLoopPagerAdapter(mContext, carousel_view_pager);
-        adapter.refresh(list);
+        if (list == null || list.isEmpty()) {
+            carousel_view_pager.setVisibility(View.GONE);
+        } else {
+            MyLoopPagerAdapter adapter = new MyLoopPagerAdapter(mContext, carousel_view_pager);
+            adapter.refresh(list);
+        }
     }
 
     @Override
     public void getProductListOnUi(List<PictureInfo> list) {
-        base_recycler_view.refresh(list);
+        pull_to_refresh.finishLoading();
+        pull_to_refresh.finishRefreshing(true);
+
+        if (list == null || list.isEmpty()) {
+            if (!mPageManager.isLoadMore()) {
+                base_recycler_view.refresh(list);
+            }
+            return; // No more data
+        }
+
+        if (mPageManager.isLoadMore()) {
+            //mCurrentPage++;
+            mList.addAll(list);
+            base_recycler_view.refresh(mList);
+        } else {
+            mList = list;
+            base_recycler_view.refresh(mList);
+        }
+
+        mPageManager.nextPageConfirm();
     }
 
     private static class MyLoopPagerAdapter extends LoopPagerAdapter<BannerInfo>  {

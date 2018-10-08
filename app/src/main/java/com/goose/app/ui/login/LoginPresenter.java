@@ -49,6 +49,9 @@ public final class LoginPresenter extends BasePresenter<LoginContract.View>
                     @Override
                     public void onSuccess(final UserDetailInfo info) {
                         if (info != null) {
+                            // 持久化保存token到本地SP中，实现下次免登陆
+                            GooseApplication.getInstance().setToken(info.token);
+
                             // 保存用户信息（包括用户令牌token）
                             GooseApplication.getInstance().setUserInfo(info);
                             mView.showToast("登录成功");

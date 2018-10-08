@@ -7,6 +7,6 @@ package com.goose.app.model;
 public class CategoryInfo {
 
     public String id;
-    public String name;
-    public String code;
+    public String channelName;
+    public String channelCode;
 }

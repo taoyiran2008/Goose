@@ -44,6 +44,12 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
         multiDexEnabled true
         vectorDrawables.useSupportLibrary = true
+
+        javaCompileOptions {
+            annotationProcessorOptions {
+                arguments = [ moduleName : project.getName() ]
+            }
+        }
     }
 
     buildTypes {
@@ -79,4 +85,5 @@ dependencies {
     // 不能生成DaggerAppComponent，并报错cannot resolve symbol DaggerAppComponent。
     // 同理，butterknife注解也无法被正确的执行和编译，导致@BindView的组件为null，从而报NPE异常
     annotationProcessor 'com.jakewharton:butterknife-compiler:8.8.1'
+    annotationProcessor 'com.alibaba:arouter-compiler:1.1.4'
 }

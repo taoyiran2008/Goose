@@ -58,8 +58,9 @@ public final class PicturePresenter extends BasePresenter<PictureContract.View>
     }
 
     @Override
-    public void getProductList(String category) {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_LIST, DataProvider.DATA_TYPE_PICTURE, category),
+    public void getProductList(String category, int pageIndex, int pageSize) {
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_LIST,
+                DataProvider.DATA_TYPE_PICTURE, category, "", pageIndex, pageSize),
                 SHOW_CANCELABLE_DIALOG, new UiCallback<List<PictureInfo>>() {
                     @Override
                     public void onSuccess(List<PictureInfo> list) {

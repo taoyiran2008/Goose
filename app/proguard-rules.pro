@@ -57,6 +57,21 @@
     @butterknife.* <methods>;
 }
 
+# ARouter
+-keep public class com.alibaba.android.arouter.routes.**{*;}
+-keep class * implements com.alibaba.android.arouter.facade.template.ISyringe{*;}
+
+# If you use the byType method to obtain Service, add the following rules to protect the interface:
+-keep interface * implements com.alibaba.android.arouter.facade.template.IProvider
+
+# If single-type injection is used, that is, no interface is defined to implement IProvider, the following rules need to be added to protect the implementation
+-keep class * implements com.alibaba.android.arouter.facade.template.IProvider
+
+# If @Autowired is used for injection in non-Activity classes, add the following rules to prevent injection failures
+-keepnames class * {
+    @com.alibaba.android.arouter.facade.annotation.Autowired <fields>;
+}
+
 # 防止混淆导致反射不可用
 # No field mTabStrip in class Landroid/support/design/widget/TabLayout; (declaration of 'android.support.design.widget.TabLayout' appears in /data/app/com.tianfeng.app-2/base.apk)
 # java.lang.NullPointerException: Attempt to invoke virtual method 'void java.lang.reflect.AccessibleObject.setAccessible(boolean)' on a null object reference

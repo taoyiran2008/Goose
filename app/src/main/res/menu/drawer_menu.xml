@@ -2,22 +2,22 @@
 <menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/personal"
-        android:icon="@drawable/selector_tab_icon_index"
+        android:icon="@drawable/selector_tab_icon_image"
         android:title="个人信息"/>
     <item
         android:id="@+id/wallet"
-        android:icon="@drawable/selector_tab_icon_index"
+        android:icon="@drawable/selector_tab_icon_image"
         android:title="钱包"/>
     <item
         android:id="@+id/favor"
-        android:icon="@drawable/selector_tab_icon_index"
+        android:icon="@drawable/selector_tab_icon_image"
         android:title="收藏"/>
     <item
         android:id="@+id/encourage"
-        android:icon="@drawable/selector_tab_icon_index"
+        android:icon="@drawable/selector_tab_icon_image"
         android:title="鼓励一下"/>
     <item
         android:id="@+id/about"
-        android:icon="@drawable/selector_tab_icon_index"
+        android:icon="@drawable/selector_tab_icon_image"
         android:title="关于"/>
 </menu>

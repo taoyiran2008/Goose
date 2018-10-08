@@ -53,7 +53,7 @@
                 android:layout_marginTop="5dp"
                 android:text="刘晓雯"
                 android:textColor="@color/white"
-                android:textSize="20sp"/>
+                android:textSize="18sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:text="金币：100"
                     android:textColor="@color/white"
-                    android:textSize="20sp"/>
+                    android:textSize="16sp"/>
 
                 <LinearLayout
                     android:id="@+id/ll_clock_in"
@@ -78,7 +78,7 @@
                     <ImageView
                         android:layout_width="20dp"
                         android:layout_height="20dp"
-                        android:src="@drawable/treasure_checked"/>
+                        android:src="@drawable/punch_icon"/>
 
                     <TextView
                         android:layout_width="wrap_content"
@@ -86,7 +86,7 @@
                         android:layout_marginLeft="5dp"
                         android:text="签到领金币"
                         android:textColor="@color/white"
-                        android:textSize="20sp"/>
+                        android:textSize="16sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -106,35 +106,35 @@
             android:id="@+id/ev_my_video"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ev_icon="@drawable/selector_download"
+            app:ev_icon="@drawable/my_video"
             app:ev_title="我的视频"/>
 
         <com.taoyr.widget.widgets.EntryView
             android:id="@+id/ev_my_picture"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ev_icon="@drawable/selector_download"
+            app:ev_icon="@drawable/my_image"
             app:ev_title="我的图库"/>
 
         <com.taoyr.widget.widgets.EntryView
             android:id="@+id/ev_my_book"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ev_icon="@drawable/selector_download"
+            app:ev_icon="@drawable/my_book"
             app:ev_title="我的书架"/>
 
         <com.taoyr.widget.widgets.EntryView
             android:id="@+id/ev_my_treasure"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ev_icon="@drawable/selector_download"
+            app:ev_icon="@drawable/my_favor"
             app:ev_title="我的收藏"/>
 
         <com.taoyr.widget.widgets.EntryView
             android:id="@+id/ev_buy_coin"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:ev_icon="@drawable/selector_download"
+            app:ev_icon="@drawable/my_coin"
             app:ev_title="金币充值"/>
 
 
@@ -143,7 +143,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            app:ev_icon="@drawable/selector_setting"
+            app:ev_icon="@drawable/my_setting"
             app:ev_title="设置"/>
         </LinearLayout>
     </ScrollView>

@@ -21,6 +21,6 @@ public interface PictureContract {
 
     interface Presenter extends IBasePresenter<View> {
         void getBannerList();
-        void getProductList(String category);
+        void getProductList(String category, int pageIndex, int pageSize);
     }
 }

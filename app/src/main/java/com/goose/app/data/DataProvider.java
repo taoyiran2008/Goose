@@ -16,8 +16,6 @@ import com.goose.app.model.sign.LastSignInfo;
 import com.taoyr.app.base.BaseApplication;
 import com.taoyr.app.configs.BaseConfig;
 import com.taoyr.app.model.HttpResultInfo;
-import com.taoyr.app.model.LoginVo;
-import com.taoyr.app.model.RegisterVo;
 import com.taoyr.app.model.UserDetailInfo;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureUtils;
@@ -41,13 +39,14 @@ public class DataProvider {
     Context mContext;
     Gson mGson;
 
-    public static String DATA_TYPE_PICTURE = "picture";
-    public static String DATA_TYPE_NOVEL = "novel";
-    public static String DATA_TYPE_VIDEO = "video";
+    public static String DATA_TYPE_VIDEO = "01"; // 视频
+    public static String DATA_TYPE_PICTURE = "02"; // 图片
+    public static String DATA_TYPE_READ = "03"; // 小说
+    public static String DATA_TYPE_STREAM = "04"; // 直播
 
-    public static String OPERATION_TYPE_VIEW = "01";
-    public static String OPERATION_TYPE_DOWNLOAD = "02";
-    public static String OPERATION_TYPE_FAVOR = "03";
+    public static String OPERATION_TYPE_VIEW = "01"; // 查看
+    public static String OPERATION_TYPE_DOWNLOAD = "02"; // 下载
+    public static String OPERATION_TYPE_FAVOR = "03"; // 收藏
 
     public enum OperationType {
         LOGIN,
@@ -146,15 +145,41 @@ public class DataProvider {
                 case LOGIN:
                     String uname = (String) params[0];
                     String passwd = (String) params[1];
-                    request = mService.login(new LoginVo(uname, passwd));
+                    request = mService.login(uname, passwd);
                     break;
                 case REGISTER:
                     uname = (String) params[0];
                     passwd = (String) params[1];
-                    request = mService.register(new RegisterVo(uname, passwd));
+                    request = mService.register(uname, passwd);
+                    break;
+                case GET_CATEGORY_LIST:
+                    String type = (String) params[0];
+                    request = mService.getCategoryList(type);
+                    break;
+                case GET_PRODUCT_LIST:
+                    type = (String) params[0];
+                    String category = (String) params[1];
+                    String keyword = (String) params[2];
+                    int pageIndex = (Integer) params[3];
+                    int pageSize = (Integer) params[4];
+                    request = mService.getProductList(type, category, keyword, pageSize, pageIndex);
+                    break;
+                case GET_BANNER_LIST:
+                    type = (String) params[0];
+                    request = mService.getBannerList(type);
+                    break;
+                case GET_PRODUCT_DETAIL:
+                    String id = (String) params[0];
+                    request = mService.getProductDetail(id);
+                    break;
+                case SIGN:
+                    request = mService.sign();
+                    break;
+                case GET_LAST_SIGN_INFO:
+                    request = mService.getLastSignInfo();
                     break;
                 case UPDATE_USER:
-                    String id = (String) params[0];
+                    id = (String) params[0];
                     String displayName = (String) params[1];
                     String avatar = (String) params[2];
                     request = mService.updateUser(id, displayName, avatar);

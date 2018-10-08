@@ -1,7 +1,5 @@
 package com.taoyr.app.utility;
 
-import android.text.TextUtils;
-
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -97,10 +95,12 @@ public class OkHttpUtils {
                 Request.Builder builder = request.newBuilder();
                 //String token = BaseApplication.getInstance().getToken();
                 // 使用arouter获取app的数据
-                String token = "";
+                //IRouterService service = ARouter.getInstance().navigation(IRouterService.class);
+                /*IRouterAppService service = (IRouterAppService) ARouter.getInstance().build(IRouterAppService.SERVICE_PATH).navigation();
+                String token = service.getToken();
                 if (!TextUtils.isEmpty(token)) {
-                    builder.addHeader("Ticket", token);
-                }
+                    builder.addHeader("token", token);
+                }*/
 
                 Response response = null;
                 try {

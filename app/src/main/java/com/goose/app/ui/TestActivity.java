@@ -24,8 +24,8 @@ package com.goose.app.ui;
 
     ArrayList<Fragment> mFragments = new ArrayList<>();
     String[] mTabTitles = {"主页", "我的", "分类", "帐号"};
-    int[] mIcons = {R.drawable.selector_tab_icon_index, R.drawable.selector_tab_icon_my,
-            R.drawable.selector_tab_icon_category, R.drawable.selector_tab_icon_account};
+    int[] mIcons = {R.drawable.selector_tab_icon_image, R.drawable.selector_tab_icon_video,
+            R.drawable.selector_tab_icon_book, R.drawable.selector_tab_icon_account};
 
     @Override
     protected int getLayoutResID() {

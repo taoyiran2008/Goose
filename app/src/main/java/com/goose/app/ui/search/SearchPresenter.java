@@ -26,7 +26,8 @@ public final class SearchPresenter extends BasePresenter<SearchContract.View>
 
     @Override
     public void search(int pageIndex, int pageSize, final String keywords, final boolean loadMore) {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_LIST, DataProvider.DATA_TYPE_PICTURE, keywords),
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_LIST,
+                DataProvider.DATA_TYPE_PICTURE, "", keywords, pageIndex, pageSize),
                 SHOW_CANCELABLE_DIALOG, new UiCallback<List<PictureInfo>>() {
                     @Override
                     public void onSuccess(List<PictureInfo> list) {

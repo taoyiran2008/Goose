@@ -23,6 +23,11 @@ import butterknife.ButterKnife;
 
 public class ClockInDialog extends Dialog {
 
+    /**
+     * Unable to parse bindings编译报错原因可能是：
+     * 1. R文件引用错误（因为copy&paste，app主工程用到了子module的R文件）
+     * 2. Dagger编译错误，导致中间文件没有生成
+     */
     @BindView(R.id.ll_container)
     LinearLayout ll_container;
 

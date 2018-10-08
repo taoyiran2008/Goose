@@ -79,6 +79,16 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
             return;
         }
 
+        if (request == null) {
+            String errorMessage = "request is null";
+            mView.showToast(errorMessage);
+            if (callback != null) {
+                callback.onFailure(errorMessage);
+            }
+
+            return;
+        }
+
         request.compose(this.<HttpResultInfo>setThread()).subscribe(new Observer<HttpResultInfo>() {
             @Override
             public void onSubscribe(final Disposable d) {

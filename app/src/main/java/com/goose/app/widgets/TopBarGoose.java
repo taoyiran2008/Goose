@@ -126,7 +126,7 @@ public class TopBarGoose extends RelativeLayout {
         for (CategoryInfo categoryInfo : mCategoryList) {
             TabLayout.Tab tabItem = tab.newTab();
             tab.addTab(tabItem);
-            tabItem.setText(categoryInfo.name);
+            tabItem.setText(categoryInfo.channelName);
         }
 
         // 根据tab layout的内容动态调整显示模式

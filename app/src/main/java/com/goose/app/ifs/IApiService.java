@@ -3,18 +3,16 @@ package com.goose.app.ifs;
 import com.google.gson.JsonObject;
 import com.goose.app.model.BannerInfo;
 import com.goose.app.model.CategoryInfo;
+import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.model.sign.LastSignInfo;
 import com.taoyr.app.model.HttpResultInfo;
-import com.taoyr.app.model.LoginVo;
-import com.taoyr.app.model.RegisterVo;
 import com.taoyr.app.model.UserDetailInfo;
 
 import java.util.List;
 
 import io.reactivex.Observable;
 import okhttp3.MultipartBody;
-import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -35,12 +33,12 @@ public interface IApiService { // RetrofitService
 
     @POST("api/user/login")
     Observable<HttpResultInfo<UserDetailInfo>> login(
-            @Body LoginVo vo
+            @Query("username") String username, @Query("password") String password
     );
 
     @POST("api/user/register")
     Observable<HttpResultInfo<UserDetailInfo>> register(
-            @Body RegisterVo vo
+            @Query("username") String username, @Query("password") String password
     );
 
     @POST("api/user/update")
@@ -58,14 +56,16 @@ public interface IApiService { // RetrofitService
     @POST("api/category/list")
     Observable<HttpResultInfo<List<CategoryInfo>>> getCategoryList(@Query("type") String type);
 
-    @POST("api/getProducts")
+    @POST("api/product/queryProduct")
     Observable<HttpResultInfo<List<PictureInfo>>> getProductList(
-            @Query("type") String type, @Query("category") String category,
-            @Query("pageSize") String pageSize,
-            @Query("pageNo") String pageNo);
+            @Query("type") String type,
+            @Query("category") String category,
+            @Query("keyword") String keyword,
+            @Query("pageSize") int pageSize,
+            @Query("pageNo") int pageNo);
 
-    @POST("api/product/detail")
-    Observable<HttpResultInfo<PictureInfo>> getProductDetail(@Query("id") String id);
+    @GET("api/product/detail")
+    Observable<HttpResultInfo<PictureDetailInfo>> getProductDetail(@Query("id") String id);
 
     /**
      * 操作类型：
@@ -88,9 +88,14 @@ public interface IApiService { // RetrofitService
     @GET("api/banner/list")
     Observable<HttpResultInfo<List<BannerInfo>>> getBannerList(@Query("type") String type);
 
-    @GET("api/user/lastSignInfo")
+    /*@GET("api/user/lastSignInfo")
     Observable<HttpResultInfo<LastSignInfo>> getLastSignInfo(@Query("uid") String uid);
 
     @GET("api/user/sign")
-    Observable<HttpResultInfo> sign(@Query("uid") String uid);
+    Observable<HttpResultInfo> sign(@Query("uid") String uid);*/
+    @GET("api/user/lastSignInfo")
+    Observable<HttpResultInfo<LastSignInfo>> getLastSignInfo();
+
+    @GET("api/user/sign")
+    Observable<HttpResultInfo> sign();
 }

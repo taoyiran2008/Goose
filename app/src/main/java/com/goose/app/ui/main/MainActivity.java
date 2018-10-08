@@ -61,9 +61,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Inject
     PictureFragment mPicture;
     @Inject
-    TextViewFragment mMy;
+    TextViewFragment mVideo;
     @Inject
-    TextViewFragment mCategory;
+    TextViewFragment mStream;
+    @Inject
+    TextViewFragment mBook;
     @Inject
     AccountFragment mAccount;
 
@@ -77,11 +79,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @BindView(R.id.drawer)
     DrawerLayout drawer;
 
-
     ArrayList<Fragment> mFragments = new ArrayList<>();
-    String[] mTabTitles = {"美图", "视频", "小说", "我的"};
-    int[] mIcons = {R.drawable.selector_tab_icon_index, R.drawable.selector_tab_icon_my,
-            R.drawable.selector_tab_icon_category, R.drawable.selector_tab_icon_account};
+    String[] mTabTitles = {"美图", "视频", "直播", "小说", "我的"};
+    int[] mIcons = {R.drawable.selector_tab_icon_image, R.drawable.selector_tab_icon_video,
+            R.drawable.selector_tab_icon_stream,
+            R.drawable.selector_tab_icon_book, R.drawable.selector_tab_icon_account};
 
     HashMap<String, List<CategoryInfo>> mCategoryMap = new HashMap<>();
     int mCurrentPosition = 0;
@@ -100,9 +102,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         /*mFragments.add(new Fragment());
         mFragments.add(new Fragment());
         mFragments.add(new Fragment());*/
-        mFragments.add(mMy);
+        mFragments.add(mVideo);
         //mFragments.add(new TextViewFragment());
-        mFragments.add(mCategory);
+        mFragments.add(mStream);
+        mFragments.add(mBook);
         mFragments.add(mAccount);
         mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mAdapter);
@@ -130,7 +133,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         top_bar_goose.initialize(new ArrayList<CategoryInfo>(), new TopBarGoose.Callback() {
             @Override
             public void onCategorySelect(CategoryInfo category) {
-                sendEvent(new RefreshProductEvent(mProductType, category.code));
+                sendEvent(new RefreshProductEvent(mProductType, category.channelCode));
             }
 
             @Override
@@ -196,9 +199,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
                     } else if (mCurrentPosition == 1) { // 视频
 
-                    } else if (mCurrentPosition == 2) { // 小说
+                    } else if (mCurrentPosition == 2) { // 直播
 
-                    } else if (mCurrentPosition == 3) { // 我的
+                    } else if (mCurrentPosition == 3) { // 小说
+
+                    } else if (mCurrentPosition == 4) { // 我的
                         top_bar_goose.setVisibility(View.GONE);
                     }
 
@@ -251,7 +256,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     public void getCategoryListOnUi(List<CategoryInfo> list, String type) {
         mCategoryMap.put(type, list);
         top_bar_goose.refresh(list);
-        sendEvent(new RefreshProductEvent(type, list.get(0).code));
+        sendEvent(new RefreshProductEvent(type, list.get(0).channelCode));
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {

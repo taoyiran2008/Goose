@@ -68,8 +68,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         edt_pw.addTextChangedListener(this);
         smartCheckFields();
 
-        edt_tel.setText("18642695030");
-        edt_pw.setText("19892211");
+        edt_tel.setText("tao");
+        edt_pw.setText("tao");
     }
 
     @OnClick({R.id.txt_login, R.id.txt_forget, R.id.txt_signup})
