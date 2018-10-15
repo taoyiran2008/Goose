@@ -59,6 +59,8 @@
 
         <activity android:name=".ui.picture.PictureViewerActivity"
                   android:screenOrientation="portrait"/>
+        <activity android:name=".ui.video.VideoDetailActivity"
+                  android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.search.SearchActivity"
                   android:screenOrientation="portrait"/>

@@ -11,6 +11,9 @@ import com.goose.app.ui.account.AccountPresenter;
 import com.goose.app.ui.picture.PictureContract;
 import com.goose.app.ui.picture.PictureFragment;
 import com.goose.app.ui.picture.PicturePresenter;
+import com.goose.app.ui.video.VideoContract;
+import com.goose.app.ui.video.VideoFragment;
+import com.goose.app.ui.video.VideoPresenter;
 import com.taoyr.app.di.scope.ActivityScoped;
 import com.taoyr.app.di.scope.FragmentScoped;
 
@@ -48,4 +51,12 @@ abstract public class MainModule {
     @ActivityScoped
     @Binds
     abstract PictureContract.Presenter activityPresenter(PicturePresenter presenter);
+
+    @FragmentScoped
+    @ContributesAndroidInjector
+    abstract VideoFragment videoFragment();
+
+    @ActivityScoped
+    @Binds
+    abstract VideoContract.Presenter videoPresenter(VideoPresenter presenter);
 }

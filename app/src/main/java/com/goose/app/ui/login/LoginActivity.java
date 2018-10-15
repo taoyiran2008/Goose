@@ -9,13 +9,16 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.goose.app.GooseApplication;
 import com.goose.app.R;
 import com.goose.app.ui.main.MainActivity;
 import com.goose.app.ui.signup.SignUpTelActivity;
 import com.taoyr.app.base.BaseActivity;
+import com.taoyr.app.utility.ValidUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import freemarker.template.utility.StringUtil;
 
 /**
  * 这里的泛型使用接口类，而非实体类，因为需要保持与LoginContract.View的泛型声明一致。java的多态性，
@@ -47,6 +50,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+       String token= GooseApplication.getInstance().getToken();
+       if(!ValidUtil.isEmpty(token)){
+           loginOnUi();
+       }
     }
 
     @Override
@@ -68,8 +75,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         edt_pw.addTextChangedListener(this);
         smartCheckFields();
 
-        edt_tel.setText("tao");
-        edt_pw.setText("tao");
+        //edt_tel.setText("tao");
+        //edt_pw.setText("tao");
     }
 
     @OnClick({R.id.txt_login, R.id.txt_forget, R.id.txt_signup})

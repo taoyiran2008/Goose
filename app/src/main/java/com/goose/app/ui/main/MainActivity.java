@@ -29,6 +29,7 @@ import com.goose.app.rxbus.RefreshProductEvent;
 import com.goose.app.ui.account.AccountFragment;
 import com.goose.app.ui.picture.PictureFragment;
 import com.goose.app.ui.search.SearchActivity;
+import com.goose.app.ui.video.VideoFragment;
 import com.goose.app.widgets.TopBarGoose;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.LogMan;
@@ -61,7 +62,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Inject
     PictureFragment mPicture;
     @Inject
-    TextViewFragment mVideo;
+    VideoFragment mVideo;
     @Inject
     TextViewFragment mStream;
     @Inject
@@ -122,11 +123,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         setExitOnDoubleBack(true);
 
         initTab();
-
         mPresenter.getCategoryList(mProductType);
-
-        initSideBar();
         initGooseTitleBar();
+        initSideBar();
     }
 
     private void initGooseTitleBar() {
@@ -198,14 +197,17 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                         mProductType = DataProvider.DATA_TYPE_PICTURE;
 
                     } else if (mCurrentPosition == 1) { // 视频
-
+                        mProductType = DataProvider.DATA_TYPE_VIDEO;
                     } else if (mCurrentPosition == 2) { // 直播
-
+                        mProductType = DataProvider.DATA_TYPE_STREAM;
                     } else if (mCurrentPosition == 3) { // 小说
-
+                        mProductType = DataProvider.DATA_TYPE_READ;
                     } else if (mCurrentPosition == 4) { // 我的
                         top_bar_goose.setVisibility(View.GONE);
                     }
+
+                    mPresenter.getCategoryList(mProductType);
+                    initGooseTitleBar();
 
                     if (mCategoryMap.get(mProductType) == null) {
                         mPresenter.getCategoryList(mProductType);

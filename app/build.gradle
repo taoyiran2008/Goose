@@ -18,9 +18,9 @@ android {
         release {
             try {
                 storeFile file("./keystore/release.keystore")
-                storePassword "123456"
-                keyAlias "taoyr"
-                keyPassword "123456"
+                storePassword "19880828"
+                keyAlias "sitemaker"
+                keyPassword "19880828"
             } catch (ex) {
 //                throw new InvalidUserDataException(ex.toString())
             }
@@ -79,6 +79,7 @@ dependencies {
     implementation project(':utility')
     implementation project(':widget')
     implementation project(':pulltorefresh')
+    implementation project(':nicevideoplayer')
     annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
     annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
     // annotationProcessor必须定义在本gradle文件中，而不能仅仅在third party中定义，不然该模块编译期间

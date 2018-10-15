@@ -1,1 +1,1 @@
-include ':app', ':utility', ':base', ':widget', ':thirdparty', ':pulltorefresh', ':sharesdk', ':pictureviewer'
+include ':app', ':utility', ':base', ':widget', ':thirdparty', ':pulltorefresh', ':sharesdk', ':pictureviewer', ':nicevideoplayer'
