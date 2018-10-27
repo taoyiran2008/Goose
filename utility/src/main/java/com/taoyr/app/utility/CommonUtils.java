@@ -36,6 +36,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.taoyr.utility.BuildConfig;
 import com.taoyr.utility.R;
 
 import java.io.File;
@@ -59,6 +60,28 @@ import static android.os.Build.VERSION_CODES.N;
  */
 
 public class CommonUtils {
+
+    /**
+     * lib子模块的编译是独立于app主模块的，build.gradle中的buildType需要为utility子模块单独声明debug和
+     * release，不然后面通过(com.taoyr.utility.)BuildConfig获取的始终是debug版本。下面注释掉的方法，是
+     * 通过debuggable flag判断是否为debug版，原理和BuildConfig类似，也是需要单独配置的。而且为了便于调试，
+     * 我们默认让release版本debuggable=true，就不能用这个方法了。
+     *
+     * 编译构建过程中各个module的gradle文件，会合并一些内容，比如defaultConfig中配置，如果发现版本不一致，
+     * 会merge出错。proguard文件同理，也是各个模块需要独立配置的。
+     */
+    /*private static Boolean sIsDebuggable;
+    public static boolean isDebug(Context context) {
+        if (sIsDebuggable == null) {
+            sIsDebuggable = context.getApplicationInfo() != null &&
+                    (context.getApplicationInfo().flags & ApplicationInfo.FLAG_DEBUGGABLE) != 0;
+        }
+        return sIsDebuggable.booleanValue();
+    }*/
+
+    public static boolean isDebug() {
+        return "debug".equals(BuildConfig.BUILD_TYPE);
+    }
 
     public static String readFileFromAssets(Context context, String fileName) {
         InputStream is = null;

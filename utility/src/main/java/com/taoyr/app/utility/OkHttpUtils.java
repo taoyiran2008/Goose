@@ -1,5 +1,10 @@
 package com.taoyr.app.utility;
 
+import android.text.TextUtils;
+
+import com.alibaba.android.arouter.launcher.ARouter;
+import com.taoyr.app.thirdparty.ifs.IRouterAppService;
+
 import java.io.IOException;
 import java.security.SecureRandom;
 import java.security.cert.CertificateException;
@@ -80,6 +85,10 @@ public class OkHttpUtils {
         }).setLevel(HttpLoggingInterceptor.Level.BODY /*BASIC*/); // 设置打印HTTP请求的级别
     }
 
+    OkHttpUtils() {
+        ARouter.getInstance().inject(this);
+    }
+
     // Header拦截器
     public static Interceptor createHeaderInterceptor() {
         return new Interceptor() {
@@ -96,11 +105,15 @@ public class OkHttpUtils {
                 //String token = BaseApplication.getInstance().getToken();
                 // 使用arouter获取app的数据
                 //IRouterService service = ARouter.getInstance().navigation(IRouterService.class);
-                /*IRouterAppService service = (IRouterAppService) ARouter.getInstance().build(IRouterAppService.SERVICE_PATH).navigation();
-                String token = service.getToken();
-                if (!TextUtils.isEmpty(token)) {
-                    builder.addHeader("token", token);
-                }*/
+
+                IRouterAppService service = ARouter.getInstance().navigation(IRouterAppService.class);
+                //IRouterAppService service2 = (IRouterAppService) ARouter.getInstance().build(IRouterAppService.SERVICE_PATH).navigation();
+                if (service != null) {
+                    String token = service.getToken();
+                    if (!TextUtils.isEmpty(token)) {
+                        builder.addHeader("token", token);
+                    }
+                }
 
                 Response response = null;
                 try {

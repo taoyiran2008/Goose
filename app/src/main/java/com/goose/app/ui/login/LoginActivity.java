@@ -18,7 +18,6 @@ import com.taoyr.app.utility.ValidUtil;
 
 import butterknife.BindView;
 import butterknife.OnClick;
-import freemarker.template.utility.StringUtil;
 
 /**
  * 这里的泛型使用接口类，而非实体类，因为需要保持与LoginContract.View的泛型声明一致。java的多态性，
@@ -52,7 +51,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         super.onCreate(savedInstanceState);
        String token= GooseApplication.getInstance().getToken();
        if(!ValidUtil.isEmpty(token)){
-           loginOnUi();
+           //loginOnUi();
        }
     }
 
@@ -75,8 +74,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         edt_pw.addTextChangedListener(this);
         smartCheckFields();
 
-        //edt_tel.setText("tao");
-        //edt_pw.setText("tao");
+        edt_tel.setText("tao");
+        edt_pw.setText("tao");
     }
 
     @OnClick({R.id.txt_login, R.id.txt_forget, R.id.txt_signup})
