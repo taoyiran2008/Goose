@@ -1,8 +1,26 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
+    // 保持子模块（lib module）的版本与app module统统一致。值得说明的是，子模块的编译是由子模块build.gradle控制的
+    // 因此，buildType这些配置如果有特殊的需要，子模块的写法可以与app模块不一致。另外defaultConfig中的最小版本号、versionName
+    // 等配置，会在编译过程中生成到AndroidManifest中，最终会merge所有子模块的Manifest为一个，如果版本号不同会编译中merge失败。
+    // 还有顺便说到proguard文件，正如build.gradle各lib子模块是独立于app主模块一样，都是独立的。
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
+
+    defaultConfig {
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+    }
+/*  compileSdkVersion 26
 
 
     defaultConfig {
@@ -20,8 +38,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
-    }
-
+    }*/
 }
 
 dependencies {
@@ -29,6 +46,6 @@ dependencies {
     implementation project(':utility')
     implementation project(':widget')
 
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"
 }

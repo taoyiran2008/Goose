@@ -5,6 +5,7 @@ import android.text.TextUtils;
 
 import com.taoyr.app.ifs.UiCallback;
 import com.taoyr.app.model.HttpResultInfo;
+import com.taoyr.app.utility.LogMan;
 import com.taoyr.app.utility.NetUtils;
 
 import java.util.concurrent.atomic.AtomicInteger;
@@ -120,9 +121,16 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
 
             @Override
             public void onNext(HttpResultInfo httpResultInfo) {
-                if ("200".equals(httpResultInfo.code)) {
+                if (true) {
                     if (callback != null && httpResultInfo != null) {
-                        callback.onSuccess(httpResultInfo.datas);
+                        // UiCallback的泛型类型如果与httpResultInfo.datas的实际类型不匹配，会报错
+                        // java.lang.ClassCastException: java.lang.String cannot be cast to com.goose.app.model.sign.LastSignInfo
+                        try {
+                            callback.onSuccess(httpResultInfo.datas);
+                        } catch (Exception e) {
+                            LogMan.logError(e);
+                            callback.onSuccess(null);
+                        }
                     }
                 } else {
                     /*mView.showToast("errorCode: " + httpResultInfo.resultCode

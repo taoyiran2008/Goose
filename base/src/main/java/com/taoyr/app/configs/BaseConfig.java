@@ -1,5 +1,7 @@
 package com.taoyr.app.configs;
 
+import com.taoyr.app.utility.CommonUtils;
+
 /**
  * Created by taoyr on 2018/7/10.
  */
@@ -7,7 +9,7 @@ package com.taoyr.app.configs;
 public class BaseConfig {
 
     //    public static boolean isDebug = BuildConfig.BUILD_TYPE.equals("debug");
-    public static boolean isDebug = true;
+    //public static boolean isDebug = true;
 
     public static final boolean LOCAL_MOCKING = false;
     public static final int MOCKING_TIME_IN_MS = 200;
@@ -22,5 +24,5 @@ public class BaseConfig {
      */
     public static String URL = "http://118.190.158.176:7000";
 
-    public static String API_SERVER = isDebug ? TEST_URL : URL;
+    public static String API_SERVER = CommonUtils.isDebug() ? TEST_URL : URL;
 }
