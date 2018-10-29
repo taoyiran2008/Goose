@@ -10,6 +10,7 @@ import android.support.multidex.MultiDex;
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
 import com.taoyr.app.rxbus.RxBus;
+import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.LogMan;
 
 import java.lang.ref.WeakReference;
@@ -278,6 +279,12 @@ public abstract class BaseApplication extends DaggerApplication {
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
         MultiDex.install(base);
+        // 平时为了提高开发效率AS的Instant Run是打开的，dex差量编译导致arouter功能不好用（tinker同理），因此
+        // debug版本中，需要调用openDebug。打的正式包，是全量编译打包的，不存在这个问题。
+        if (CommonUtils.isDebug()) {
+            ARouter.openLog(); // 打印日志
+            ARouter.openDebug();
+        }
         ARouter.init(this);
     }
 }

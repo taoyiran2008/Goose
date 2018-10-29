@@ -121,7 +121,7 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
             @Override
             public void onNext(HttpResultInfo httpResultInfo) {
                 if ("200".equals(httpResultInfo.code)) {
-                    if (callback != null) {
+                    if (callback != null && httpResultInfo != null) {
                         callback.onSuccess(httpResultInfo.datas);
                     }
                 } else {

@@ -4,12 +4,12 @@ import android.content.Context;
 
 import com.alibaba.android.arouter.facade.annotation.Route;
 import com.goose.app.GooseApplication;
-import com.goose.thirdparty.ifs.IRouterAppService;
+import com.taoyr.app.thirdparty.ifs.IRouterAppService;
 
-@Route(path = IRouterAppService.SERVICE_PATH/*, name = IRouterAppService.SERVICE_NAME*/)
+@Route(path = IRouterAppService.SERVICE_PATH, name = IRouterAppService.SERVICE_NAME)
 public class RouterAppServiceImpl implements IRouterAppService {
 
-    private Context mContext;
+    Context mContext;
 
     @Override
     public String getToken() {
@@ -18,6 +18,6 @@ public class RouterAppServiceImpl implements IRouterAppService {
 
     @Override
     public void init(Context context) {
-        mContext = context;
+        mContext= context;
     }
 }
