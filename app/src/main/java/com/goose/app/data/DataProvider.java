@@ -137,6 +137,7 @@ public class DataProvider {
                     if (mDummyHttpResultInfo == null) {
                         mDummyHttpResultInfo = new HttpResultInfo();
                         mDummyHttpResultInfo.code = "200";
+                        mDummyHttpResultInfo.datas = "请求成功";
                     }
 
                     observer.onNext(mDummyHttpResultInfo);

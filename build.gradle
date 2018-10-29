@@ -1,5 +1,22 @@
 // Top-level build file where you can add configuration options common to all sub-projects/modules.
 
+ext {
+    compileSdkVersion = 26
+    buildToolsVersion = "26.0.3"
+    minSdkVersion = 16
+    targetSdkVersion = 26
+    //supportSdkVersion = "26+"
+    supportSdkVersion = "26.1.0"
+
+    // dagger版本不统一，会报错
+    // Provider<DispatchingAndroidInjector<Fragment>>无法转换为DispatchingAndroidInjector<Fragment>
+    // https://github.com/google/dagger
+    daggerVersion = "2.15"
+
+    arouterApiVersion = "1.4.1"
+    arouterCompilerVersion = "1.2.2"
+}
+
 buildscript {
     
     repositories {

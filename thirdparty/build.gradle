@@ -1,64 +1,53 @@
 apply plugin: 'com.android.library'
 
 android {
-    compileSdkVersion 26
-
-
+    compileSdkVersion rootProject.ext.compileSdkVersion
+    buildToolsVersion rootProject.ext.buildToolsVersion
 
     defaultConfig {
-        minSdkVersion 18
-        targetSdkVersion 26
-        versionCode 1
-        versionName "1.0"
-
-        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-
-        javaCompileOptions {
-            annotationProcessorOptions {
-                arguments = [ moduleName : project.getName() ]
-            }
-        }
+        minSdkVersion rootProject.ext.minSdkVersion
+        targetSdkVersion rootProject.ext.targetSdkVersion
     }
 
-    buildTypes {
-        release {
-            minifyEnabled false
-            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-        }
+    lintOptions {
+        //build release版本时是否开启lint检测
+        checkReleaseBuilds false
+        //lint 遇到error时继续构建
+        abortOnError false
     }
-
 }
 
 dependencies {
     // android sdk相关内容，暂挪到thirdparty module中管理
-    /*compile 'com.android.support:appcompat-v7:26.+'
-    compile fileTree(include: ['*.jar'], dir: 'libs')
+    /*compile fileTree(include: ['*.jar'], dir: 'libs')
     androidTestCompile('com.android.support.test.espresso:espresso-core:2.2.2', {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     testCompile 'junit:junit:4.12'*/
 
-    implementation 'com.android.support:appcompat-v7:26.0.0'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     testImplementation 'junit:junit:4.12'
-    //androidTestImplementation 'com.android.support.test:runner:0.5'
-    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
 
-    // ViewHelper，支持缩放等手势识别和操作
+    // ViewHelper, 支持缩放等手势识别和操作
     //compile files('libs/nineoldandroids-2.4.0.jar')
 
+    // ====== Dagger ======
     // dagger2
-    compile 'com.google.dagger:dagger:2.11'
+    compile "com.google.dagger:dagger:${rootProject.ext.daggerVersion}"
     // 编译期间，dagger使用APT生成需要的DI代码的工具
-    //apt 'com.google.dagger:dagger-compiler:2.11'
-    annotationProcessor 'com.google.dagger:dagger-compiler:2.11'
+    //apt 'com.google.dagger:dagger-compiler:2.11' // 2.11有bug隐患，as建议改到2.15
+    annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
+
     //java注解，支持使用@Inject 和@Named注解
     //compile 'org.glassfish:javax.annotation:10.0-b28'
     provided 'org.glassfish:javax.annotation:10.0-b28'
+
     // dagger android
-    compile 'com.google.dagger:dagger-android:2.11'
-    compile 'com.google.dagger:dagger-android-support:2.11'
-    annotationProcessor 'com.google.dagger:dagger-android-processor:2.11'
+    compile "com.google.dagger:dagger-android:${rootProject.ext.daggerVersion}"
+    //compile 'com.google.dagger:dagger-android-support:2.x' // if you use the support libraries
+    compile "com.google.dagger:dagger-android-support:${rootProject.ext.daggerVersion}"
+    annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"
+    // ====== Dagger ======
 
     // greendao
     compile 'org.greenrobot:greendao:3.0.1'
@@ -67,10 +56,7 @@ dependencies {
     compile 'com.google.code.gson:gson:2.8.0'
     // glide
     compile 'com.github.bumptech.glide:glide:3.7.0'
-    // recycler view
-    compile 'com.android.support:recyclerview-v7:26+'
-    // TabLayout
-    compile 'com.android.support:design:26+'
+
     // 简体/繁体汉字转拼音
     compile files('libs/pinyin4j-2.5.0.jar')
     // ----------------------------------
@@ -113,11 +99,21 @@ dependencies {
     // 沉浸式状态栏碎片化解决方案，支持Android4.4(API 19)以上
     compile 'com.gyf.barlibrary:barlibrary:2.3.0'
 
+    // ====== Android support library ======
+    implementation "com.android.support:appcompat-v7:${rootProject.ext.supportSdkVersion}"
+    //androidTestImplementation 'com.android.support.test:runner:0.5'
+    //androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+
+    // recycler view
+    compile "com.android.support:recyclerview-v7:${rootProject.ext.supportSdkVersion}"
+    // TabLayout
+    compile "com.android.support:design:${rootProject.ext.supportSdkVersion}"
+
     // 解决5.0以下模块化导致dagger报错：java.lang.NoClassDefFoundError: com.goose.app.di.DaggerAppComponent$Builder
     api 'com.android.support:multidex:1.0.1'
+    // ====== Android support library ======
 
     // photo viewer需要用到的库
-    //compile 'com.android.support:appcompat-v7:25.1.1'
     compile 'com.github.chrisbanes.photoview:library:1.2.3'
     compile 'com.facebook.rebound:rebound:0.3.8'
     //compile 'com.github.bumptech.glide:glide:3.7.0'

@@ -44,9 +44,9 @@ public final class AccountPresenter extends BasePresenter<AccountContract.View>
     @Override
     public void sign() {
         doRequest(mDataProvider.provideObservable(DataProvider.OperationType.SIGN),
-                SHOW_CANCELABLE_DIALOG, new UiCallback<LastSignInfo>() {
+                SHOW_CANCELABLE_DIALOG, new UiCallback<String>() {
                     @Override
-                    public void onSuccess(LastSignInfo info) {
+                    public void onSuccess(String result) {
                         mView.signOnUi();
                     }
 
