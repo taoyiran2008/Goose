@@ -16,20 +16,38 @@
         android:layout_height="200dp"
         android:layout_below="@+id/top_bar" />
 
-    <include
-        android:id="@+id/input_box"
-        layout="@layout/input_box"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/nice_video_player" />
+    <LinearLayout
+        android:id="@+id/ll_function_area"
+        android:layout_width="match_parent"
+        android:layout_height="54dp"
+        android:layout_below="@id/nice_video_player"
+        android:background="@drawable/clear_shape"
+        android:gravity="center_vertical">
+
+        <ImageView
+            android:id="@+id/img_recommend"
+            android:layout_width="70dp"
+            android:layout_height="70dp"
+            android:scaleType="fitXY"
+            android:src="@drawable/recommend" />
+
+    </LinearLayout>
 
     <com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue
         android:id="@+id/base_recycler_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_alignParentBottom="true"
-        android:layout_below="@+id/input_box"
+        android:layout_above="@+id/input_box"
+        android:layout_alignParentBottom="false"
+        android:layout_below="@id/ll_function_area"
         android:nestedScrollingEnabled="false" />
 
+    <include
+        android:id="@+id/input_box"
+        layout="@layout/input_box"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentEnd="true" />
 </RelativeLayout>
 

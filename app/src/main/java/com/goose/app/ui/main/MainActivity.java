@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         initTab();
         mPresenter.getCategoryList(mProductType);
         initGooseTitleBar();
-        initSideBar();
+       // initSideBar();
     }
 
     private void initGooseTitleBar() {
@@ -258,7 +258,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     public void getCategoryListOnUi(List<CategoryInfo> list, String type) {
         mCategoryMap.put(type, list);
         top_bar_goose.refresh(list);
-        sendEvent(new RefreshProductEvent(type, list.get(0).channelCode));
+        if(list!=null&&list.size()>0){
+            sendEvent(new RefreshProductEvent(type, list.get(0).channelCode));
+        }
     }
 
     private class SectionsPagerAdapter extends FragmentPagerAdapter {

@@ -31,6 +31,8 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
 
     @BindView(R.id.img_star)
     ImageView img_star;
+    @BindView(R.id.img_share)
+    ImageView img_share;
 
     @BindView(R.id.img_like)
     ImageView img_like;
@@ -101,10 +103,11 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
         }
 
         base_recycler_view.initialize(new SimplePictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
+
         base_recycler_view.refresh(Arrays.asList(urls));
     }
 
-    @OnClick({R.id.img_star, R.id.img_like, R.id.img_download})
+    @OnClick({R.id.img_star, R.id.img_like, R.id.img_download,R.id.img_share})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_star:
@@ -112,6 +115,12 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
                 break;
             case R.id.img_download:
                 mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_DOWNLOAD);
+                break;
+            case R.id.img_like:
+                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_FAVOR);
+                break;
+            case R.id.img_share:
+                //share
                 break;
         }
     }

@@ -9,11 +9,17 @@ import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
+import com.goose.app.model.PictureInfo;
+import com.goose.app.widgets.controller.VideoListController;
 import com.taoyr.app.base.BaseActivity;
+import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
@@ -41,8 +47,9 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     ImageView img_download;
 
     String mProductId;
+    String mProductCategory;
     PictureDetailInfo mDetailInfo;
-
+    private List<PictureInfo> mList = new ArrayList<>();
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_video_detail;
@@ -52,11 +59,14 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     public void handleIntent(Intent intent) {
         super.handleIntent(intent);
         mProductId = intent.getStringExtra(Configs.EXTRA_ID);
+        mProductCategory = intent.getStringExtra(Configs.EXTRA_CATEGORY);
     }
 
     @Override
     protected void initView() {
         mPresenter.getProductDetail(mProductId);
+        mPresenter.getRecommendProductList(mProductCategory,1,20);
+        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
     }
 
     /*private void addImageView(final String path) {
@@ -91,6 +101,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @Override
     public void getProductDetailOnUi(PictureDetailInfo info) {
         mDetailInfo = info;
+
         setTopBarTitle(info.title);
 
         mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // IjkPlayer or MediaPlayer
@@ -118,14 +129,26 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
 //        base_recycler_view.refresh(Arrays.asList(urls));
     }
 
+    @Override
+    public void getRecommendProductListOnUi(List<PictureInfo> list) {
+        mList.addAll(list);
+        base_recycler_view.refresh(mList);
+    }
+
     @OnClick({R.id.img_star, R.id.img_like, R.id.img_download})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_star:
-                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
+                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_FAVOR);
                 break;
             case R.id.img_download:
                 mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_DOWNLOAD);
+                break;
+            case R.id.img_like:
+                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_DOWNLOAD);
+                break;
+            case R.id.img_share:
+                //分享
                 break;
         }
     }

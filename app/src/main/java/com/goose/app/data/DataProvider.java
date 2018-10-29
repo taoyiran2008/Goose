@@ -47,6 +47,7 @@ public class DataProvider {
     public static String OPERATION_TYPE_VIEW = "01"; // 查看
     public static String OPERATION_TYPE_DOWNLOAD = "02"; // 下载
     public static String OPERATION_TYPE_FAVOR = "03"; // 收藏
+    public static String OPERATION_TYPE_SUPPORT = "04"; // 点赞
 
     public enum OperationType {
         LOGIN,
@@ -55,6 +56,7 @@ public class DataProvider {
         UPLOAD_FILE,
         GET_CATEGORY_LIST,
         GET_PRODUCT_LIST,
+        GET_RECOMMEND_PRODUCT_LIST,
         GET_PRODUCT_DETAIL,
         OPERATE_PRODUCT,
         GET_FAVOR_LIST,
@@ -163,6 +165,14 @@ public class DataProvider {
                     int pageIndex = (Integer) params[3];
                     int pageSize = (Integer) params[4];
                     request = mService.getProductList(type, category, keyword, pageSize, pageIndex);
+                    break;
+                case GET_RECOMMEND_PRODUCT_LIST:
+                    type = (String) params[0];
+                    String category2 = (String) params[1];
+                    String keyword2 = (String) params[2];
+                    int pageIndex2 = (Integer) params[3];
+                    int pageSize2 = (Integer) params[4];
+                    request = mService.getProductList(type, category2, keyword2, pageSize2, pageIndex2);
                     break;
                 case GET_BANNER_LIST:
                     type = (String) params[0];

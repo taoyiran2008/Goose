@@ -11,6 +11,7 @@ public class PictureInfo {
     public String tag;
     public String url;
     public String cover;
+    public String category;
     public int view;
     public int support;
     public int collect;

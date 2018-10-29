@@ -14,6 +14,7 @@ public class Configs {
     public static final String EXTRA_URL = "extra_url";
     public static final String EXTRA_TITLE = "extra_title";
     public static final String EXTRA_ID = "extra_id";
+    public static final String EXTRA_CATEGORY= "extra_category";
 
     public static final String EXTRA_DISPLAY_FILE_NAME = "display_file_name";
     public static final String EXTRA_DOWNLOAD_URL = "download_url";

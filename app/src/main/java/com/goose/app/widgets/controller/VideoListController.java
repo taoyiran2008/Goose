@@ -74,6 +74,7 @@ public class VideoListController extends BaseRvController<PictureInfo> {
         super.onSelected(info, position, adapter);
         Intent intent = new Intent(mContext, VideoDetailActivity.class);
         intent.putExtra(Configs.EXTRA_ID, info.id);
+        intent.putExtra(Configs.EXTRA_CATEGORY, info.category);
         mContext.startActivity(intent);
     }
 

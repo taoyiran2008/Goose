@@ -2,9 +2,12 @@ package com.goose.app.ui.video;
 
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
+import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.picture.PictureDetailContract;
 import com.taoyr.app.base.BasePresenter;
 import com.taoyr.app.ifs.UiCallback;
+
+import java.util.List;
 
 import javax.inject.Inject;
 
@@ -44,6 +47,23 @@ public final class VideoDetailPresenter extends BasePresenter<VideoDetailContrac
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("图片详情获取失败");
+                    }
+                });
+    }
+
+    @Override
+    public void getRecommendProductList(String category, int pageIndex, int pageSize) {
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_LIST,
+                DataProvider.DATA_TYPE_VIDEO, category, "", pageIndex, pageSize),
+                SHOW_CANCELABLE_DIALOG, new UiCallback<List<PictureInfo>>() {
+                    @Override
+                    public void onSuccess(List<PictureInfo> list) {
+                        mView.getRecommendProductListOnUi(list);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mView.showToast("列表信息获取失败");
                     }
                 });
     }
