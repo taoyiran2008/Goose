@@ -14,6 +14,7 @@ public interface PictureDetailContract {
     interface View extends IBaseView<Presenter> {
         void getProductDetailOnUi(PictureDetailInfo list);
         void operateProductOnUi(String type);
+        void goLogin();
     }
 
     interface Presenter extends IBasePresenter<View> {

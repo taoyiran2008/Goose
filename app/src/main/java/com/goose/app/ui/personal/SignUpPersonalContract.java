@@ -15,6 +15,7 @@ public interface SignUpPersonalContract {
     interface View extends IBaseView<Presenter> {
         void updateProfileOnUi();
         void loginOnUi();
+        void goLogin();
         void uploadHeadImageOnUi(String url);
     }
 

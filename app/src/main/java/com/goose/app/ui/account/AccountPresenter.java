@@ -30,7 +30,10 @@ public final class AccountPresenter extends BasePresenter<AccountContract.View>
                     public void onSuccess(LastSignInfo info) {
                         mView.getLastSignInfoOnUi(info);
                     }
-
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("签到获取失败");
@@ -50,6 +53,11 @@ public final class AccountPresenter extends BasePresenter<AccountContract.View>
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("签到失败");
+                    }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
                     }
                 });
     }

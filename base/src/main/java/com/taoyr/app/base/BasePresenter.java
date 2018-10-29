@@ -1,6 +1,7 @@
 package com.taoyr.app.base;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.text.TextUtils;
 
 import com.taoyr.app.ifs.UiCallback;
@@ -23,15 +24,15 @@ import retrofit2.Retrofit;
 
 /**
  * Created by taoyr on 2018/1/5.
- *
+ * <p>
  * 一个空壳。一些继承自BaseActivity的Activity，本身没有业务逻辑需要放到Presenter中，则使用这个壳子，
  * 避免注入报错。
- *
+ * <p>
  * 设计原则之一：Activity中不包含任何逻辑相关的代码，因此把设置网络请求时请求（生产者）和监听（消费者）
  * 的thread的逻辑封装到Presenter中。这里不能直接使用IBasePresenter<IBaseView>，这样会导致的问题是，比如
  * 在LoginPresenter中，因为LoginContract.Presenter extends IBasePresenter<LoginContract.View>，有个
  * 隐形的泛型声明，导致extends和implement两个继承关系中用到的泛型不一致。
- *
+ * <p>
  * 使用该类的Activity，必须把泛型指定清楚，比如MainActivity extends BaseActivity<IBasePresenter<IBaseView>>
  * com.tianfeng.app.base.BasePresenter cannot be provided without an @Provides-annotated method. This
  * type supports members injection but cannot be implicitly provided
@@ -107,14 +108,14 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
                 if (cancelable != SHOW_NO_DIALOG) {
                     mView.showLoadingDialog(cancelable == SHOW_CANCELABLE_DIALOG,
                             new DialogInterface.OnCancelListener() {
-                        @Override
-                        public void onCancel(DialogInterface dialog) {
-                            // 取消单个请求
-                            //mDisposable.dispose();
-                            //mDisposables.remove(d);
-                            mDisposables.clear();
-                        }
-                    });
+                                @Override
+                                public void onCancel(DialogInterface dialog) {
+                                    // 取消单个请求
+                                    //mDisposable.dispose();
+                                    //mDisposables.remove(d);
+                                    mDisposables.clear();
+                                }
+                            });
                 }
             }
 
@@ -124,6 +125,10 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
                     if (callback != null && httpResultInfo != null) {
                         callback.onSuccess(httpResultInfo.datas);
                     }
+                } else if ("401".equals(httpResultInfo.code)) {
+                    //跳转到登录页
+                    callback.onNoAuthenticated();
+
                 } else {
                     /*mView.showToast("errorCode: " + httpResultInfo.resultCode
                             + ", errorMsg: " + httpResultInfo.resultDesc);*/
@@ -165,8 +170,8 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
         }
     }
 
-    private static <T> ObservableTransformer<T,T> setThread(){
-        return new ObservableTransformer<T,T>() {
+    private static <T> ObservableTransformer<T, T> setThread() {
+        return new ObservableTransformer<T, T>() {
             @Override
             public ObservableSource<T> apply(Observable<T> upstream) {
                 return upstream.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread());

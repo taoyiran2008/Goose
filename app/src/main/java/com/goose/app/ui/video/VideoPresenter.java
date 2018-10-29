@@ -55,6 +55,11 @@ public final class VideoPresenter extends BasePresenter<VideoContract.View>
                     public void onFailure(String msg) {
                         mView.showToast("banner列表获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
                 });
     }
 
@@ -71,6 +76,11 @@ public final class VideoPresenter extends BasePresenter<VideoContract.View>
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("图片列表信息获取失败");
+                    }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
                     }
                 });
     }

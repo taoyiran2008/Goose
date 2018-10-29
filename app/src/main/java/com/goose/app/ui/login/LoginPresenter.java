@@ -62,6 +62,11 @@ public final class LoginPresenter extends BasePresenter<LoginContract.View>
                     @Override
                     public void onFailure(String msg) {
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
                 });
     }
 

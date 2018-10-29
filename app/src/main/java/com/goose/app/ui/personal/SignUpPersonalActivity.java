@@ -21,6 +21,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy;
 import com.goose.app.GooseApplication;
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.ui.main.MainActivity;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.CommonUtils;
@@ -230,6 +231,11 @@ public class SignUpPersonalActivity extends BaseActivity<SignUpPersonalContract.
     @Override
     public void loginOnUi() {
         mPresenter.updateProfile(mNickName, mAvatar, mSex);
+    }
+
+    @Override
+    public void goLogin() {
+        startActivity(new Intent(mContext, LoginActivity.class));
     }
 
     @Override

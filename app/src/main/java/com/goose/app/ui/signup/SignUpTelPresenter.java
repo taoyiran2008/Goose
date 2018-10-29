@@ -49,6 +49,11 @@ public final class SignUpTelPresenter extends BasePresenter<SignUpTelContract.Vi
                     @Override
                     public void onFailure(String msg) {
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
                 });
     }
 }

@@ -39,6 +39,11 @@ public final class SearchPresenter extends BasePresenter<SearchContract.View>
                     public void onFailure(String msg) {
                         mView.showToast("图片列表信息获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
                 });
     }
 }

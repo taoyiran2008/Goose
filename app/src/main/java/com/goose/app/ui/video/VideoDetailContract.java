@@ -20,6 +20,8 @@ public interface VideoDetailContract {
         void getRecommendProductListOnUi(List<PictureInfo> list);
 
         void operateProductOnUi(String type);
+
+        void goLogin();
     }
 
     interface Presenter extends IBasePresenter<View> {
@@ -28,5 +30,6 @@ public interface VideoDetailContract {
         void getRecommendProductList(String category, int pageIndex, int pageSize);
 
         void operateProduct(String id, String type);
+
     }
 }

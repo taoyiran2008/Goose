@@ -1,7 +1,10 @@
 package com.goose.app.ui.favor;
 
+import android.content.Intent;
+
 import com.goose.app.R;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.controller.PictureListController;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.PageManager;
@@ -97,5 +100,10 @@ public class FavorListActivity extends BaseActivity<FavorListContract.Presenter>
         }
 
         mPageManager.nextPageConfirm();
+    }
+
+    @Override
+    public void goLogin() {
+        startActivity(new Intent(mContext, LoginActivity.class));
     }
 }

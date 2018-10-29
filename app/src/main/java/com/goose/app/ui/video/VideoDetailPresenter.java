@@ -1,8 +1,11 @@
 package com.goose.app.ui.video;
 
+import android.content.Intent;
+
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.ui.picture.PictureDetailContract;
 import com.taoyr.app.base.BasePresenter;
 import com.taoyr.app.ifs.UiCallback;
@@ -48,6 +51,12 @@ public final class VideoDetailPresenter extends BasePresenter<VideoDetailContrac
                     public void onFailure(String msg) {
                         mView.showToast("图片详情获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
+
                 });
     }
 
@@ -65,6 +74,11 @@ public final class VideoDetailPresenter extends BasePresenter<VideoDetailContrac
                     public void onFailure(String msg) {
                         mView.showToast("列表信息获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                 });
     }
 
@@ -81,6 +95,12 @@ public final class VideoDetailPresenter extends BasePresenter<VideoDetailContrac
                     public void onFailure(String msg) {
                         mView.showToast("操作失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                 });
     }
+
 }

@@ -74,9 +74,7 @@ public interface IApiService { // RetrofitService
      * 03 收藏
      */
     @POST("api/product/operate")
-    Observable<HttpResultInfo> operateProduct(
-            @Query("id") String userId, @Query("productId") String productId,
-            @Query("type") String type
+    Observable<HttpResultInfo> operateProduct(@Query("productId") String productId,@Query("type") String type
     );
 
     @POST("api/product/collectList")

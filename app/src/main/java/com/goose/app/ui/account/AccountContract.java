@@ -14,6 +14,7 @@ public interface AccountContract {
     interface View extends IBaseView<Presenter> {
         void getLastSignInfoOnUi(LastSignInfo info);
         void signOnUi();
+        void  goLogin();
     }
 
     interface Presenter extends IBasePresenter<View> {

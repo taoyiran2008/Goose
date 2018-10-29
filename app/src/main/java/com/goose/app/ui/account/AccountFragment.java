@@ -17,6 +17,7 @@ import com.goose.app.GooseApplication;
 import com.goose.app.R;
 import com.goose.app.model.sign.LastSignInfo;
 import com.goose.app.ui.favor.FavorListActivity;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.dialog.ClockInDialog;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.base.BaseFragment;
@@ -174,4 +175,10 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
             mClockInDialog.setSignButtonDisabled(true);
         }
     }
+
+    @Override
+    public void goLogin() {
+        startActivity(new Intent(mContext, LoginActivity.class));
+    }
+
 }

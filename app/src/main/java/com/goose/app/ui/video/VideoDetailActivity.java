@@ -10,6 +10,7 @@ import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.controller.VideoListController;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
@@ -65,6 +66,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @Override
     protected void initView() {
         mPresenter.getProductDetail(mProductId);
+        mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
         mPresenter.getRecommendProductList(mProductCategory,1,20);
         base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
     }
@@ -145,7 +147,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
                 mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_DOWNLOAD);
                 break;
             case R.id.img_like:
-                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_DOWNLOAD);
+                mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_SUPPORT);
                 break;
             case R.id.img_share:
                 //分享
@@ -155,6 +157,10 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
 
     @Override
     public void operateProductOnUi(String type) {
+    }
+    @Override
+    public void goLogin() {
+        startActivity(new Intent(mContext, LoginActivity.class));
     }
 
     @Override

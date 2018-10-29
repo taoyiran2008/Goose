@@ -53,6 +53,11 @@ public final class MainPresenter extends BasePresenter<MainContract.View>
                     public void onFailure(String msg) {
                         mView.showToast("分类获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
                 });
     }
 }

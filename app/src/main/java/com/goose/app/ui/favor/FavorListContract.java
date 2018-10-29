@@ -15,6 +15,7 @@ public interface FavorListContract {
 
     interface View extends IBaseView<Presenter> {
         void refreshList(List<PictureInfo> list);
+        void goLogin();
     }
 
     interface Presenter extends IBasePresenter<View> {

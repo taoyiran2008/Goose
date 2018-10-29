@@ -407,4 +407,5 @@ public abstract class BaseActivity<P extends IBasePresenter>
                     .init();
         }
     }
+
 }

@@ -9,6 +9,7 @@ import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.controller.SimplePictureListController;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
@@ -57,6 +58,7 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
     @Override
     protected void initView() {
         mPresenter.getProductDetail(mProductId);
+        mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
     }
 
     /*private void addImageView(final String path) {
@@ -124,7 +126,10 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
                 break;
         }
     }
-
+    @Override
+    public void goLogin() {
+        startActivity(new Intent(mContext, LoginActivity.class));
+    }
     @Override
     public void operateProductOnUi(String type) {
     }

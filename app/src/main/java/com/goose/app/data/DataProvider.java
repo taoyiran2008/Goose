@@ -194,6 +194,11 @@ public class DataProvider {
                     String avatar = (String) params[2];
                     request = mService.updateUser(id, displayName, avatar);
                     break;
+                case OPERATE_PRODUCT:
+                    id = (String) params[0];
+                    type = (String) params[1];
+                    request = mService.operateProduct(id, type);
+                    break;
                 case UPLOAD_FILE:
                     Bitmap bitmap = (Bitmap) params[0];
                     File file = PictureUtils.compressAndSaveImage(mContext, bitmap, "profile.jpg", 80, 100, 100);

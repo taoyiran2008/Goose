@@ -51,7 +51,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text="刘晓雯"
+                android:text=""
                 android:textColor="@color/white"
                 android:textSize="18sp"/>
 
@@ -64,7 +64,7 @@
                     android:id="@+id/txt_coin"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="金币：100"
+                    android:text=""
                     android:textColor="@color/white"
                     android:textSize="16sp"/>
 

@@ -37,6 +37,11 @@ public final class FavorListPresenter extends BasePresenter<FavorListContract.Vi
                     public void onFailure(String msg) {
                         mView.showToast("收藏列表获取失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                 });
     }
 }

@@ -42,7 +42,12 @@ public final class PictureDetailPresenter extends BasePresenter<PictureDetailCon
 
                     @Override
                     public void onFailure(String msg) {
-                        mView.showToast("图片详情获取失败");
+                        mView.showToast(msg);
+                    }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
                     }
                 });
     }
@@ -55,10 +60,13 @@ public final class PictureDetailPresenter extends BasePresenter<PictureDetailCon
                     public void onSuccess(PictureDetailInfo info) {
                         mView.operateProductOnUi(type);
                     }
-
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                     @Override
                     public void onFailure(String msg) {
-                        mView.showToast("操作失败");
+                        mView.showToast(msg);
                     }
                 });
     }

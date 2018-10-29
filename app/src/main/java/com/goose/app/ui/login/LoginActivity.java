@@ -74,8 +74,8 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
         edt_pw.addTextChangedListener(this);
         smartCheckFields();
 
-        edt_tel.setText("tao");
-        edt_pw.setText("tao");
+        //edt_tel.setText("tao");
+        //edt_pw.setText("tao");
     }
 
     @OnClick({R.id.txt_login, R.id.txt_forget, R.id.txt_signup})
@@ -134,6 +134,6 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
 
     @Override
     public void loginOnUi() {
-        startActivity(new Intent(mContext, MainActivity.class));
+        super.onBackPressed();
     }
 }

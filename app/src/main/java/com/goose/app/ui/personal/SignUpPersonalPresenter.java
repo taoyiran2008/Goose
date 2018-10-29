@@ -49,6 +49,11 @@ public final class SignUpPersonalPresenter extends BasePresenter<SignUpPersonalC
                     public void onFailure(String msg) {
                         mView.showToast("保存用户信息失败");
                     }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
                 });
     }
 
@@ -97,6 +102,11 @@ public final class SignUpPersonalPresenter extends BasePresenter<SignUpPersonalC
                     @Override
                     public void onFailure(String msg) {
                         mView.showToast("头像上传失败");
+                    }
+
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
                     }
                 });
     }
