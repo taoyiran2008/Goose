@@ -63,6 +63,7 @@ public class DataProvider {
         GET_BANNER_LIST,
         SIGN,
         GET_LAST_SIGN_INFO,
+        GET_USER_INFO,
     }
 
     public DataProvider(IApiService service, Gson gson) {
@@ -153,7 +154,8 @@ public class DataProvider {
                 case REGISTER:
                     uname = (String) params[0];
                     passwd = (String) params[1];
-                    request = mService.register(uname, passwd);
+                    String code = (String) params[2];
+                    request = mService.register(uname, passwd,code);
                     break;
                 case GET_CATEGORY_LIST:
                     String type = (String) params[0];
@@ -188,6 +190,9 @@ public class DataProvider {
                     break;
                 case GET_LAST_SIGN_INFO:
                     request = mService.getLastSignInfo();
+                    break;
+                case GET_USER_INFO:
+                    request = mService.getUserInfo();
                     break;
                 case UPDATE_USER:
                     id = (String) params[0];

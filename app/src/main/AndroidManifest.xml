@@ -42,13 +42,13 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".ui.login.LoginActivity"
-                  android:screenOrientation="portrait"/>
-
         <activity android:name=".ui.signup.SignUpTelActivity"
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.personal.SignUpPersonalActivity"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.login.LoginActivity"
                   android:screenOrientation="portrait"/>
 
         <activity android:name=".ui.web.WebActivity"

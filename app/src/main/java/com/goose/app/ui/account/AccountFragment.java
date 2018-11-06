@@ -5,6 +5,8 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.text.TextUtils;
+import android.text.format.DateFormat;
+import android.text.format.DateUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -24,12 +26,19 @@ import com.taoyr.app.base.BaseFragment;
 import com.taoyr.app.model.UserDetailInfo;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
+import com.taoyr.app.utility.ValidUtil;
 import com.taoyr.widget.widgets.EntryView;
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.inject.Inject;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import freemarker.template.utility.DateUtil;
 import jp.wasabeef.glide.transformations.BlurTransformation;
 
 /**
@@ -48,6 +57,10 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
     ImageView img_gender;
     @BindView(R.id.txt_nick_name)
     TextView txt_nick_name;
+    @BindView(R.id.sign_tv)
+    TextView sign_tv;
+    @BindView(R.id.txt_coin)
+    TextView txt_coin;
     @BindView(R.id.ll_clock_in)
     LinearLayout ll_clock_in;
 
@@ -130,15 +143,15 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         if (GooseApplication.getInstance().getUserInfo() != null) {
             updateUserUi(GooseApplication.getInstance().getUserInfo());
         }
-
+        mPresenter.getUserInfo();
         Glide.with(this).load(R.drawable.profile_bg).asBitmap().transform(new BlurTransformation(mContext, 25))
                 .into(new SimpleTarget<Bitmap>() {
-            @Override
-            public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
-                Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
-                ll_frame.setBackground(drawable);
-            }
-        });
+                    @Override
+                    public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
+                        Drawable drawable = new BitmapDrawable(mContext.getResources(), resource);
+                        ll_frame.setBackground(drawable);
+                    }
+                });
 
         /*subscribeEvent(new Consumer<Object>() {
             @Override
@@ -169,11 +182,40 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         showClockInDialog(info);
     }
 
+
+    @Override
+    public void getUserInfo(UserDetailInfo user) {
+        txt_coin.setText(user.coin + "个金币");
+        try {
+            if(ValidUtil.isEmpty(user.lastSignTime)){
+                sign_tv.setText("签到领积分");
+                return;
+            }
+            String lastSignTime = user.lastSignTime;
+            Calendar calendarNow = Calendar.getInstance();
+            calendarNow.setTime(new Date());
+
+            Calendar calendar = Calendar.getInstance();
+            SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+            Date date = simpleDateFormat.parse(lastSignTime);
+            calendar.setTime(date);
+            if (calendar.get(Calendar.DAY_OF_MONTH) == calendarNow.get(Calendar.DAY_OF_MONTH)) {
+                sign_tv.setText("已签到");
+            }
+        } catch (ParseException e) {
+            e.printStackTrace();
+            sign_tv.setText("签到领积分");
+        }
+
+
+    }
+
     @Override
     public void signOnUi() {
         if (mClockInDialog != null) {
             mClockInDialog.setSignButtonDisabled(true);
         }
+        mPresenter.getUserInfo();
     }
 
     @Override

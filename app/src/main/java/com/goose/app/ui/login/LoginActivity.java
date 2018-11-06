@@ -11,6 +11,7 @@ import android.widget.TextView;
 
 import com.goose.app.GooseApplication;
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
 import com.goose.app.ui.main.MainActivity;
 import com.goose.app.ui.signup.SignUpTelActivity;
 import com.taoyr.app.base.BaseActivity;
@@ -72,9 +73,10 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
 
         edt_tel.addTextChangedListener(this);
         edt_pw.addTextChangedListener(this);
-        smartCheckFields();
+        Intent intent=getIntent();
+        String mobile=intent.getStringExtra(Configs.EXTRA_MOBILE_NUMBER);
 
-        //edt_tel.setText("tao");
+        edt_tel.setText(mobile);
         //edt_pw.setText("tao");
     }
 
@@ -93,6 +95,7 @@ public class LoginActivity extends BaseActivity<LoginContract.Presenter>
                 break;
             case R.id.txt_signup:
                 startActivity(new Intent(mContext, SignUpTelActivity.class));
+                finish();
                 // 验证令牌过期
                 //startActivity(new Intent(mContext, SignUpPersonalActivity.class));
                 break;

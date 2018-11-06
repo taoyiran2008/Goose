@@ -17,6 +17,6 @@ public interface SignUpTelContract {
 
     interface Presenter extends IBasePresenter<View> {
         void sendCode(String mobile);
-        void register(String username, String password);
+        void register(String username, String password,String shareCode);
     }
 }

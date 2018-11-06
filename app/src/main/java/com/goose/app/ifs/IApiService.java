@@ -38,7 +38,7 @@ public interface IApiService { // RetrofitService
 
     @POST("api/user/register")
     Observable<HttpResultInfo<UserDetailInfo>> register(
-            @Query("username") String username, @Query("password") String password
+            @Query("username") String username, @Query("password") String password,@Query("shareCode") String shareCode
     );
 
     @POST("api/user/update")
@@ -96,4 +96,7 @@ public interface IApiService { // RetrofitService
 
     @GET("api/user/sign")
     Observable<HttpResultInfo> sign();
+
+    @GET("api/user/userInfo")
+    Observable<HttpResultInfo<UserDetailInfo>> getUserInfo();
 }

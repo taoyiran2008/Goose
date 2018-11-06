@@ -16,7 +16,8 @@ public class PictureDetailInfo {
     public int support;
     public int collect;
     public String createTime;
-    public float download_price;
-    public int view_price;
+    public float downloadPrice;
+    public int viewPrice;
     public int star;
+    public boolean isCollected;
 }

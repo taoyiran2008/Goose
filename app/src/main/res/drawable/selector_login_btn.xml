@@ -4,4 +4,5 @@
     <item android:state_enabled="true" android:drawable="@drawable/shape_login_btn_checked_bg" />
     <!--设置默认图片-->
     <item android:drawable="@drawable/shape_login_btn_unchecked_bg"/>
+    <corners android:radius="30dp" />
 </selector>

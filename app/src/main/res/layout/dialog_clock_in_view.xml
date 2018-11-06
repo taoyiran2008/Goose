@@ -11,11 +11,11 @@
 
     <RelativeLayout
         android:id="@+id/rl_inner"
-        android:layout_width="515dp"
-        android:layout_height="649dp"
+        android:layout_width="345dp"
+        android:layout_height="449dp"
         android:background="@drawable/clock_in"
         android:gravity="center_horizontal"
-        android:paddingTop="240dp">
+        android:paddingTop="170dp">
 
         <LinearLayout
             android:id="@+id/ll_container"
@@ -24,32 +24,32 @@
             android:gravity="center"
             android:orientation="horizontal">
 
-            <!--<LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="5dp"
-                android:layout_marginRight="5dp"
-                android:gravity="center"
-                android:orientation="vertical">
+            <!--<LinearLayout-->
+                <!--android:layout_width="wrap_content"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginLeft="5dp"-->
+                <!--android:layout_marginRight="5dp"-->
+                <!--android:gravity="center"-->
+                <!--android:orientation="vertical">-->
 
-                <ImageView
-                    android:layout_width="36dp"
-                    android:layout_height="36dp"
-                    android:src="@drawable/coin"/>
+                <!--<ImageView-->
+                    <!--android:layout_width="36dp"-->
+                    <!--android:layout_height="36dp"-->
+                    <!--android:src="@drawable/coin"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="第一天"
-                    android:textSize="14sp"/>
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="第一天"-->
+                    <!--android:textSize="14sp"/>-->
 
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="+5"
-                    android:textSize="16sp"
-                    android:textStyle="bold"/>
-            </LinearLayout>-->
+                <!--<TextView-->
+                    <!--android:layout_width="wrap_content"-->
+                    <!--android:layout_height="wrap_content"-->
+                    <!--android:text="+5"-->
+                    <!--android:textSize="16sp"-->
+                    <!--android:textStyle="bold"/>-->
+            <!--</LinearLayout>-->
 
         </LinearLayout>
 
@@ -66,8 +66,8 @@
                 android:id="@+id/txt_bonus"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="金币+100"
-                android:textColor="@color/black"
+                android:text=""
+                android:textColor="@color/goldenrod"
                 android:textSize="30sp"
                 android:textStyle="bold"/>
 

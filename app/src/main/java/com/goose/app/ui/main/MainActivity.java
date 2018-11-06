@@ -47,7 +47,7 @@ import jp.wasabeef.glide.transformations.BlurTransformation;
  * Created by taoyr on 2018/1/6.
  */
 
-public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View  {
+public class MainActivity extends BaseActivity<MainContract.Presenter> implements MainContract.View {
 
     SectionsPagerAdapter mAdapter;
 
@@ -125,7 +125,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         initTab();
         mPresenter.getCategoryList(mProductType);
         initGooseTitleBar();
-       // initSideBar();
+        // initSideBar();
     }
 
     private void initGooseTitleBar() {
@@ -137,9 +137,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
             @Override
             public void onMoreClick() {
-                if (drawer.isDrawerOpen(nav)){
+                if (drawer.isDrawerOpen(nav)) {
                     drawer.closeDrawer(nav);
-                }else{
+                } else {
                     drawer.openDrawer(nav);
                 }
             }
@@ -256,10 +256,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     public void getCategoryListOnUi(List<CategoryInfo> list, String type) {
-        mCategoryMap.put(type, list);
-        top_bar_goose.refresh(list);
-        if(list!=null&&list.size()>0){
-            sendEvent(new RefreshProductEvent(type, list.get(0).channelCode));
+        if (list != null) {
+            mCategoryMap.put(type, list);
+            top_bar_goose.refresh(list);
+            if (list != null && list.size() > 0) {
+                sendEvent(new RefreshProductEvent(type, list.get(0).channelCode));
+            }
         }
     }
 

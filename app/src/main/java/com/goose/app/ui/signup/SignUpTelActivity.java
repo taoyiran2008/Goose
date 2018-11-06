@@ -7,10 +7,12 @@ import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
+import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.ui.personal.SignUpPersonalActivity;
 import com.taoyr.app.base.BaseActivity;
 
@@ -22,13 +24,18 @@ public class SignUpTelActivity extends BaseActivity<SignUpTelContract.Presenter>
 
     @BindView(R.id.edt_tel)
     EditText edt_tel;
+    @BindView(R.id.base_ll)
+    LinearLayout base_ll;
     @BindView(R.id.edt_pw)
     EditText edt_pw;
+    @BindView(R.id.edt_invite)
+    EditText edt_invite;
     @BindView(R.id.txt_next)
     TextView txt_next;
 
     String mMobile = "";
     String mPassword;
+    String mShareCode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,6 +59,7 @@ public class SignUpTelActivity extends BaseActivity<SignUpTelContract.Presenter>
 
         edt_tel.addTextChangedListener(this);
         edt_pw.addTextChangedListener(this);
+       // base_ll.getBackground().setAlpha(100);//0~255透明度值
         smartCheckFields();
     }
 
@@ -70,8 +78,9 @@ public class SignUpTelActivity extends BaseActivity<SignUpTelContract.Presenter>
                     showToast("密码设置不合规，请重新输入");
                     return;
                 }*/
+                mShareCode = edt_invite.getText().toString();
 
-                mPresenter.register(mMobile, mPassword);
+                mPresenter.register(mMobile, mPassword,mShareCode);
                 break;
         }
     }
@@ -104,8 +113,9 @@ public class SignUpTelActivity extends BaseActivity<SignUpTelContract.Presenter>
 
     @Override
     public void registerOnUi() {
-        Intent intent = new Intent(mContext, SignUpPersonalActivity.class);
+        Intent intent = new Intent(mContext, LoginActivity.class);
         intent.putExtra(Configs.EXTRA_MOBILE_NUMBER, mMobile);
         startActivity(intent);
+        finish();
     }
 }

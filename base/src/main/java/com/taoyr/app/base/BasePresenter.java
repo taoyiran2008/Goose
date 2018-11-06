@@ -122,8 +122,7 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
 
             @Override
             public void onNext(HttpResultInfo httpResultInfo) {
-                if (true) {
-                    if (callback != null && httpResultInfo != null) {
+                    if (callback != null && httpResultInfo != null&&"200".equals(httpResultInfo.code)) {
                         // UiCallback的泛型类型如果与httpResultInfo.datas的实际类型不匹配，会报错
                         // java.lang.ClassCastException: java.lang.String cannot be cast to com.goose.app.model.sign.LastSignInfo
                         try {
@@ -132,7 +131,6 @@ public class BasePresenter<T extends IBaseView> implements IBasePresenter<T> {
                             LogMan.logError(e);
                             callback.onSuccess(null);
                         }
-                    }
                 } else if ("401".equals(httpResultInfo.code)) {
                     //跳转到登录页
                     callback.onNoAuthenticated();

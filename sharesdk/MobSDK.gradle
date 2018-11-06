@@ -10,7 +10,7 @@ MobSDK {
         //平台配置信息
         devInfo {
             // 未配置的社交平台，在构建工程时不会自动下载所对应的SDK，减少apk体积
-            /*QQ { // QQ好友
+            QQ { // QQ好友
                 id 7
                 sortId 7
                 appId "100371282"
@@ -28,7 +28,7 @@ MobSDK {
                 shareByAppClient true
                 bypassApproval true
                 enable true
-            }*/
+            }
 
             /* Wechat微信和WechatMoments微信朋友圈的appid是一样的；
 

@@ -29,8 +29,8 @@ public final class SignUpTelPresenter extends BasePresenter<SignUpTelContract.Vi
     }
 
     @Override
-    public void register(String username, String password) {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.REGISTER, username, password),
+    public void register(String username, String password,String shareCode) {
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.REGISTER, username, password,shareCode),
                 SHOW_CANCELABLE_DIALOG, new UiCallback<UserDetailInfo>() {
                     @Override
                     public void onSuccess(final UserDetailInfo info) {

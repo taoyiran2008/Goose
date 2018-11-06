@@ -102,6 +102,9 @@ public class PictureViewerActivity extends SimpleActivity {
                 finish();
             }
         });
+        String suffix="_thumb.webp";
+        mUrl=mUrl.substring(0,mUrl.length()-suffix.length());
+        mUrl+=".webp";
         loadImage(mUrl);
     }
 

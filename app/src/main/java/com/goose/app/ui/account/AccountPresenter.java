@@ -5,6 +5,7 @@ import com.goose.app.data.DataProvider;
 import com.goose.app.model.sign.LastSignInfo;
 import com.taoyr.app.base.BasePresenter;
 import com.taoyr.app.ifs.UiCallback;
+import com.taoyr.app.model.UserDetailInfo;
 
 import javax.inject.Inject;
 
@@ -29,6 +30,25 @@ public final class AccountPresenter extends BasePresenter<AccountContract.View>
                     @Override
                     public void onSuccess(LastSignInfo info) {
                         mView.getLastSignInfoOnUi(info);
+                    }
+                    @Override
+                    public void onNoAuthenticated() {
+                        mView.goLogin();
+                    }
+                    @Override
+                    public void onFailure(String msg) {
+                        mView.showToast("签到获取失败");
+                    }
+                });
+    }
+
+    @Override
+    public void getUserInfo() {
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_USER_INFO),
+                SHOW_CANCELABLE_DIALOG, new UiCallback<UserDetailInfo>() {
+                    @Override
+                    public void onSuccess(UserDetailInfo info) {
+                        mView.getUserInfo(info);
                     }
                     @Override
                     public void onNoAuthenticated() {

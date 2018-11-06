@@ -94,7 +94,6 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
     public void getProductDetailOnUi(PictureDetailInfo info) {
         mDetailInfo = info;
         setTopBarTitle(info.title);
-
         /**
          * 如果链接含有空格，则recycler view中加载图片会有问题，但是我们将url通过intent传到图片浏览
          * 页面，却可以正常加载（intent传递过程中，有trim的操作?）
@@ -132,5 +131,8 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
     }
     @Override
     public void operateProductOnUi(String type) {
+        if(DataProvider.OPERATION_TYPE_FAVOR.equals(type)){
+
+        }
     }
 }
