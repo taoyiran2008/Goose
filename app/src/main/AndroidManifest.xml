@@ -67,6 +67,12 @@
 
         <activity android:name=".ui.favor.FavorListActivity"
                   android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.invite.InviteActivity"
+                  android:screenOrientation="portrait"/>
+        <activity android:name=".ui.video.TinyWindowPlayActivity"
+                  android:screenOrientation="portrait"/>
+
     </application>
 
 </manifest>

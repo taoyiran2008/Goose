@@ -58,7 +58,7 @@ public class VideoFragment extends BaseFragment<VideoContract.Presenter> impleme
     CarouselViewPager carousel_view_pager;
 
     private List<PictureInfo> mList = new ArrayList<>();
-    String mCategoryCode;
+    String mCategoryCode="";
 
     PageManager mPageManager = new PageManager() {
         @Override
@@ -79,7 +79,7 @@ public class VideoFragment extends BaseFragment<VideoContract.Presenter> impleme
     @Override
     protected void initView() {
         initPullToRefreshWidget();
-        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
+        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 5);
 
         mPresenter.getBannerList();
 
@@ -88,9 +88,11 @@ public class VideoFragment extends BaseFragment<VideoContract.Presenter> impleme
             public void accept(@NonNull Object o) throws Exception {
                 if (o instanceof RefreshProductEvent) {
                     RefreshProductEvent event = (RefreshProductEvent) o;
-                    mCategoryCode = event.categoryCode;
-                    if (DataProvider.DATA_TYPE_VIDEO.equals(event.productType)) {
-                        mPageManager.refreshPage();
+                    if(!mCategoryCode.equals(event.categoryCode)){
+                        mCategoryCode = event.categoryCode;
+                        if (DataProvider.DATA_TYPE_VIDEO.equals(event.productType)) {
+                            mPageManager.refreshPage();
+                        }
                     }
                 }
             }

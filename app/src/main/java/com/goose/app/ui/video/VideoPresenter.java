@@ -44,7 +44,7 @@ public final class VideoPresenter extends BasePresenter<VideoContract.View>
 
     @Override
     public void getBannerList() {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_BANNER_LIST, DataProvider.DATA_TYPE_PICTURE),
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_BANNER_LIST, DataProvider.DATA_TYPE_VIDEO),
                 SHOW_CANCELABLE_DIALOG, new UiCallback<List<BannerInfo>>() {
                     @Override
                     public void onSuccess(List<BannerInfo> list) {

@@ -56,7 +56,7 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
     CarouselViewPager carousel_view_pager;
 
     private List<PictureInfo> mList = new ArrayList<>();
-    String mCategoryCode;
+    String mCategoryCode="";
 
     PageManager mPageManager = new PageManager() {
         @Override
@@ -86,10 +86,11 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
             public void accept(@NonNull Object o) throws Exception {
                 if (o instanceof RefreshProductEvent) {
                     RefreshProductEvent event = (RefreshProductEvent) o;
+                    if(!mCategoryCode.equals(event.categoryCode)){
                     mCategoryCode = event.categoryCode;
                     if (DataProvider.DATA_TYPE_PICTURE.equals(event.productType)) {
                         mPageManager.refreshPage();
-                    }
+                    }}
                 }
             }
         });

@@ -3,6 +3,7 @@ package com.goose.app.ui.video;
 import android.content.Intent;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.goose.app.R;
@@ -38,6 +39,14 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @BindView(R.id.nice_video_player)
     NiceVideoPlayer mNiceVideoPlayer;
 
+    @BindView(R.id.tv_view)
+    TextView tv_view;
+    @BindView(R.id.tv_download_price)
+    TextView tv_download_price;
+
+    @BindView(R.id.tv_view_price)
+    TextView tv_view_price;
+
     @BindView(R.id.img_star)
     ImageView img_star;
 
@@ -71,48 +80,37 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
         base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
     }
 
-    /*private void addImageView(final String path) {
-        final ImageView imageView = new ImageView(mContext);
-
-        LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-        imageView.setLayoutParams(layoutParams);
-        layoutParams.topMargin = PictureUtils.dip2px(mContext, 20);
-        ll_container.addView(imageView);
-
-        CommonUtils.tuneHeightRatio(mContext, imageView, 1, 2);
-        // 需要加一个小延迟，等到图像比例调整完之后再加载图片，不然图片会在按照
-        // image view的原始宽高进行加载，出现无法填充满的情况。ResearchDetailActivity的cover image
-        // 设置也存在同样的问题，之前还以为是图像被center crop裁剪后，才只能显示很小的区域
-        mHandler.postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                PictureLoader.simpleLoad(imageView, path);
-            }
-        }, 200);
-
-        imageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(mContext, PictureViewerActivity.class);
-                intent.putExtra(Configs.EXTRA_URL, path);
-                mContext.startActivity(intent);
-            }
-        });
-    }*/
-
     @Override
     public void getProductDetailOnUi(PictureDetailInfo info) {
         mDetailInfo = info;
 
         setTopBarTitle(info.title);
 
+        tv_view.setText("热度"+ info.view);
+        tv_view_price.setText("观看："+ info.viewPrice);
+        tv_download_price.setText("下载："+ info.downloadPrice);
+
+//        mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // IjkPlayer or MediaPlayer
+//        mNiceVideoPlayer.setUp(info.url, null);
+//        TxVideoPlayerController controller = new TxVideoPlayerController(this);
+//        controller.setTitle(info.title);
+//        //controller.setLenght(98000);
+//        Glide.with(this)
+//                .load(info.cover)
+//                .placeholder(R.drawable.logo)
+//                .crossFade()
+//                .into(controller.imageView());
+//        mNiceVideoPlayer.setController(controller);
+
         mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // IjkPlayer or MediaPlayer
-        mNiceVideoPlayer.setUp(info.url, null);
+        String videoUrl = "http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-33-30.mp4";
+//        videoUrl = Environment.getExternalStorageDirectory().getPath().concat("/办公室小野.mp4");
+        mNiceVideoPlayer.setUp(videoUrl, null);
         TxVideoPlayerController controller = new TxVideoPlayerController(this);
-        controller.setTitle(info.title);
-        //controller.setLenght(98000);
+        controller.setTitle("办公室小野开番外了，居然在办公室开澡堂！老板还点赞？");
+        controller.setLenght(98000);
         Glide.with(this)
-                .load(info.cover)
+                .load("http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-30-43.jpg")
                 .placeholder(R.drawable.img_default)
                 .crossFade()
                 .into(controller.imageView());

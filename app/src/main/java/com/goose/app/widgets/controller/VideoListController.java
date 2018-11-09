@@ -14,6 +14,7 @@ import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.picture.PictureDetailActivity;
+import com.goose.app.ui.video.TinyWindowPlayActivity;
 import com.goose.app.ui.video.VideoDetailActivity;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
@@ -72,7 +73,7 @@ public class VideoListController extends BaseRvController<PictureInfo> {
     @Override
     public void onSelected(PictureInfo info, int position, RvAdapter<PictureInfo> adapter) {
         super.onSelected(info, position, adapter);
-        Intent intent = new Intent(mContext, VideoDetailActivity.class);
+        Intent intent = new Intent(mContext, TinyWindowPlayActivity.class);
         intent.putExtra(Configs.EXTRA_ID, info.id);
         intent.putExtra(Configs.EXTRA_CATEGORY, info.category);
         mContext.startActivity(intent);

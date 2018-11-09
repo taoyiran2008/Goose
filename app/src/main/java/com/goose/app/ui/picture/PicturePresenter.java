@@ -52,7 +52,7 @@ public final class PicturePresenter extends BasePresenter<PictureContract.View>
 
                     @Override
                     public void onFailure(String msg) {
-                        mView.showToast("banner列表获取失败");
+                        mView.showToast("数据获取失败");
                     }
 
                     @Override

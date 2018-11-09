@@ -57,7 +57,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/tv_view"
                 android:scaleType="fitXY"
-                android:text="观看需要3金币"
+                android:text="观看:3金币"
                 android:textSize="10dp" />
 
             <TextView
@@ -68,7 +68,7 @@
                 android:layout_marginLeft="10dp"
                 android:layout_toRightOf="@id/tv_view_price"
                 android:scaleType="fitXY"
-                android:text="下载需要3金币"
+                android:text="下载:3金币"
                 android:textSize="10dp" />
 
             <LinearLayout

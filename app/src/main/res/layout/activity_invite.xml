@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/base_ll"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:layout_centerHorizontal="true"
+    android:background="@drawable/bg"
+    android:orientation="vertical">
+
+    <com.taoyr.widget.widgets.TopBar
+        android:id="@+id/top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="40dp" />
+
+    <ImageView
+        android:id="@+id/logo"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="20dp"
+        android:src="@drawable/logo_index" />
+    <LinearLayout
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="10dp"
+        android:background="@drawable/edit_shape"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/edt_tel"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="邀请码"
+            android:paddingTop="5dp"
+            android:textColor="@color/grey"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tv_code"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/lightcoral"
+            android:text="123456"
+            android:textSize="25sp" />
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:padding="10dp"
+            android:paddingBottom="20dp"
+            android:text="每邀请一位好友，可获得30积分奖励！"
+            android:textColor="@color/grey"
+            android:textSize="12sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="0.1dp"
+            android:gravity="center"
+            android:textColor="@color/grey"
+            android:background="@color/grey"
+            android:textSize="12sp"/>
+
+        <ImageView
+            android:id="@+id/txt_next"
+            android:layout_width="200dp"
+            android:layout_height="200dp"
+            android:textColor="@color/white"
+            android:src="@drawable/qrcode"
+            android:textSize="14sp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:paddingBottom="30dp"
+            android:paddingTop="5dp"
+            android:text="【浏览器扫码加入小黄书】"
+            android:textColor="@color/grey"
+            android:textSize="12sp"/>
+
+    </LinearLayout>
+
+
+</LinearLayout>

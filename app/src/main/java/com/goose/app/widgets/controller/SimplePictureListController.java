@@ -11,10 +11,15 @@ import android.widget.ImageView;
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.ui.picture.PictureViewerActivity;
+import com.goose.pictureviewer.activity.RolloutPreviewActivity;
+import com.goose.pictureviewer.model.RolloutBDInfo;
+import com.goose.pictureviewer.model.RolloutInfo;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.widget.widgets.commonrv.base.BaseRvController;
 import com.taoyr.widget.widgets.commonrv.base.RvAdapter;
 
+import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 import butterknife.BindView;
@@ -45,7 +50,7 @@ public class SimplePictureListController extends BaseRvController<String> {
         final ViewHolder holder = (ViewHolder) viewHolder;
         PictureLoader.simpleLoad(holder.img, url);
 
-        /*holder.img.setOnClickListener(new View.OnClickListener() {
+        holder.img.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<RolloutInfo> data = new ArrayList<>();
@@ -72,7 +77,7 @@ public class SimplePictureListController extends BaseRvController<String> {
                 intent.putExtra("index",0);
                 mContext.startActivity(intent);
             }
-        });*/
+        });
         return true;
     }
 
@@ -84,9 +89,9 @@ public class SimplePictureListController extends BaseRvController<String> {
 
     @Override
     public void onSelected(String url, int position, RvAdapter<String> adapter) {
-        Intent intent = new Intent(mContext, PictureViewerActivity.class);
-        intent.putExtra(Configs.EXTRA_URL, url);
-        mContext.startActivity(intent);
+//        Intent intent = new Intent(mContext, PictureViewerActivity.class);
+//        intent.putExtra(Configs.EXTRA_URL, url);
+//        mContext.startActivity(intent);
     }
 
     static final class ViewHolder extends RecyclerView.ViewHolder {

@@ -15,6 +15,8 @@ import cn.sharesdk.framework.Platform;
 import cn.sharesdk.framework.PlatformActionListener;
 import cn.sharesdk.framework.ShareSDK;
 import cn.sharesdk.sina.weibo.SinaWeibo;
+import cn.sharesdk.tencent.qq.QQ;
+import cn.sharesdk.tencent.qzone.QZone;
 import cn.sharesdk.wechat.friends.Wechat;
 import cn.sharesdk.wechat.moments.WechatMoments;
 
@@ -54,7 +56,7 @@ public class ShareUtils {
                 shareParams.setText(url);
                 shareParams.setUrl(url);
             }
-        } /*else if (QQ.NAME.equals(shareCode)) {
+        } else if (QQ.NAME.equals(shareCode)) {
             if (checkShareClient(PACKAGES_QQ)) {
                 shareParams.setText(shareContent);
                 shareParams.setTitle(shareTitle);
@@ -69,7 +71,7 @@ public class ShareUtils {
                 shareParams.setTitleUrl(shareUrl);
                 shareParams.setShareType(Platform.SHARE_TEXT);
             }
-        }*/ else if (Wechat.NAME.equals(shareCode)) {
+        }else if (Wechat.NAME.equals(shareCode)) {
             if (checkShareClient(PACKAGES_WECHAT)) {
                 shareParams.setText(shareContent);
                 shareParams.setTitle(shareTitle);

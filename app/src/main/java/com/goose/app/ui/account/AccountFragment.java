@@ -17,8 +17,10 @@ import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goose.app.GooseApplication;
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
 import com.goose.app.model.sign.LastSignInfo;
 import com.goose.app.ui.favor.FavorListActivity;
+import com.goose.app.ui.invite.InviteActivity;
 import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.dialog.ClockInDialog;
 import com.taoyr.app.base.BaseActivity;
@@ -66,6 +68,10 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @BindView(R.id.ev_my_picture)
     EntryView ev_open_live;
+    @BindView(R.id.ev_invite)
+    EntryView ev_invite;
+    @BindView(R.id.ev_exit)
+    EntryView ev_exit;
 
     ClockInDialog mClockInDialog;
 
@@ -100,7 +106,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         activity.setStatusBarTransparent(false);*/
     }
 
-    @OnClick({R.id.ev_my_picture, R.id.img_head, R.id.ll_clock_in})
+    @OnClick({R.id.ev_my_picture, R.id.img_head, R.id.ll_clock_in,R.id.ev_invite,R.id.ev_exit,R.id.txt_nick_name})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ev_my_picture:
@@ -112,6 +118,25 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
             case R.id.ll_clock_in:
                 mPresenter.getLastSignInfo();
                 break;
+            case R.id.ev_invite:
+                Intent intent2 = new Intent(mContext, InviteActivity.class);
+                intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,GooseApplication.getInstance().getUserInfo().shareCode);
+                startActivity(intent2);
+                break;
+            case R.id.ev_exit:
+                GooseApplication.getInstance().setUserInfo(null);
+                GooseApplication.getInstance().setToken(null);
+                Intent intent3 = new Intent(mContext, LoginActivity.class);
+                startActivity(intent3);
+               // mApplication.getBaseActivityManager().finishAllActivity();
+                break;
+            case R.id.txt_nick_name:
+
+                if("".equals(GooseApplication.getInstance().getToken())){
+                    Intent intent4 = new Intent(mContext, LoginActivity.class);
+                    startActivity(intent4);
+                }
+                break;
         }
     }
 
@@ -119,7 +144,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         if (info == null) return;
 
         if (TextUtils.isEmpty(info.avatar)) {
-            PictureLoader.loadImageViaGlide(img_head, R.drawable.logo, true, false, -1);
+            PictureLoader.loadImageViaGlide(img_head, R.drawable.logo_clear, true, false, -1);
         } else {
             // 不能使用placeholder，不然圆形头像的上下部分会缺失一块
             PictureLoader.loadImageViaGlide(img_head, info.avatar,
@@ -144,7 +169,8 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
             updateUserUi(GooseApplication.getInstance().getUserInfo());
         }
         mPresenter.getUserInfo();
-        Glide.with(this).load(R.drawable.profile_bg).asBitmap().transform(new BlurTransformation(mContext, 25))
+        //mPresenter.getUserInfo();
+        Glide.with(this).load(R.drawable.profile).asBitmap().transform(new BlurTransformation(mContext, 25))
                 .into(new SimpleTarget<Bitmap>() {
                     @Override
                     public void onResourceReady(Bitmap resource, GlideAnimation<? super Bitmap> glideAnimation) {
@@ -185,6 +211,8 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @Override
     public void getUserInfo(UserDetailInfo user) {
+        GooseApplication.getInstance().setUserInfo(user);
+        updateUserUi(user);
         txt_coin.setText(user.coin + "个金币");
         try {
             if(ValidUtil.isEmpty(user.lastSignTime)){

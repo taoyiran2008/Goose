@@ -17,4 +17,15 @@ public class RolloutInfo implements Serializable {
      */
     public float width;
     public float height;
+
+    public RolloutInfo(String url, float width, float height) {
+        this.url = url;
+        this.width = width;
+        this.height = height;
+    }
+    public RolloutInfo(String url) {
+        this.url = url;
+    }
+    public RolloutInfo() {
+    }
 }

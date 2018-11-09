@@ -40,7 +40,7 @@ public class PictureListController extends BaseRvController<PictureInfo> {
     public RecyclerView.ViewHolder create(ViewGroup parent) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.recycler_view_item_picture, parent, false);
-        CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
+       // CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
         return new ViewHolder(itemView);
     }
 
@@ -75,6 +75,7 @@ public class PictureListController extends BaseRvController<PictureInfo> {
         intent.putExtra(Configs.EXTRA_ID, info.id);
         mContext.startActivity(intent);
     }
+
 
     static final class ViewHolder extends RecyclerView.ViewHolder {
 

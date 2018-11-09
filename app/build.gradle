@@ -82,6 +82,7 @@ dependencies {
     implementation project(':utility')
     implementation project(':widget')
     implementation project(':pulltorefresh')
+    implementation project(':pictureviewer')
     implementation project(':nicevideoplayer')
     annotationProcessor "com.google.dagger:dagger-compiler:${rootProject.ext.daggerVersion}"
     annotationProcessor "com.google.dagger:dagger-android-processor:${rootProject.ext.daggerVersion}"

@@ -103,7 +103,7 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
             urls = info.url.split(",\\s*");
         }
 
-        base_recycler_view.initialize(new SimplePictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
+        base_recycler_view.initialize(new SimplePictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL,2, 5);
 
         base_recycler_view.refresh(Arrays.asList(urls));
     }

@@ -9,7 +9,7 @@
         android:id="@+id/ll_frame"
         android:layout_width="match_parent"
         android:layout_height="220dp"
-        android:background="@drawable/profile_bg"
+        android:background="@drawable/profile"
         android:orientation="horizontal"
         android:gravity="center"
         android:paddingLeft="10dp"
@@ -33,7 +33,7 @@
                     android:layout_width="100dp"
                     android:layout_height="100dp"
                     android:scaleType="centerCrop"
-                    android:src="@drawable/logo"/>
+                    android:src="@drawable/logo_clear"/>
 
                 <ImageView
                     android:id="@+id/img_gender"
@@ -51,9 +51,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="5dp"
-                android:text=""
+                android:text="请登录"
                 android:textColor="@color/white"
-                android:textSize="18sp"/>
+                android:textSize="14sp"/>
 
             <LinearLayout
                 android:layout_width="match_parent"
@@ -66,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:text=""
                     android:textColor="@color/white"
-                    android:textSize="16sp"/>
+                    android:textSize="14sp"/>
 
                 <LinearLayout
                     android:id="@+id/ll_clock_in"
@@ -87,7 +87,7 @@
                         android:layout_marginLeft="5dp"
                         android:text="签到领金币"
                         android:textColor="@color/white"
-                        android:textSize="16sp"/>
+                        android:textSize="14sp"/>
 
                 </LinearLayout>
             </LinearLayout>
@@ -122,6 +122,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ev_icon="@drawable/my_book"
+            android:visibility="gone"
             app:ev_title="我的书架"/>
 
         <com.taoyr.widget.widgets.EntryView
@@ -136,8 +137,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:ev_icon="@drawable/my_coin"
+            android:visibility="gone"
             app:ev_title="金币充值"/>
 
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_invite"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:ev_icon="@drawable/my_invite"
+            app:ev_title="邀请好友"/>
 
         <com.taoyr.widget.widgets.EntryView
             android:id="@+id/ev_setting"
@@ -146,6 +155,14 @@
             android:layout_marginTop="8dp"
             app:ev_icon="@drawable/my_setting"
             app:ev_title="设置"/>
+
+        <com.taoyr.widget.widgets.EntryView
+            android:id="@+id/ev_exit"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            app:ev_icon="@drawable/my_exit"
+            app:ev_title="注销"/>
         </LinearLayout>
     </ScrollView>
 </LinearLayout>
