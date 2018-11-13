@@ -27,8 +27,7 @@
         <RelativeLayout
             android:id="@+id/ll_function_des1"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            >
+            android:layout_height="30dp">
 
             <ImageView
                 android:id="@+id/img_share"
@@ -75,9 +74,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_alignParentRight="true"
+                android:layout_centerVertical="true"
                 android:gravity="center_vertical"
-                android:paddingRight="10dp"
-                android:layout_centerVertical="true">
+                android:paddingRight="10dp">
 
                 <ImageView
                     android:id="@+id/img_date"
@@ -86,35 +85,30 @@
                     android:src="@drawable/date" />
 
                 <TextView
-                    android:id="@+id/tv_download_date"
+                    android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_toRightOf="@id/img_date"
                     android:scaleType="fitXY"
-                    android:text="3天前"
+                    android:text=""
                     android:textSize="10dp" />
             </LinearLayout>
         </RelativeLayout>
 
-        <LinearLayout
-            android:id="@+id/ll_function_des2"
+        <com.donkingliang.labels.LabelsView xmlns:app="http://schemas.android.com/apk/res-auto"
+            android:id="@+id/labels"
             android:layout_width="match_parent"
-            android:layout_height="30dp"
-            android:layout_alignParentRight="true"
+            android:layout_height="wrap_content"
             android:layout_below="@+id/nice_video_player"
-            android:gravity="center_vertical"
-            android:orientation="horizontal">
+            app:labelBackground="@drawable/edit_shape"
+            app:labelTextColor="@color/goldenrod"
+            app:labelTextPaddingLeft="10dp"
+            app:labelTextPaddingRight="10dp"
+            app:labelTextSize="12sp"
+            app:maxSelect="5"
+            app:selectType="SINGLE"
+            app:wordMargin="10dp" />
 
-            <TextView
-                android:id="@+id/tv_tag"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="10dp"
-                android:background="@drawable/tag_shape"
-                android:scaleType="fitXY"
-                android:text="女神，秀人"
-                android:textSize="10dp" />
-        </LinearLayout>
     </LinearLayout>
 
     <LinearLayout

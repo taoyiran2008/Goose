@@ -19,6 +19,6 @@ public interface SearchContract {
     }
 
     interface Presenter extends IBasePresenter<View> {
-        void search(int pageIndex, int pageSize, String keywords, boolean loadMore);
+        void search(int pageIndex, int pageSize, String keywords,String mCategory,String type, boolean loadMore);
     }
 }

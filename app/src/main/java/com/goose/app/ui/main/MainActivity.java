@@ -23,6 +23,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.CategoryInfo;
 import com.goose.app.rxbus.RefreshProductEvent;
@@ -147,6 +148,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             @Override
             public void onSearchClick() {
                 Intent intent = new Intent(mContext, SearchActivity.class);
+                intent.putExtra(Configs.EXTRA_TYPE,mProductType);
                 mContext.startActivity(intent);
             }
         });

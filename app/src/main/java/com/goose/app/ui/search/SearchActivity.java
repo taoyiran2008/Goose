@@ -1,5 +1,6 @@
 package com.goose.app.ui.search;
 
+import android.content.Intent;
 import android.text.Editable;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -12,8 +13,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.goose.app.R;
+import com.goose.app.configs.Configs;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.widgets.controller.PictureListController;
+import com.goose.app.widgets.controller.ProductListController;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureUtils;
@@ -64,11 +67,23 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
     private List<PictureInfo> mList = new ArrayList<>();
     private int mCurrentPage = 1;
     private String mKeywords;
+    private String mCategory;
+    private String mType;
 
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_search;
     }
+
+    @Override
+    public void handleIntent(Intent intent) {
+        super.handleIntent(intent);
+        mKeywords = intent.getStringExtra(Configs.EXTRA_TAG);
+        mType = intent.getStringExtra(Configs.EXTRA_TYPE);
+        mCategory = intent.getStringExtra(Configs.EXTRA_CATEGORY);
+
+    }
+
 
     @OnClick({R.id.ll_left_area, R.id.txt_search})
     public void onClick(View v) {
@@ -79,7 +94,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
             case R.id.txt_search:
                 mKeywords = edt_content_filter.getText().toString();
                 mCurrentPage = 1;
-                mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, false);
+                mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, mCategory, mType, false);
                 break;
         }
     }
@@ -101,8 +116,11 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
                 CommonUtils.requestFocusAndShowKeyboard(edt_content_filter);
             }
         }, 300);
-
-        base_recycler_view.initialize(new PictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1);
+        if(mKeywords!=null&&!"".equals(mKeywords)){
+            edt_content_filter.setText(mKeywords);
+            mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, mCategory, mType, false);
+        }
+        base_recycler_view.initialize(new ProductListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1,0);
 
         showSearchResult(false);
 
@@ -117,7 +135,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
                     } else {
                         mKeywords = edt_content_filter.getText().toString();
                         mCurrentPage = 1;
-                        mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, false);
+                        mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords,mCategory,mKeywords ,false);
                     }
                 }
                 return false;
@@ -138,7 +156,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
 
             @Override
             public void onLoadMore() {
-                mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, true);
+                mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords,mCategory,mType, true);
             }
         }, hashCode());
     }
@@ -163,7 +181,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
                     public void onClick(View v) {
                         mKeywords = tv.getText().toString();
                         mCurrentPage = 1;
-                        mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, false);
+                        mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords,mCategory,mType, false);
                     }
                 });
             }
@@ -245,10 +263,12 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
                     pull_to_refresh.setVisibility(View.VISIBLE);
                     flowlayout.setVisibility(View.GONE);
                     txt_status.setText("搜索结果");
+                    txt_status.setVisibility(View.GONE);
                 } else {
                     pull_to_refresh.setVisibility(View.GONE);
                     flowlayout.setVisibility(View.VISIBLE);
                     txt_status.setText("历史搜索");
+                    txt_status.setVisibility(View.VISIBLE);
                 }
             }
         });

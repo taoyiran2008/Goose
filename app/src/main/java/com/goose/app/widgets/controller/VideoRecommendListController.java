@@ -28,19 +28,19 @@ import butterknife.ButterKnife;
  * Created by taoyr on 2017/9/22.
  */
 
-public class VideoListController extends BaseRvController<PictureInfo> {
+public class VideoRecommendListController extends BaseRvController<PictureInfo> {
 
     private Context mContext;
 
-    public VideoListController(Context context) {
+    public VideoRecommendListController(Context context) {
         mContext = context;
     }
 
     @Override
     public RecyclerView.ViewHolder create(ViewGroup parent) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
-                R.layout.recycler_view_item_picture, parent, false);
-        CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
+                R.layout.recycler_view_item_video_recommend, parent, false);
+        //CommonUtils.tuneHeightRatio(mContext, itemView, 78, 375);
         return new ViewHolder(itemView);
     }
 
@@ -62,7 +62,6 @@ public class VideoListController extends BaseRvController<PictureInfo> {
 
         PictureLoader.simpleLoad(holder.img, struct.cover);
         holder.txt_title.setText(struct.title);
-        holder.txt_count.setText(String.valueOf(urls.length));
         holder.txt_views.setText(String.valueOf(struct.view));
 
         return true;
@@ -85,8 +84,6 @@ public class VideoListController extends BaseRvController<PictureInfo> {
         TextView txt_title;
         @BindView(R.id.txt_views)
         TextView txt_views;
-        @BindView(R.id.txt_count)
-        TextView txt_count;
 
         public ViewHolder(View itemView) {
             super(itemView);

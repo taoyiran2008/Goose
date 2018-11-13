@@ -1,5 +1,7 @@
 package com.taoyr.app.utility;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -9,6 +11,17 @@ import java.util.Date;
  */
 
 public class TimeUtils {
+    public static String parseGmtInMs(String time) {
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            Date date = simpleDateFormat.parse(time);
+            return parseGmtInMs(date.getTime());
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
+        return "";
+    }
 
     public static String parseGmtInMs(long gmt) {
         Date today = new Date();
@@ -26,7 +39,7 @@ public class TimeUtils {
             int hoursBetween = hoursBetween(date, today);
             if (hoursBetween > 0 && hoursBetween < 3) {
                 return hoursBetween + "小时前";
-            } else if (hoursBetween == 0){
+            } else if (hoursBetween == 0) {
                 int minutesBetween = minutesBetween(date, today);
                 return minutesBetween + "分钟前";
             } else { // hoursBetween > 3，显示今日7:00

@@ -32,9 +32,15 @@ import butterknife.ButterKnife;
 public class SimplePictureListController extends BaseRvController<String> {
 
     private Context mContext;
+    private List<String> mList;
 
     public SimplePictureListController(Context context) {
         mContext = context;
+    }
+
+    public SimplePictureListController(Context context, List<String> list) {
+        mContext = context;
+        mList = list;
     }
 
     @Override
@@ -57,12 +63,23 @@ public class SimplePictureListController extends BaseRvController<String> {
                 RolloutBDInfo bdInfo;
 
                 bdInfo = new RolloutBDInfo();
-                RolloutInfo imageInfo = new RolloutInfo();
-                //图片的宽高可以自己去设定,也可以计算图片宽高
-                imageInfo.width = 1280;
-                imageInfo.height = 720;
-                imageInfo.url = url;
-                data.add(imageInfo);
+                String suffix = "_thumb.webp";
+                int index = 0;
+                for (int i = 0; i < mList.size(); i++) {
+
+                    if (url.equals(mList.get(i))) {
+                        index = i;
+                    }
+                    RolloutInfo imageInfo = new RolloutInfo();
+                    //图片的宽高可以自己去设定,也可以计算图片宽高
+                    imageInfo.width = 1280;
+                    imageInfo.height = 720;
+                    String mUrl = mList.get(i);
+                    mUrl = mUrl.substring(0, mUrl.length() - suffix.length());
+                    mUrl += ".webp";
+                    imageInfo.url = mUrl;
+                    data.add(imageInfo);
+                }
 
                 bdInfo.x = holder.img.getLeft();
                 bdInfo.y = holder.img.getTop();
@@ -72,9 +89,9 @@ public class SimplePictureListController extends BaseRvController<String> {
                 //跳转和传数据都必须要
                 Intent intent = new Intent(mContext, RolloutPreviewActivity.class);
                 intent.putExtra("data", (Serializable) data);
-                intent.putExtra("bdinfo",bdInfo);
-                intent.putExtra("type", 0);//单图传0
-                intent.putExtra("index",0);
+                intent.putExtra("bdinfo", bdInfo);
+                intent.putExtra("type", 2);//单图传0
+                intent.putExtra("index", index);
                 mContext.startActivity(intent);
             }
         });

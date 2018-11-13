@@ -25,6 +25,7 @@ buildscript {
         /*maven { // SharedSDK
             url "http://mvn.mob.com/android"
         }*/
+
     }
     dependencies {
         //classpath 'com.android.tools.build:gradle:2.3.2'
@@ -45,6 +46,7 @@ allprojects {
         /*maven { // SharedSDK
             url "http://mvn.mob.com/android"
         }*/
+        maven { url 'https://jitpack.io' }
     }
 }
 

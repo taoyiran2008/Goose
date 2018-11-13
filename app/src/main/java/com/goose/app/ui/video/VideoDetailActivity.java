@@ -6,31 +6,40 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.donkingliang.labels.LabelsView;
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.login.LoginActivity;
+import com.goose.app.ui.search.SearchActivity;
 import com.goose.app.widgets.controller.VideoListController;
+import com.goose.app.widgets.controller.VideoRecommendListController;
 import com.taoyr.app.base.BaseActivity;
+import com.taoyr.app.utility.TimeUtils;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
 
+import static com.goose.app.configs.Configs.EXTRA_TAG;
+import static com.goose.app.configs.Configs.EXTRA_TYPE;
+
 /**
  * Created by taoyr on 2018/1/6.
  */
 
-public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presenter> implements VideoDetailContract.View  {
+public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presenter> implements VideoDetailContract.View {
 
 
     @BindView(R.id.base_recycler_view)
@@ -44,6 +53,9 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @BindView(R.id.tv_download_price)
     TextView tv_download_price;
 
+    @BindView(R.id.tv_date)
+    TextView tv_date;
+
     @BindView(R.id.tv_view_price)
     TextView tv_view_price;
 
@@ -56,10 +68,14 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @BindView(R.id.img_download)
     ImageView img_download;
 
+    @BindView(R.id.labels)
+    LabelsView labelsView;
+
     String mProductId;
     String mProductCategory;
     PictureDetailInfo mDetailInfo;
     private List<PictureInfo> mList = new ArrayList<>();
+
     @Override
     protected int getLayoutResID() {
         return R.layout.activity_video_detail;
@@ -76,8 +92,8 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     protected void initView() {
         mPresenter.getProductDetail(mProductId);
         mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
-        mPresenter.getRecommendProductList(mProductCategory,1,20);
-        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
+        mPresenter.getRecommendProductList(mProductCategory, 1, 20);
+        base_recycler_view.initialize(new VideoRecommendListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 5);
     }
 
     @Override
@@ -86,47 +102,42 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
 
         setTopBarTitle(info.title);
 
-        tv_view.setText("热度"+ info.view);
-        tv_view_price.setText("观看："+ info.viewPrice);
-        tv_download_price.setText("下载："+ info.downloadPrice);
+        tv_view.setText("热度" + info.view);
+        tv_view_price.setText("观看：" + info.viewPrice);
+        tv_download_price.setText("下载：" + info.downloadPrice);
 
-//        mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // IjkPlayer or MediaPlayer
-//        mNiceVideoPlayer.setUp(info.url, null);
-//        TxVideoPlayerController controller = new TxVideoPlayerController(this);
-//        controller.setTitle(info.title);
-//        //controller.setLenght(98000);
-//        Glide.with(this)
-//                .load(info.cover)
-//                .placeholder(R.drawable.logo)
-//                .crossFade()
-//                .into(controller.imageView());
-//        mNiceVideoPlayer.setController(controller);
+        tv_date.setText(TimeUtils.parseGmtInMs(info.createTime));
 
         mNiceVideoPlayer.setPlayerType(NiceVideoPlayer.TYPE_IJK); // IjkPlayer or MediaPlayer
-        String videoUrl = "http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-33-30.mp4";
-//        videoUrl = Environment.getExternalStorageDirectory().getPath().concat("/办公室小野.mp4");
-        mNiceVideoPlayer.setUp(videoUrl, null);
+        mNiceVideoPlayer.setUp(info.url, null);
         TxVideoPlayerController controller = new TxVideoPlayerController(this);
-        controller.setTitle("办公室小野开番外了，居然在办公室开澡堂！老板还点赞？");
-        controller.setLenght(98000);
+        controller.setTitle(info.title);
+        //controller.setLenght(98000);
         Glide.with(this)
-                .load("http://tanzi27niu.cdsb.mobi/wps/wp-content/uploads/2017/05/2017-05-17_17-30-43.jpg")
-                .placeholder(R.drawable.img_default)
+                .load(info.cover)
+                .placeholder(R.drawable.logo)
                 .crossFade()
                 .into(controller.imageView());
         mNiceVideoPlayer.setController(controller);
 
-        /**
-         * 如果链接含有空格，则recycler view中加载图片会有问题，但是我们将url通过intent传到图片浏览
-         * 页面，却可以正常加载（intent传递过程中，有trim的操作?）
-         */
-//        String urls[] = new String[0];
-//        if (!TextUtils.isEmpty(info.url)) {
-//            urls = info.url.split(",\\s*");
-//        }
+        String[] tags = info.tag.split("，");
 
-//        base_recycler_view.initialize(new SimplePictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
-//        base_recycler_view.refresh(Arrays.asList(urls));
+        //直接设置一个字符串数组就可以了。
+        labelsView.setLabels(Arrays.asList(tags));
+
+        //标签的点击监听
+        labelsView.setOnLabelClickListener(new LabelsView.OnLabelClickListener() {
+            @Override
+            public void onLabelClick(TextView label, Object data, int position) {
+                //label是被点击的标签，data是标签所对应的数据，position是标签的位置。
+                String tag = data.toString();
+                Intent intent = new Intent(VideoDetailActivity.this, SearchActivity.class);
+                intent.putExtra(EXTRA_TAG, tag);
+                intent.putExtra(EXTRA_TYPE, DataProvider.DATA_TYPE_VIDEO);
+                startActivity(intent);
+                finish();
+            }
+        });
     }
 
     @Override
@@ -156,6 +167,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
     @Override
     public void operateProductOnUi(String type) {
     }
+
     @Override
     public void goLogin() {
         startActivity(new Intent(mContext, LoginActivity.class));

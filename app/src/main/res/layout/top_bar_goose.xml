@@ -20,7 +20,7 @@
         android:layout_alignParentRight="true"
         android:layout_centerInParent="true"
         android:layout_marginRight="10dp"
-        android:visibility="gone"
+
         android:orientation="horizontal">
         <ImageView
             android:id="@+id/img_search"
@@ -33,6 +33,7 @@
             android:id="@+id/img_slide"
             app:srcCompat="@drawable/slide_icon"
             android:layout_width="20dp"
+            android:visibility="gone"
             android:layout_height="20dp"/>
     </LinearLayout>
 </RelativeLayout>

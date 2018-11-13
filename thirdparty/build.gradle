@@ -121,4 +121,6 @@ dependencies {
 
     // Arouter
     compile 'com.alibaba:arouter-api:1.4.1'
+
+    compile 'com.github.donkingliang:LabelsView:1.4.5'
 }

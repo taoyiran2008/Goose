@@ -60,7 +60,7 @@ public interface IApiService { // RetrofitService
     Observable<HttpResultInfo<List<PictureInfo>>> getProductList(
             @Query("type") String type,
             @Query("category") String category,
-            @Query("keyword") String keyword,
+            @Query("keyWord") String keyWord,
             @Query("pageSize") int pageSize,
             @Query("pageNo") int pageNo);
 

@@ -167,7 +167,7 @@ public class DataProvider {
                     String keyword = (String) params[2];
                     int pageIndex = (Integer) params[3];
                     int pageSize = (Integer) params[4];
-                    request = mService.getProductList(type, category, keyword, pageSize, pageIndex);
+                    request = mService.getProductList(type, category, keyword,pageSize, pageIndex);
                     break;
                 case GET_RECOMMEND_PRODUCT_LIST:
                     type = (String) params[0];

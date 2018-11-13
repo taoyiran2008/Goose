@@ -131,13 +131,20 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
                // mApplication.getBaseActivityManager().finishAllActivity();
                 break;
             case R.id.txt_nick_name:
-
-                if("".equals(GooseApplication.getInstance().getToken())){
-                    Intent intent4 = new Intent(mContext, LoginActivity.class);
-                    startActivity(intent4);
-                }
+                mPresenter.getUserInfo();
+//                if("".equals(GooseApplication.getInstance().getToken())){
+//                    Intent intent4 = new Intent(mContext, LoginActivity.class);
+//                    startActivity(intent4);
+//                }
                 break;
         }
+    }
+
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        initView();
     }
 
     private void updateUserUi(UserDetailInfo info) {
@@ -167,8 +174,8 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
     protected void initView() {
         if (GooseApplication.getInstance().getUserInfo() != null) {
             updateUserUi(GooseApplication.getInstance().getUserInfo());
+            mPresenter.getUserInfo();
         }
-        mPresenter.getUserInfo();
         //mPresenter.getUserInfo();
         Glide.with(this).load(R.drawable.profile).asBitmap().transform(new BlurTransformation(mContext, 25))
                 .into(new SimpleTarget<Bitmap>() {
