@@ -21,6 +21,8 @@ import com.goose.pictureviewer.view.RolloutViewPager;
 
 import java.util.ArrayList;
 
+import site.gemus.openingstartanimation.NormalDrawStrategy;
+import site.gemus.openingstartanimation.OpeningStartAnimation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
 
@@ -46,10 +48,20 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 全屏
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_rollout_preview);
+
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .setAppName("小黄书") //设置app名称
+                .setAppStatement("在这里，找到你想要的") //设置一句话描述
+                .setAnimationInterval(1000) // 设置动画时间间隔
+                .setAnimationFinishTime(300) // 设置动画的消失时长
+                .create();
+        openingStartAnimation.show(this);
         findID();
         Listener();
         InData();
         getValue();
+
     }
 
     @Override

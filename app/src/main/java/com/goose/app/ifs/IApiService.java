@@ -1,6 +1,7 @@
 package com.goose.app.ifs;
 
 import com.google.gson.JsonObject;
+import com.goose.app.model.App;
 import com.goose.app.model.BannerInfo;
 import com.goose.app.model.CategoryInfo;
 import com.goose.app.model.PictureDetailInfo;
@@ -99,4 +100,7 @@ public interface IApiService { // RetrofitService
 
     @GET("api/user/userInfo")
     Observable<HttpResultInfo<UserDetailInfo>> getUserInfo();
+
+    @GET("api/app/checkUpdate")
+    Observable<HttpResultInfo<App>> checkUpdate();
 }

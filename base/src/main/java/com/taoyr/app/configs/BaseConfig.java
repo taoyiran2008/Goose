@@ -23,7 +23,8 @@ public class BaseConfig {
     /**
      * 生产版本地址
      */
-    public static String URL = "http://132.232.169.181:8670";
+    public static String URL = "http://yellow.cash-ico.com:8670";
 
-    public static String API_SERVER = CommonUtils.isDebug() ? TEST_URL : URL;
+   // public static String API_SERVER = CommonUtils.isDebug() ? TEST_URL : URL;
+    public static String API_SERVER = URL;
 }

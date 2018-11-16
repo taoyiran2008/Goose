@@ -64,6 +64,7 @@ public class DataProvider {
         SIGN,
         GET_LAST_SIGN_INFO,
         GET_USER_INFO,
+        CHECK_UPDATE
     }
 
     public DataProvider(IApiService service, Gson gson) {
@@ -214,6 +215,9 @@ public class DataProvider {
                             MultipartBody.Part.createFormData("file", file.getName(), requestBody);
 
                     request = mService.uploadFile(body);
+                    break;
+                case CHECK_UPDATE:
+                    request = mService.checkUpdate();
                     break;
             }
         }

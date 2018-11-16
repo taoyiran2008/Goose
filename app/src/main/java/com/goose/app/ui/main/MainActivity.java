@@ -1,9 +1,12 @@
 package com.goose.app.ui.main;
 
 import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.Environment;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
@@ -19,12 +22,15 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.azhon.appupdate.config.UpdateConfiguration;
+import com.azhon.appupdate.manager.DownloadManager;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.animation.GlideAnimation;
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.data.DataProvider;
+import com.goose.app.model.App;
 import com.goose.app.model.CategoryInfo;
 import com.goose.app.rxbus.RefreshProductEvent;
 import com.goose.app.ui.account.AccountFragment;
@@ -122,11 +128,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         });*/
 
         setExitOnDoubleBack(true);
-
+        mPresenter.checkUpdate();
         initTab();
         mPresenter.getCategoryList(mProductType);
         initGooseTitleBar();
         // initSideBar();
+
     }
 
     private void initGooseTitleBar() {
@@ -148,7 +155,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             @Override
             public void onSearchClick() {
                 Intent intent = new Intent(mContext, SearchActivity.class);
-                intent.putExtra(Configs.EXTRA_TYPE,mProductType);
+                intent.putExtra(Configs.EXTRA_TYPE, mProductType);
                 mContext.startActivity(intent);
             }
         });
@@ -267,6 +274,35 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         }
     }
 
+    @Override
+    public void checkUpdateOnUi(App app) {
+        PackageManager manager = this.getPackageManager();
+        int code = 0;
+        try {
+            PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
+            code = info.versionCode;
+            if(app.versionCode>code){
+                String filePath = Environment.getExternalStorageDirectory() + "/yello/";
+                DownloadManager downloadManager = DownloadManager.getInstance(this);
+                UpdateConfiguration updateConfiguration=new UpdateConfiguration();
+                updateConfiguration.setForcedUpgrade(app.must.equals("1"));
+                //updateConfiguration.setNotificationChannel()
+                downloadManager.setApkName("小黄书.apk")
+                        .setApkUrl(app.address)
+                        .setApkVersionName(app.versionName)
+                        .setApkVersionCode(app.versionCode)
+                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setDownloadPath(filePath)
+                        .setApkDescription(app.mark)
+                        //可设置，可不设置
+                        .setConfiguration(updateConfiguration)
+                        .download();
+            }
+        } catch (PackageManager.NameNotFoundException e) {
+            e.printStackTrace();
+        }
+    }
+
     private class SectionsPagerAdapter extends FragmentPagerAdapter {
 
         public SectionsPagerAdapter(FragmentManager fm) {
@@ -291,5 +327,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             else
                 return "";
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }

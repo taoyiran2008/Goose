@@ -1,6 +1,10 @@
 apply plugin: 'com.android.library'
 
 android {
+    //处理所有报META-INF/*'的错误
+//    packagingOptions {
+//        pickFirst 'META-INF/*'
+//    }
     compileSdkVersion rootProject.ext.compileSdkVersion
     buildToolsVersion rootProject.ext.buildToolsVersion
 
@@ -123,4 +127,6 @@ dependencies {
     compile 'com.alibaba:arouter-api:1.4.1'
 
     compile 'com.github.donkingliang:LabelsView:1.4.5'
+    //开屏动画
+    compile 'site.gemus:openingstartanimation:1.0.0'
 }

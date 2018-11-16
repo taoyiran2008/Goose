@@ -1,6 +1,7 @@
 package com.goose.app.ui.main;
 
 import com.goose.app.data.DataProvider;
+import com.goose.app.model.App;
 import com.goose.app.model.CategoryInfo;
 import com.taoyr.app.base.BasePresenter;
 import com.taoyr.app.ifs.UiCallback;
@@ -47,6 +48,27 @@ public final class MainPresenter extends BasePresenter<MainContract.View>
                     @Override
                     public void onSuccess(List<CategoryInfo> list) {
                         mView.getCategoryListOnUi(list, type);
+                    }
+
+                    @Override
+                    public void onFailure(String msg) {
+                        mView.showToast("分类获取失败");
+                    }
+
+                    @Override
+                    public void onNoAuthenticated() {
+
+                    }
+                });
+    }
+
+    @Override
+    public void checkUpdate() {
+        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.CHECK_UPDATE),
+                SHOW_CANCELABLE_DIALOG, new UiCallback<App>() {
+                    @Override
+                    public void onSuccess(App app) {
+                        mView.checkUpdateOnUi(app);
                     }
 
                     @Override

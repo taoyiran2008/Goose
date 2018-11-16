@@ -32,6 +32,8 @@ import butterknife.Unbinder;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
+import site.gemus.openingstartanimation.NormalDrawStrategy;
+import site.gemus.openingstartanimation.OpeningStartAnimation;
 
 /**
  * Created by taoyr on 2018/1/5.
@@ -106,6 +108,16 @@ public abstract class BaseActivity<P extends IBasePresenter>
         }
         mPresenter.takeView(this);
         initView();
+
+
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .setAppName("小黄书") //设置app名称
+                .setAppStatement("在这里，找到你想要的") //设置一句话描述
+                .setAnimationInterval(1000) // 设置动画时间间隔
+                .setAnimationFinishTime(300) // 设置动画的消失时长
+                .create();
+        openingStartAnimation.show(this);
     }
 
     /**

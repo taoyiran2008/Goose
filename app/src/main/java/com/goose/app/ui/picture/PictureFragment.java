@@ -77,7 +77,7 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
     @Override
     protected void initView() {
         initPullToRefreshWidget();
-        base_recycler_view.initialize(new PictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 20);
+        base_recycler_view.initialize(new PictureListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 2, 1);
 
         mPresenter.getBannerList();
 

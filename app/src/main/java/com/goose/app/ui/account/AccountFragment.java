@@ -119,9 +119,13 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
                 mPresenter.getLastSignInfo();
                 break;
             case R.id.ev_invite:
-                Intent intent2 = new Intent(mContext, InviteActivity.class);
-                intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,GooseApplication.getInstance().getUserInfo().shareCode);
-                startActivity(intent2);
+                if(GooseApplication.getInstance().getUserInfo()==null){
+                    mPresenter.getUserInfo();
+                }else {
+                    Intent intent2 = new Intent(mContext, InviteActivity.class);
+                    intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,GooseApplication.getInstance().getUserInfo().shareCode);
+                    startActivity(intent2);
+                }
                 break;
             case R.id.ev_exit:
                 GooseApplication.getInstance().setUserInfo(null);
