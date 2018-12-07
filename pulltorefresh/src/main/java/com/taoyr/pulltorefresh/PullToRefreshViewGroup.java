@@ -170,12 +170,12 @@ public class PullToRefreshViewGroup extends RelativeLayout {
             switch (theme) {
                 case THEME_BLUE_TONE:
                     if (mHeader != null) {
-                        mArrow.setImageResource(R.drawable.arrow_plane);
+                        mArrow.setImageResource(R.drawable.pull);
                         mDescription.setTextColor(mContext.getResources().getColor(R.color.black));
                         mLastUpdateTime.setTextColor(mContext.getResources().getColor(R.color.black));
                     }
                     if (mFooter != null) {
-                        mArrow2.setImageResource(R.drawable.arrow_plane);
+                        mArrow2.setImageResource(R.drawable.pull);
                         mDescription2.setTextColor(mContext.getResources().getColor(R.color.black));
                     }
                     break;

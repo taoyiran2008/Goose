@@ -17,14 +17,12 @@ public class BaseConfig {
     /**
      * 测试版本地址
      */
-    public static String TEST_URL = "http://132.232.169.181:8670";
-    //public static String TEST_URL = "http://192.168.1.7:8670";
+    public static String TEST_URL = "http://192.168.8.174:8670";
 
     /**
      * 生产版本地址
      */
     public static String URL = "http://yellow.cash-ico.com:8670";
 
-   // public static String API_SERVER = CommonUtils.isDebug() ? TEST_URL : URL;
-    public static String API_SERVER = URL;
+    public static String API_SERVER = true ? TEST_URL : URL;
 }

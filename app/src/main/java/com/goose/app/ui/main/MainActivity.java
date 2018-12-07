@@ -37,6 +37,7 @@ import com.goose.app.ui.account.AccountFragment;
 import com.goose.app.ui.picture.PictureFragment;
 import com.goose.app.ui.search.SearchActivity;
 import com.goose.app.ui.video.VideoFragment;
+import com.goose.app.ui.zhibo.ZhiboFragment;
 import com.goose.app.widgets.TopBarGoose;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.LogMan;
@@ -49,6 +50,8 @@ import javax.inject.Inject;
 
 import butterknife.BindView;
 import jp.wasabeef.glide.transformations.BlurTransformation;
+import site.gemus.openingstartanimation.NormalDrawStrategy;
+import site.gemus.openingstartanimation.OpeningStartAnimation;
 
 /**
  * Created by taoyr on 2018/1/6.
@@ -71,9 +74,9 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     @Inject
     VideoFragment mVideo;
     @Inject
-    TextViewFragment mStream;
-    @Inject
-    TextViewFragment mBook;
+    ZhiboFragment mStream;
+    //    @Inject
+//    TextViewFragment mBook;
     @Inject
     AccountFragment mAccount;
 
@@ -88,10 +91,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
     DrawerLayout drawer;
 
     ArrayList<Fragment> mFragments = new ArrayList<>();
-    String[] mTabTitles = {"美图", "视频", "直播", "小说", "我的"};
+    String[] mTabTitles = {"美图", "视频", "直播", "我的"};
     int[] mIcons = {R.drawable.selector_tab_icon_image, R.drawable.selector_tab_icon_video,
             R.drawable.selector_tab_icon_stream,
-            R.drawable.selector_tab_icon_book, R.drawable.selector_tab_icon_account};
+            R.drawable.selector_tab_icon_account};
 
     HashMap<String, List<CategoryInfo>> mCategoryMap = new HashMap<>();
     int mCurrentPosition = 0;
@@ -113,7 +116,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         mFragments.add(mVideo);
         //mFragments.add(new TextViewFragment());
         mFragments.add(mStream);
-        mFragments.add(mBook);
+        // mFragments.add(mBook);
         mFragments.add(mAccount);
         mAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
         vp.setAdapter(mAdapter);
@@ -134,6 +137,14 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         initGooseTitleBar();
         // initSideBar();
 
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .setAppName("小皇叔") //设置app名称
+                .setAppStatement("在这里，找到你想要的") //设置一句话描述
+                .setAnimationInterval(2000) // 设置动画时间间隔
+                .setAnimationFinishTime(300) // 设置动画的消失时长
+                .create();
+        openingStartAnimation.show(this);
     }
 
     private void initGooseTitleBar() {
@@ -208,10 +219,13 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     } else if (mCurrentPosition == 1) { // 视频
                         mProductType = DataProvider.DATA_TYPE_VIDEO;
                     } else if (mCurrentPosition == 2) { // 直播
+
                         mProductType = DataProvider.DATA_TYPE_STREAM;
-                    } else if (mCurrentPosition == 3) { // 小说
-                        mProductType = DataProvider.DATA_TYPE_READ;
-                    } else if (mCurrentPosition == 4) { // 我的
+                    }
+//                    } else if (mCurrentPosition == 3) { // 小说
+//                        mProductType = DataProvider.DATA_TYPE_READ;
+//                    }
+                    else if (mCurrentPosition == 3) { // 我的
                         top_bar_goose.setVisibility(View.GONE);
                     }
 
@@ -235,7 +249,11 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
             }
         });
 
-        for (int i = 0; i < mTabTitles.length; i++) {
+        for (
+                int i = 0;
+                i < mTabTitles.length; i++)
+
+        {
             // tab layout绑定viewpager后，tabitem会自动创建
             //TabLayout.Tab tabItem = tab.newTab();
             //tab.addTab(tabItem);
@@ -281,10 +299,10 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         try {
             PackageInfo info = manager.getPackageInfo(this.getPackageName(), 0);
             code = info.versionCode;
-            if(app.versionCode>code){
+            if (app != null && app.versionCode > code) {
                 String filePath = Environment.getExternalStorageDirectory() + "/yello/";
                 DownloadManager downloadManager = DownloadManager.getInstance(this);
-                UpdateConfiguration updateConfiguration=new UpdateConfiguration();
+                UpdateConfiguration updateConfiguration = new UpdateConfiguration();
                 updateConfiguration.setForcedUpgrade(app.must.equals("1"));
                 //updateConfiguration.setNotificationChannel()
                 downloadManager.setApkName("小黄书.apk")

@@ -1,16 +1,17 @@
 apply plugin: 'com.android.library'
 apply from: './MobSDK.gradle'
 
-
 /*buildscript中的内容是groovy脚本最先执行的gradle语句。可以单独的从Project gradle file
 抽出到单独的Module gradle file*/
 buildscript {
     repositories {
-        maven { // SharedSDK
+        jcenter()
+        maven {
             url "http://mvn.mob.com/android"
         }
     }
     dependencies {
+//        classpath "com.mob.sdk:MobSDK:2018.0319.1724"
         classpath 'com.mob.sdk:MobSDK:+'
     }
 }
@@ -27,10 +28,12 @@ android {
 }
 
 dependencies {
+    implementation project(':base')
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-
     implementation 'com.android.support:appcompat-v7:26.0.0-beta1'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:0.5'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:2.2.2'
+//
+//    classpath "com.mob.sdk:MobSDK:2018.0319.1724"
 }

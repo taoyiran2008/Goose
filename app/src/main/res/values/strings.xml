@@ -1,3 +1,5 @@
 <resources>
-    <string name="app_name">Goose</string>
+    <string name="app_name">小皇叔</string>
+    <string name="inviteUrl">http://download.cash-ico.com/register.html</string>
+    <string name="downloadUrl">http://download.cash-ico.com/index.html</string>
 </resources>

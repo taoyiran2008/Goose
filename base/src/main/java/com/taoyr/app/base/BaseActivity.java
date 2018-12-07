@@ -109,15 +109,6 @@ public abstract class BaseActivity<P extends IBasePresenter>
         mPresenter.takeView(this);
         initView();
 
-
-        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
-                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-                .setAppName("小黄书") //设置app名称
-                .setAppStatement("在这里，找到你想要的") //设置一句话描述
-                .setAnimationInterval(1000) // 设置动画时间间隔
-                .setAnimationFinishTime(300) // 设置动画的消失时长
-                .create();
-        openingStartAnimation.show(this);
     }
 
     /**

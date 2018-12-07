@@ -30,8 +30,8 @@
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
-        android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
+        tools:replace="android:name"
         android:theme="@style/AppTheme">
         <activity
             android:name=".ui.main.MainActivity"
@@ -70,6 +70,10 @@
             android:name=".ui.video.VideoDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
             android:screenOrientation="portrait" />
+        <activity
+            android:name=".ui.zhibo.ZhiboDetailActivity"
+            android:configChanges="orientation|keyboardHidden|screenSize"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".ui.search.SearchActivity"
@@ -84,7 +88,7 @@
             android:screenOrientation="portrait" />
         <provider
             android:name="android.support.v4.content.FileProvider"
-            android:authorities="${applicationId}"
+            android:authorities="com.goose.app"
             android:exported="false"
             android:grantUriPermissions="true">
             <meta-data

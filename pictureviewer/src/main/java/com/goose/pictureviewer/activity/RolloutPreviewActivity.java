@@ -1,6 +1,7 @@
 package com.goose.pictureviewer.activity;
 
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.view.PagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -9,32 +10,47 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
+import com.bumptech.glide.request.target.Target;
 import com.goose.pictureviewer.R;
 import com.goose.pictureviewer.model.RolloutBDInfo;
 import com.goose.pictureviewer.model.RolloutInfo;
 import com.goose.pictureviewer.tools.RCommonUtil;
 import com.goose.pictureviewer.tools.RGlideUtil;
 import com.goose.pictureviewer.view.RolloutViewPager;
+import com.taoyr.widget.utils.LogMan;
+import com.taoyr.widget.widgets.progress.ProgressListener;
+import com.taoyr.widget.widgets.progress.glide.ProgressModelLoader;
 
 import java.util.ArrayList;
 
-import site.gemus.openingstartanimation.NormalDrawStrategy;
-import site.gemus.openingstartanimation.OpeningStartAnimation;
 import uk.co.senab.photoview.PhotoView;
 import uk.co.senab.photoview.PhotoViewAttacher;
+
+import static android.view.View.GONE;
 
 
 public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewPager.OnPageChangeListener {
 
     private int index = 0;
     private int selectIndex = -1;
-
+    protected Handler mHandler = new Handler();
     private RelativeLayout main_show_view;
 
     private ViewPager viewpager;
+    private LinearLayout ll_loading;
+    private ImageView img_loading;
+    private TextView txt_progress;
     private SamplePagerAdapter pagerAdapter;
 
     private ArrayList<RolloutInfo> ImgList;
@@ -49,14 +65,6 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout.activity_rollout_preview);
 
-        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
-                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-                .setAppName("小黄书") //设置app名称
-                .setAppStatement("在这里，找到你想要的") //设置一句话描述
-                .setAnimationInterval(1000) // 设置动画时间间隔
-                .setAnimationFinishTime(300) // 设置动画的消失时长
-                .create();
-        openingStartAnimation.show(this);
         findID();
         Listener();
         InData();
@@ -68,7 +76,10 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
     public void findID() {
         super.findID();
         viewpager = (RolloutViewPager) findViewById(R.id.bi_viewpager);
+        ll_loading = (LinearLayout) findViewById(R.id.ll_loading);
         main_show_view = (RelativeLayout) findViewById(R.id.main_show_view);
+        img_loading = (ImageView) findViewById(R.id.img_loading);
+        txt_progress = (TextView) findViewById(R.id.txt_progress);
     }
 
     @Override
@@ -76,6 +87,25 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
         super.Listener();
         viewpager.setOnPageChangeListener(this);
     }
+
+    ProgressModelLoader mProgressModelLoader;
+
+    ProgressListener mProgressListener = new ProgressListener() {
+        @Override
+        public void update(long bytesRead, long contentLength, boolean done) {
+            final int readInKb = (int) (bytesRead / 1024);
+            final int totalInKb = (int) (contentLength / 1024);
+            final int progress = readInKb * 100 / totalInKb;
+            LogMan.logDebug("progress info: " + progress);
+
+            mHandler.post(new Runnable() {
+                @Override
+                public void run() {
+                    txt_progress.setText(RolloutPreviewActivity.this.getString(com.taoyr.widget.R.string.common_loading_progress, progress));
+                }
+            });
+        }
+    };
 
     @Override
     public void InData() {
@@ -155,9 +185,29 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
 
         @Override
         public View instantiateItem(ViewGroup container, int position) {
+            img_loading.setVisibility(View.VISIBLE);
+            txt_progress.setVisibility(View.VISIBLE);
+            ll_loading.setVisibility(View.VISIBLE);
+            mProgressModelLoader = new ProgressModelLoader(mProgressListener);
+            Animation anim = AnimationUtils.loadAnimation(RolloutPreviewActivity.this, R.anim.roll_image_loading);
+            // 加载图标转起来
+            img_loading.setImageResource(R.drawable.roll_icon_loading);
+            img_loading.startAnimation(anim);
+            txt_progress.setText(RolloutPreviewActivity.this.getString(com.taoyr.widget.R.string.common_loading_progress, 0));
+
             PhotoView photoView = new PhotoView(container.getContext());
             String path = ImgList.get(position).url;
-            Glide.with(RolloutPreviewActivity.this).load(path).into(photoView);
+ //           Glide.with(RolloutPreviewActivity.this).load(path).into(photoView);
+            // 使用Glide加载图像
+            Glide.with(RolloutPreviewActivity.this)
+                    .using(mProgressModelLoader)
+                    .load(path)
+                    .diskCacheStrategy(DiskCacheStrategy.NONE)
+                    //.centerCrop() // 不然图片会显示不全
+                   // .error(com.taoyr.widget.R.drawable.default_pic_02)
+                    .listener(mGlideListener)
+                    .into(photoView);
+
             // Now just add PhotoView to ViewPager and return it
             photoView.setOnViewTapListener(new PhotoViewAttacher.OnViewTapListener() {
 
@@ -171,8 +221,7 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
                     setShowimage();
                 }
             });
-            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT,
-                    ViewGroup.LayoutParams.MATCH_PARENT);
+            container.addView(photoView, ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT);
 
             return photoView;
         }
@@ -219,4 +268,24 @@ public class RolloutPreviewActivity extends RolloutBaseActivity implements ViewP
         }
         RGlideUtil.clearMemory(this);
     }
+
+    RequestListener mGlideListener = new RequestListener<Object, GlideDrawable>() {
+        @Override
+        public boolean onException(Exception e, Object model, Target<GlideDrawable> target, boolean isFirssource) {
+            if (e != null) {
+                LogMan.logError("Glide Exception e: " + e.getMessage() + ", model: " + model);
+            }
+            ll_loading.setVisibility(GONE);
+            return false;
+        }
+
+        @Override
+        public boolean onResourceReady(GlideDrawable resource, Object model, Target<GlideDrawable> target,
+                                       boolean isFromMemoryCache, boolean isFirstResource) {
+            LogMan.logDebug("Glide onResourceReady, model: " + model);
+            // 图像加载完毕后，显示图像，并隐藏加载UI
+            ll_loading.setVisibility(GONE);
+            return false;
+        }
+    };
 }

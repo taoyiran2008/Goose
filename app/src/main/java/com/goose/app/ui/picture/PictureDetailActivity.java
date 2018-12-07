@@ -1,6 +1,7 @@
 package com.goose.app.ui.picture;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
@@ -11,20 +12,24 @@ import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureDetailInfo;
 import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.controller.SimplePictureListController;
+import com.taoyr.app.ShareUtils;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue;
 
 import java.util.Arrays;
+import java.util.HashMap;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 /**
  * Created by taoyr on 2018/1/6.
  */
 
-public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Presenter> implements PictureDetailContract.View  {
+public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Presenter> implements PictureDetailContract.View {
 
 
     @BindView(R.id.base_recycler_view)
@@ -57,6 +62,7 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
 
     @Override
     protected void initView() {
+        ShareUtils.init(mContext);
         mPresenter.getProductDetail(mProductId);
         mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
     }
@@ -103,12 +109,12 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
             urls = info.url.split(",\\s*");
         }
 
-        base_recycler_view.initialize(new SimplePictureListController(mContext,Arrays.asList(urls)), BaseRecyclerView.ORIENTATION_VERTICAL,2, 5);
+        base_recycler_view.initialize(new SimplePictureListController(mContext, Arrays.asList(urls)), BaseRecyclerView.ORIENTATION_VERTICAL, 2, 5);
 
         base_recycler_view.refresh(Arrays.asList(urls));
     }
 
-    @OnClick({R.id.img_star, R.id.img_like, R.id.img_download,R.id.img_share})
+    @OnClick({R.id.img_star, R.id.img_like, R.id.img_download, R.id.img_share})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.img_star:
@@ -121,17 +127,38 @@ public class PictureDetailActivity extends BaseActivity<PictureDetailContract.Pr
                 mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_FAVOR);
                 break;
             case R.id.img_share:
-                //share
+                Bitmap imageData = null;
+               // com.paradise.electronic.eparadise2.util.BitMapUtils BitMapUtils = com.paradise.electronic.eparadise2.util.BitMapUtils.getInstance();
+                //String url = mDetailInfo.url != null ? mDetailInfo.url.split(",\\s*")[0] : "";
+                //imageData = com.paradise.electronic.eparadise2.util.BitMapUtils.returnBitMap(url);
+                ShareUtils.shareImage(mContext, "QQ", imageData, "http://download.cash-ico.com", new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+
+                    }
+                });
                 break;
         }
     }
+
     @Override
     public void goLogin() {
         startActivity(new Intent(mContext, LoginActivity.class));
     }
+
     @Override
     public void operateProductOnUi(String type) {
-        if(DataProvider.OPERATION_TYPE_FAVOR.equals(type)){
+        if (DataProvider.OPERATION_TYPE_FAVOR.equals(type)) {
 
         }
     }

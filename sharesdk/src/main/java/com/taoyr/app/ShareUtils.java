@@ -41,7 +41,7 @@ public class ShareUtils {
         Platform platform = ShareSDK.getPlatform(shareCode);
         Platform.ShareParams shareParams = new Platform.ShareParams();
 
-        String shareTitle = "天风分享";
+        String shareTitle = "来自小皇叔的邀请";
         String shareUrl = TextUtils.isEmpty(url) ? "http://mob.com" : url;
         // ShareSDK一个bug，在分享到QZone、Wechat，如果文本中包含http://xxx，在分享后会被替换为
         // http://b4bh.link.sharesdk.cn/9VgiXC0J7q（mob.com）
@@ -71,7 +71,65 @@ public class ShareUtils {
                 shareParams.setTitleUrl(shareUrl);
                 shareParams.setShareType(Platform.SHARE_TEXT);
             }
-        }else if (Wechat.NAME.equals(shareCode)) {
+        } else if (Wechat.NAME.equals(shareCode)) {
+            if (checkShareClient(PACKAGES_WECHAT)) {
+                shareParams.setText(shareContent);
+                shareParams.setTitle(shareTitle);
+                shareParams.setShareType(Platform.SHARE_TEXT);
+            }
+        } else if (WechatMoments.NAME.equals(shareCode)) {
+            if (checkShareClient(PACKAGES_WECHAT_MOMENTS)) {
+                // 绕过审核分享到朋友圈一定要加一张图片才可以的，不然提示
+                // 获取资源失败 仅支持分享照片至朋友圈。如果设置bypassApproval false，没有配置正确的appId也打不开微信朋友圈的分享界面。
+                shareParams.setText(shareContent);
+                shareParams.setTitle(shareTitle);
+                //shareParams.setImagePath("file:///android_asset/logo.png");
+                shareParams.setImageData(getPlaceHolder(context));
+                shareParams.setImageUrl(shareUrl); // 必须的参数
+                shareParams.setShareType(Platform.SHARE_IMAGE);
+            }
+        }
+
+        platform.setPlatformActionListener(listener);
+        platform.share(shareParams);
+    }
+
+
+    public static void shareImage(Context context, String shareCode, Bitmap imageData, String url, PlatformActionListener listener) {
+        Platform platform = ShareSDK.getPlatform(shareCode);
+        Platform.ShareParams shareParams = new Platform.ShareParams();
+        String shareTitle = "来自小皇叔的邀请";
+        String shareUrl = TextUtils.isEmpty(url) ? "http://mob.com" : url;
+        // ShareSDK一个bug，在分享到QZone、Wechat，如果文本中包含http://xxx，在分享后会被替换为
+        // http://b4bh.link.sharesdk.cn/9VgiXC0J7q（mob.com）
+        shareUrl = shareUrl.replaceFirst("(http://)|(https://)", "");
+        String shareContent = shareTitle + ": " + shareUrl;
+        /**
+         * 微博分享只支持分享文本、图片、视频。而微信、QQ支持分享链接，也就是分享的内容可以在客户端内置
+         * 的浏览器打开。为了兼容，我们只分享文本，并将连接隐藏在文本中，用户仍然可以通过点击连接打开。
+         */
+        if (SinaWeibo.NAME.equals(shareCode)) {
+            if (checkShareClient(PACKAGES_SINA)) {
+                shareParams.setText(url);
+                shareParams.setUrl(url);
+            }
+        } else if (QQ.NAME.equals(shareCode)) {
+            if (checkShareClient(PACKAGES_QQ)) {
+                shareParams.setText(shareContent);
+                shareParams.setTitle(shareTitle);
+                shareParams.setTitleUrl(shareUrl);
+                shareParams.setImageUrl("http://image.cash-ico.com/2018/11/13/975a5e7ccfeb11dc4939bc2e2431a015.jpg_thumb.webp");
+                shareParams.setShareType(Platform.SHARE_IMAGE);
+            }
+        } else if (QZone.NAME.equals(shareCode)) {
+            if (checkShareClient(PACKAGES_QZONE)) {
+                shareParams.setText(shareContent);
+                shareParams.setTitle(shareTitle);
+                shareParams.setTitleUrl(shareUrl);
+                shareParams.setImageData(imageData);
+                shareParams.setShareType(Platform.SHARE_TEXT);
+            }
+        } else if (Wechat.NAME.equals(shareCode)) {
             if (checkShareClient(PACKAGES_WECHAT)) {
                 shareParams.setText(shareContent);
                 shareParams.setTitle(shareTitle);
@@ -119,6 +177,7 @@ public class ShareUtils {
     }
 
     private static Bitmap sPlaceholder;
+
     private static Bitmap getPlaceHolder(Context context) {
         // TODO 以后再扩展参数，当前工程中需要圆形加载的最大尺寸为100x100
         if (sPlaceholder == null) {

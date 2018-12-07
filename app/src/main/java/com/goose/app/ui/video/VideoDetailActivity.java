@@ -16,6 +16,7 @@ import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.ui.search.SearchActivity;
 import com.goose.app.widgets.controller.VideoListController;
 import com.goose.app.widgets.controller.VideoRecommendListController;
+import com.taoyr.app.ShareUtils;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.TimeUtils;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
@@ -27,10 +28,13 @@ import com.xiao.nicevideoplayer.TxVideoPlayerController;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.OnClick;
+import cn.sharesdk.framework.Platform;
+import cn.sharesdk.framework.PlatformActionListener;
 
 import static com.goose.app.configs.Configs.EXTRA_TAG;
 import static com.goose.app.configs.Configs.EXTRA_TYPE;
@@ -90,6 +94,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
 
     @Override
     protected void initView() {
+        ShareUtils.init(mContext);
         mPresenter.getProductDetail(mProductId);
         mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
         mPresenter.getRecommendProductList(mProductCategory, 1, 20);
@@ -160,6 +165,22 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
                 break;
             case R.id.img_share:
                 //分享
+                ShareUtils.shareLink(mContext, "QQ", "http://download.cash-ico.com", new PlatformActionListener() {
+                    @Override
+                    public void onComplete(Platform platform, int i, HashMap<String, Object> hashMap) {
+
+                    }
+
+                    @Override
+                    public void onError(Platform platform, int i, Throwable throwable) {
+
+                    }
+
+                    @Override
+                    public void onCancel(Platform platform, int i) {
+
+                    }
+                });
                 break;
         }
     }

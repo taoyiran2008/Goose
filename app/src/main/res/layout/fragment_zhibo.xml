@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="@color/gainsboro"
+              android:orientation="vertical">
+
+    <com.taoyr.pulltorefresh.PullToRefreshViewGroup
+        android:id="@+id/pull_to_refresh"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:paddingTop="5dp">
+        <android.support.v4.widget.NestedScrollView
+            android:id="@+id/nested_scroll_view"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical">
+                <com.taoyr.widget.widgets.carouselviewpager.CarouselViewPager
+                    android:id="@+id/carousel_view_pager"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"/>
+
+                <com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue
+                    android:id="@+id/base_recycler_view"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginTop="20dp"
+                    android:nestedScrollingEnabled="false"/>
+            </LinearLayout>
+        </android.support.v4.widget.NestedScrollView>
+    </com.taoyr.pulltorefresh.PullToRefreshViewGroup>
+</LinearLayout>

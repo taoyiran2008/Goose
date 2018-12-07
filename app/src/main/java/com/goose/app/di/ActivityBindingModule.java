@@ -16,6 +16,8 @@ import com.goose.app.ui.signup.SignUpTelActivity;
 import com.goose.app.ui.signup.SignUpTelModule;
 import com.goose.app.ui.video.VideoDetailActivity;
 import com.goose.app.ui.video.VideoDetailModule;
+import com.goose.app.ui.zhibo.ZhiboDetailActivity;
+import com.goose.app.ui.zhibo.ZhiboDetailModule;
 import com.taoyr.app.di.scope.ActivityScoped;
 
 import dagger.Module;
@@ -44,6 +46,9 @@ public abstract class ActivityBindingModule {
     @ActivityScoped
     @ContributesAndroidInjector(modules = VideoDetailModule.class)
     abstract VideoDetailActivity videoDetailActivity();
+    @ActivityScoped
+    @ContributesAndroidInjector(modules = ZhiboDetailModule.class)
+    abstract ZhiboDetailActivity zhiboDetailActivity();
 
     @ActivityScoped
     @ContributesAndroidInjector(modules = LoginModule.class)

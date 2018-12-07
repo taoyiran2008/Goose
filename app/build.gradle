@@ -1,5 +1,18 @@
 apply plugin: 'com.android.application'
-
+//apply plugin: 'com.mob.sdk'
+apply from: '../sharesdk/MobSDK.gradle'
+buildscript {
+    repositories {
+        jcenter()
+        maven {
+            url "http://mvn.mob.com/android"
+        }
+    }
+    dependencies {
+        classpath "com.mob.sdk:MobSDK:2018.0319.1724"
+//            classpath 'com.mob.sdk:MobSDK:+'
+    }
+}
 android {
 //    packagingOptions {
 //        pickFirst 'META-INF/*'
@@ -84,6 +97,7 @@ dependencies {
     implementation project(':thirdparty')
     implementation project(':utility')
     implementation project(':widget')
+    implementation project(':sharesdk')
     implementation project(':pulltorefresh')
     implementation project(':pictureviewer')
     implementation project(':nicevideoplayer')

@@ -129,4 +129,6 @@ dependencies {
     compile 'com.github.donkingliang:LabelsView:1.4.5'
     //开屏动画
     compile 'site.gemus:openingstartanimation:1.0.0'
+
+    compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.3'
 }
