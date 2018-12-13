@@ -98,7 +98,7 @@ public class SignUpPersonalActivity extends BaseActivity<SignUpPersonalContract.
                 }
                 //mPresenter.login(mMobile, mPassword);
                 // 需要先登陆获取token，才能访问更新接口
-                mPresenter.updateProfile(GooseApplication.getInstance().getUserInfo().uid, mNickName, mAvatar);
+               // mPresenter.updateProfile(GooseApplication.getInstance().getUserInfo().uid, mNickName, mAvatar);
                 break;
             case R.id.img:
                 new ActionSheetDialog(mContext).Builder()

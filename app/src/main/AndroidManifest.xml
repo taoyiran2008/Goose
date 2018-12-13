@@ -73,6 +73,7 @@
         <activity
             android:name=".ui.zhibo.ZhiboDetailActivity"
             android:configChanges="orientation|keyboardHidden|screenSize"
+            android:theme="@style/APP_FULLSCREEN"
             android:screenOrientation="portrait" />
 
         <activity

@@ -73,6 +73,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
     @BindView(R.id.ev_exit)
     EntryView ev_exit;
 
+    UserDetailInfo userDetailInfo;
     ClockInDialog mClockInDialog;
 
     @Inject
@@ -89,7 +90,9 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         super.setUserVisibleHint(isVisibleToUser);
         final BaseActivity activity = (BaseActivity) getActivity();
         if (isVisibleToUser) {
-            activity.setStatusBarTransparent(true);
+            if (activity != null) {
+                activity.setStatusBarTransparent(true);
+            }
         } else {
             // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
             if (activity != null) {
@@ -119,16 +122,15 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
                 mPresenter.getLastSignInfo();
                 break;
             case R.id.ev_invite:
-                if(GooseApplication.getInstance().getUserInfo()==null){
+                if(GooseApplication.getInstance().getToken()==null){
                     mPresenter.getUserInfo();
                 }else {
                     Intent intent2 = new Intent(mContext, InviteActivity.class);
-                    intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,GooseApplication.getInstance().getUserInfo().shareCode);
+                    intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,userDetailInfo.shareCode);
                     startActivity(intent2);
                 }
                 break;
             case R.id.ev_exit:
-                GooseApplication.getInstance().setUserInfo(null);
                 GooseApplication.getInstance().setToken(null);
                 Intent intent3 = new Intent(mContext, LoginActivity.class);
                 startActivity(intent3);
@@ -176,8 +178,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @Override
     protected void initView() {
-        if (GooseApplication.getInstance().getUserInfo() != null) {
-            updateUserUi(GooseApplication.getInstance().getUserInfo());
+        if (!ValidUtil.isEmpty(GooseApplication.getInstance().getToken() )) {
             mPresenter.getUserInfo();
         }
         //mPresenter.getUserInfo();
@@ -222,7 +223,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @Override
     public void getUserInfo(UserDetailInfo user) {
-        GooseApplication.getInstance().setUserInfo(user);
+        userDetailInfo=user;
         updateUserUi(user);
         txt_coin.setText(user.coin + "个金币");
         try {

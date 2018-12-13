@@ -53,7 +53,6 @@ public final class LoginPresenter extends BasePresenter<LoginContract.View>
                             GooseApplication.getInstance().setToken(info.token);
 
                             // 保存用户信息（包括用户令牌token）
-                            GooseApplication.getInstance().setUserInfo(info);
                             mView.showToast("登录成功");
                             mView.loginOnUi();
                         }

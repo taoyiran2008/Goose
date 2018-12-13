@@ -22,7 +22,7 @@ public class BaseConfig {
     /**
      * 生产版本地址
      */
-    public static String URL = "http://yellow.cash-ico.com:8670";
+    public static String URL = "http://yellow.xhs3.com";
 
-    public static String API_SERVER = true ? TEST_URL : URL;
+    public static String API_SERVER = false ? TEST_URL : URL;
 }

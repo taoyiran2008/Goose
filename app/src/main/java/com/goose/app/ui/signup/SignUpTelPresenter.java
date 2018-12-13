@@ -41,7 +41,7 @@ public final class SignUpTelPresenter extends BasePresenter<SignUpTelContract.Vi
                             mView.registerOnUi();
                         }*/
                         // 保存用户信息（包括用户令牌token）
-                        GooseApplication.getInstance().setUserInfo(info);
+                       // GooseApplication.getInstance().setUserInfo(info);
                         mView.showToast("注册成功");
                         mView.registerOnUi();
                     }

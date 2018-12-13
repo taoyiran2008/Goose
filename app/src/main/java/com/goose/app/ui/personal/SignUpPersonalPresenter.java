@@ -35,12 +35,12 @@ public final class SignUpPersonalPresenter extends BasePresenter<SignUpPersonalC
                     @Override
                     public void onSuccess(String result) {
                         mView.showToast("保存用户信息成功");
-                        UserDetailInfo info = GooseApplication.getInstance().getUserInfo();
-                        if (info != null) {
-                            // 更新本地缓存
-                            info.avatar = avatar;
-                            info.displayName = displayName;
-                        }
+                        //UserDetailInfo info = GooseApplication.getInstance().getUserInfo();
+//                        if (info != null) {
+//                            // 更新本地缓存
+//                            info.avatar = avatar;
+//                            info.displayName = displayName;
+//                        }
 
                         mView.updateProfileOnUi();
                     }

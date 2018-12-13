@@ -64,6 +64,9 @@ public class VideoListController extends BaseRvController<PictureInfo> {
         holder.txt_title.setText(struct.title);
         holder.txt_count.setText(String.valueOf(urls.length));
         holder.txt_views.setText(String.valueOf(struct.view));
+        holder.txt_count.setVisibility(View.GONE);
+        holder.txt_count_img.setVisibility(View.GONE);
+
 
         return true;
     }
@@ -87,6 +90,8 @@ public class VideoListController extends BaseRvController<PictureInfo> {
         TextView txt_views;
         @BindView(R.id.txt_count)
         TextView txt_count;
+        @BindView(R.id.txt_count_img)
+        ImageView txt_count_img;
 
         public ViewHolder(View itemView) {
             super(itemView);

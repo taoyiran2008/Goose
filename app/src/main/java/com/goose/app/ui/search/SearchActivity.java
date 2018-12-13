@@ -120,7 +120,7 @@ public class SearchActivity extends BaseActivity<SearchContract.Presenter>
             edt_content_filter.setText(mKeywords);
             mPresenter.search(mCurrentPage, PAGE_COUNT, mKeywords, mCategory, mType, false);
         }
-        base_recycler_view.initialize(new ProductListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1,0);
+        base_recycler_view.initialize(new ProductListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 2,1);
 
         showSearchResult(false);
 

@@ -96,6 +96,7 @@ dependencies {
     implementation project(':base')
     implementation project(':thirdparty')
     implementation project(':utility')
+    implementation project(':ijk')
     implementation project(':widget')
     implementation project(':sharesdk')
     implementation project(':pulltorefresh')

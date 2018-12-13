@@ -18,6 +18,7 @@ import com.goose.app.ui.picture.PictureContract;
 import com.goose.app.ui.web.WebActivity;
 import com.goose.app.widgets.controller.PictureListController;
 import com.goose.app.widgets.controller.VideoListController;
+import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.base.BaseFragment;
 import com.taoyr.app.utility.PageManager;
 import com.taoyr.app.utility.PictureLoader;
@@ -76,6 +77,21 @@ public class VideoFragment extends BaseFragment<VideoContract.Presenter> impleme
         return R.layout.fragment_video;
     }
 
+    @Override
+    public void setUserVisibleHint(boolean isVisibleToUser) {
+        super.setUserVisibleHint(isVisibleToUser);
+        final BaseActivity activity = (BaseActivity) getActivity();
+        if (isVisibleToUser) {
+            if (activity != null) {
+                activity.setStatusBarTransparent(false);
+            }
+        } else {
+            // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
+            if (activity != null) {
+                activity.setStatusBarTransparent(false);
+            }
+        }
+    }
     @Override
     protected void initView() {
         initPullToRefreshWidget();

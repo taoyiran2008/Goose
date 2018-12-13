@@ -7,7 +7,7 @@ package com.taoyr.app.utility;
 
 public abstract class PageManager {
 
-    public static final int DEFAULT_PAGE_SIZE = 10;
+    public static final int DEFAULT_PAGE_SIZE = 20;
 
     int mPageSize = DEFAULT_PAGE_SIZE;
     int mCurrentPage = 1;

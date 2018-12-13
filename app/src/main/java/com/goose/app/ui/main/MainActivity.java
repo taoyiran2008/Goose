@@ -107,6 +107,16 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
 
     @Override
     protected void initView() {
+
+        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
+                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
+                .setAppName("小皇叔") //设置app名称
+                .setAppStatement("在这里，找到你想要的") //设置一句话描述
+                .setAnimationInterval(2000) // 设置动画时间间隔
+                .setAnimationFinishTime(300) // 设置动画的消失时长
+                .create();
+        openingStartAnimation.show(this);
+
         //asvp.initialize(new MyViewPagerAdapter(this));
         mFragments.add(mPicture);
         LogMan.logDebug("mPresenter == null : " + (mPresenter == null));
@@ -137,14 +147,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         initGooseTitleBar();
         // initSideBar();
 
-        OpeningStartAnimation openingStartAnimation = new OpeningStartAnimation.Builder(this)
-                .setDrawStategy(new NormalDrawStrategy()) //设置动画效果
-                .setAppName("小皇叔") //设置app名称
-                .setAppStatement("在这里，找到你想要的") //设置一句话描述
-                .setAnimationInterval(2000) // 设置动画时间间隔
-                .setAnimationFinishTime(300) // 设置动画的消失时长
-                .create();
-        openingStartAnimation.show(this);
+
     }
 
     private void initGooseTitleBar() {
@@ -205,14 +208,12 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
         //tab.setSelectedTabIndicatorColor(ContextCompat.getColor(this, R.color.white));
         //ViewCompat.setElevation(tab, 10);
         tab.setupWithViewPager(vp);
-
         tab.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 if (tab.getPosition() != mCurrentPosition) {
-                    mCurrentPosition = tab.getPosition();
-
                     top_bar_goose.setVisibility(View.VISIBLE);
+                    mCurrentPosition = tab.getPosition();
                     if (mCurrentPosition == 0) { // 图片
                         mProductType = DataProvider.DATA_TYPE_PICTURE;
 
@@ -230,7 +231,7 @@ public class MainActivity extends BaseActivity<MainContract.Presenter> implement
                     }
 
                     mPresenter.getCategoryList(mProductType);
-                    initGooseTitleBar();
+                    //initGooseTitleBar();
 
                     if (mCategoryMap.get(mProductType) == null) {
                         mPresenter.getCategoryList(mProductType);

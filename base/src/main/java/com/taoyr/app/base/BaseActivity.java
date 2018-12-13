@@ -32,8 +32,6 @@ import butterknife.Unbinder;
 import dagger.android.support.DaggerAppCompatActivity;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.functions.Consumer;
-import site.gemus.openingstartanimation.NormalDrawStrategy;
-import site.gemus.openingstartanimation.OpeningStartAnimation;
 
 /**
  * Created by taoyr on 2018/1/5.

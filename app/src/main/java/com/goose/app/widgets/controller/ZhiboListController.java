@@ -13,6 +13,7 @@ import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.zhibo.ZhiboDetailActivity;
+import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.widget.widgets.commonrv.base.BaseRvController;
 import com.taoyr.widget.widgets.commonrv.base.RvAdapter;
@@ -38,7 +39,7 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
     public RecyclerView.ViewHolder create(ViewGroup parent) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.recycler_view_item_zhibo, parent, false);
-       // CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
+        //CommonUtils.tuneHeightRatio(mContext, itemView, 200, 200);
         return new ViewHolder(itemView);
     }
 
@@ -64,6 +65,8 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
         super.onSelected(info, position, adapter);
         Intent intent = new Intent(mContext, ZhiboDetailActivity.class);
         intent.putExtra(Configs.EXTRA_ID, info.id);
+        intent.putExtra(Configs.EXTRA_URL, info.url);
+        intent.putExtra(Configs.EXTRA_TITLE, info.title);
         mContext.startActivity(intent);
     }
 

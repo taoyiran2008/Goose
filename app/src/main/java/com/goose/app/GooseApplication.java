@@ -18,7 +18,7 @@ public class GooseApplication extends BaseApplication {
 
     private static GooseApplication sInstance;
 
-    UserDetailInfo mUserInfo;
+
 
     @Inject
     DataProvider mDataProvider;
@@ -42,11 +42,4 @@ public class GooseApplication extends BaseApplication {
         return sInstance;
     }
 
-    public void setUserInfo(UserDetailInfo info) {
-        mUserInfo = info;
-    }
-
-    public UserDetailInfo getUserInfo() {
-        return mUserInfo;
-    }
 }

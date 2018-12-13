@@ -6,6 +6,7 @@ import com.goose.app.R;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.login.LoginActivity;
 import com.goose.app.widgets.controller.PictureListController;
+import com.jwenfeng.library.pulltorefresh.PullToRefreshLayout;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.PageManager;
 import com.taoyr.pulltorefresh.PullToRefreshListener;

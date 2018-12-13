@@ -9,6 +9,7 @@ import android.support.multidex.MultiDex;
 
 import com.alibaba.android.arouter.launcher.ARouter;
 import com.google.gson.Gson;
+import com.taoyr.app.model.UserDetailInfo;
 import com.taoyr.app.rxbus.RxBus;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.LogMan;
@@ -274,6 +275,7 @@ public abstract class BaseApplication extends DaggerApplication {
         this.token = token;
         mSp.edit().putString("token", token).apply();
     }
+
 
     @Override
     protected void attachBaseContext(Context base) {

@@ -2,6 +2,7 @@ package com.goose.app.widgets.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.Image;
 import android.support.v7.widget.RecyclerView;
 import android.text.TextUtils;
 import android.view.LayoutInflater;
@@ -16,6 +17,7 @@ import com.goose.app.data.DataProvider;
 import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.picture.PictureDetailActivity;
 import com.goose.app.ui.video.VideoDetailActivity;
+import com.goose.app.ui.zhibo.ZhiboDetailActivity;
 import com.taoyr.app.utility.CommonUtils;
 import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.widget.widgets.commonrv.base.BaseRvController;
@@ -42,7 +44,7 @@ public class ProductListController extends BaseRvController<PictureInfo> {
     public RecyclerView.ViewHolder create(ViewGroup parent) {
         View itemView = LayoutInflater.from(parent.getContext()).inflate(
                 R.layout.recycler_view_item_picture, parent, false);
-        CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
+       // CommonUtils.tuneHeightRatio(mContext, itemView, 199, 375);
         return new ViewHolder(itemView);
     }
 
@@ -61,7 +63,19 @@ public class ProductListController extends BaseRvController<PictureInfo> {
         if (!TextUtils.isEmpty(struct.url)) {
             urls = struct.url.split(",");
         }
-
+        if (struct.type.equals(DataProvider.DATA_TYPE_PICTURE)) {
+            holder.txt_count.setVisibility(View.VISIBLE);
+            holder.txt_views.setVisibility(View.VISIBLE);
+        } else if (struct.type.equals(DataProvider.DATA_TYPE_VIDEO)) {
+            holder.txt_count.setVisibility(View.GONE);
+            holder.txt_views.setVisibility(View.GONE);
+            holder.txt_count_img.setVisibility(View.GONE);
+        } else if (struct.type.equals(DataProvider.DATA_TYPE_STREAM)) {
+            holder.txt_count.setVisibility(View.GONE);
+            holder.txt_views.setVisibility(View.GONE);
+            holder.txt_views_img.setVisibility(View.GONE);
+            holder.txt_count_img.setVisibility(View.GONE);
+        }
         PictureLoader.simpleLoad(holder.img, struct.cover);
         holder.txt_title.setText(struct.title);
         holder.txt_count.setText(String.valueOf(urls.length));
@@ -79,8 +93,12 @@ public class ProductListController extends BaseRvController<PictureInfo> {
             intent = new Intent(mContext, PictureDetailActivity.class);
         } else if (info.type.equals(DataProvider.DATA_TYPE_VIDEO)) {
             intent = new Intent(mContext, VideoDetailActivity.class);
+        } else if (info.type.equals(DataProvider.DATA_TYPE_STREAM)) {
+            intent = new Intent(mContext, ZhiboDetailActivity.class);
         }
         intent.putExtra(Configs.EXTRA_ID, info.id);
+        intent.putExtra(Configs.EXTRA_URL, info.url);
+        intent.putExtra(Configs.EXTRA_TITLE, info.title);
         intent.putExtra(Configs.EXTRA_CATEGORY, info.category);
         mContext.startActivity(intent);
     }
@@ -95,6 +113,10 @@ public class ProductListController extends BaseRvController<PictureInfo> {
         TextView txt_views;
         @BindView(R.id.txt_count)
         TextView txt_count;
+        @BindView(R.id.txt_views_img)
+        ImageView txt_views_img;
+        @BindView(R.id.txt_count_img)
+        ImageView txt_count_img;
 
         public ViewHolder(View itemView) {
             super(itemView);

@@ -427,7 +427,7 @@ public class PullToRefreshViewGroup extends RelativeLayout {
                     if (mTheme == THEME_WHITE_TONE) {
                         mArrow.setImageResource(R.drawable.arrow_plane_white);
                     } else if (mTheme == THEME_BLUE_TONE) {
-                        mArrow.setImageResource(R.drawable.arrow_plane);
+                        mArrow.setImageResource(R.drawable.pull);
                     }
 
                     if (mCurrentStatus != STATUS_REFRESHING) { // 如果是正在刷新状态，则对下拉动作不作响应（屏蔽下拉事件）
@@ -820,12 +820,12 @@ public class PullToRefreshViewGroup extends RelativeLayout {
                     mDescription2.setText(getResources().getString(R.string.common_pull_up_to_load_more));
                     mArrow2.setVisibility(View.VISIBLE);
                     mProgressBar2.setVisibility(View.GONE);
-                    rotateArrow(mArrow2);
+                    //rotateArrow(mArrow2);
                 } else if (mCurrentStatus == STATUS_RELEASE_TO_REFRESH) {
                     mDescription2.setText(getResources().getString(R.string.common_release_to_load_more));
                     mArrow2.setVisibility(View.VISIBLE);
                     mProgressBar2.setVisibility(View.GONE);
-                    rotateArrow(mArrow2);
+                    //rotateArrow(mArrow2);
                 } else if (mCurrentStatus == STATUS_REFRESHING) {
                     mDescription2.setText(getResources().getString(R.string.common_now_loading_more));
                     mProgressBar2.setVisibility(View.VISIBLE);
