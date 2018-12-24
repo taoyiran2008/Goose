@@ -78,17 +78,17 @@ public class PictureFragment extends BaseFragment<PictureContract.Presenter> imp
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (isVisibleToUser) {
-            if (activity != null) {
-                activity.setStatusBarTransparent(false);
-            }
-        } else {
-            // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
-            if (activity != null) {
-                activity.setStatusBarTransparent(false);
-            }
-        }
+//        final BaseActivity activity = (BaseActivity) getActivity();
+//        if (isVisibleToUser) {
+//            if (activity != null) {
+//                activity.setStatusBarTransparent(false);
+//            }
+//        } else {
+//            // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
+//            if (activity != null) {
+//                activity.setStatusBarTransparent(false);
+//            }
+//        }
     }
     @Override
     protected void initView() {

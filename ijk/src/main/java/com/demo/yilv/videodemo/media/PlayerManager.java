@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.pm.ActivityInfo;
 import android.content.res.Resources;
 import android.media.AudioManager;
+import android.net.Uri;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
@@ -23,6 +24,7 @@ import android.widget.TextView;
 import tv.danmaku.ijk.media.player.IMediaPlayer;
 import tv.danmaku.ijk.media.player.IjkMediaPlayer;
 import tv.danmaku.ijk.media.player.pragma.DebugLog;
+
 
 /**
  * Created by yilv on 2018/3/29.
@@ -129,6 +131,7 @@ public class PlayerManager {
     public PlayerManager(final Activity activity,final IjkVideoView videoView) {
         try {
             IjkMediaPlayer.loadLibrariesOnce(null);
+
             IjkMediaPlayer.native_profileBegin("libijkplayer.so");
             playerSupport=true;
         } catch (Throwable e) {
@@ -227,7 +230,8 @@ public class PlayerManager {
     public void play(String url) {
         this.url = url;
         if (playerSupport) {
-            videoView.setVideoPath(url);
+           // videoView.setVideoPath(url);
+            videoView.setVideoURI(Uri.parse(url));
             videoView.start();
         }
     }

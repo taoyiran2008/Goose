@@ -15,7 +15,6 @@ import java.util.List;
 public interface ZhiboDetailContract {
 
     interface View extends IBaseView<Presenter> {
-        void getProductDetailOnUi(PictureDetailInfo list);
 
         void operateProductOnUi(String type);
 
@@ -23,7 +22,6 @@ public interface ZhiboDetailContract {
     }
 
     interface Presenter extends IBasePresenter<View> {
-        void getProductDetail(String id);
 
 
         void operateProduct(String id, String type);

@@ -34,28 +34,6 @@ public final class ZhiboDetailPresenter extends BasePresenter<ZhiboDetailContrac
     public ZhiboDetailPresenter() {
     }
 
-    @Override
-    public void getProductDetail(String id) {
-        doRequest(mDataProvider.provideObservable(DataProvider.OperationType.GET_PRODUCT_DETAIL, id),
-                SHOW_CANCELABLE_DIALOG, new UiCallback<PictureDetailInfo>() {
-                    @Override
-                    public void onSuccess(PictureDetailInfo info) {
-                        mView.getProductDetailOnUi(info);
-                    }
-
-                    @Override
-                    public void onFailure(String msg) {
-                        mView.showToast("图片详情获取失败");
-                    }
-
-                    @Override
-                    public void onNoAuthenticated() {
-                        mView.goLogin();
-                    }
-
-                });
-    }
-
 
     @Override
     public void operateProduct(String id, final String type) {

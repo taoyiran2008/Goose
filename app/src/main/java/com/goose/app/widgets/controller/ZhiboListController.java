@@ -18,6 +18,7 @@ import com.taoyr.app.utility.PictureLoader;
 import com.taoyr.widget.widgets.commonrv.base.BaseRvController;
 import com.taoyr.widget.widgets.commonrv.base.RvAdapter;
 
+import java.io.Serializable;
 import java.util.List;
 
 import butterknife.BindView;
@@ -34,6 +35,8 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
     public ZhiboListController(Context context) {
         mContext = context;
     }
+
+    private List<PictureInfo> mList;
 
     @Override
     public RecyclerView.ViewHolder create(ViewGroup parent) {
@@ -53,8 +56,14 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
                         final List<PictureInfo> list, final int position) {
         final ViewHolder holder = (ViewHolder) viewHolder;
         final PictureInfo struct = list.get(position);
+        mList = list;
+        if(struct.cover.contains("aliyuncs")){
 
-        PictureLoader.simpleLoad(holder.img, struct.cover);
+            PictureLoader.simpleLoad(holder.img, struct.cover+"?x-oss-process=image/resize,m_fill,h_200,w_200");
+        }else {
+
+            PictureLoader.simpleLoad(holder.img, struct.cover);
+        }
         holder.txt_title.setText(struct.title);
 
         return true;
@@ -67,6 +76,8 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
         intent.putExtra(Configs.EXTRA_ID, info.id);
         intent.putExtra(Configs.EXTRA_URL, info.url);
         intent.putExtra(Configs.EXTRA_TITLE, info.title);
+        intent.putExtra(Configs.EXTRA_POSITION, position);
+        intent.putExtra(Configs.EXTRA_LIST, (Serializable) mList);
         mContext.startActivity(intent);
     }
 
@@ -77,6 +88,7 @@ public class ZhiboListController extends BaseRvController<PictureInfo> {
         ImageView img;
         @BindView(R.id.txt_title)
         TextView txt_title;
+
         public ViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);

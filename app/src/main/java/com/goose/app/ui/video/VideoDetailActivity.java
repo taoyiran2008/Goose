@@ -21,6 +21,7 @@ import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.TimeUtils;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerView;
 import com.taoyr.widget.widgets.commonrv.base.BaseRecyclerViewGlue;
+import com.taoyr.widget.widgets.dialog.ConfirmDialog;
 import com.xiao.nicevideoplayer.NiceVideoPlayer;
 import com.xiao.nicevideoplayer.NiceVideoPlayerManager;
 import com.xiao.nicevideoplayer.TxVideoPlayerController;
@@ -125,7 +126,7 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
                 .into(controller.imageView());
         mNiceVideoPlayer.setController(controller);
 
-        String[] tags = info.tag.split("，");
+        String[] tags = info.tag.split(",");
 
         //直接设置一个字符串数组就可以了。
         labelsView.setLabels(Arrays.asList(tags));
@@ -191,7 +192,18 @@ public class VideoDetailActivity extends BaseActivity<VideoDetailContract.Presen
 
     @Override
     public void goLogin() {
-        startActivity(new Intent(mContext, LoginActivity.class));
+        showConfirmDialog("您还不是会员，请先注册哦", new ConfirmDialog.Callback() {
+            @Override
+            public void onConfirm() {
+                startActivity(new Intent(mContext, LoginActivity.class));
+            }
+
+            @Override
+            public void onCancel() {
+                VideoDetailActivity.this.finish();
+            }
+        });
+
     }
 
     @Override

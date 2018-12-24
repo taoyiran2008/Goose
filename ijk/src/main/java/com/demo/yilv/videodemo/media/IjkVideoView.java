@@ -182,6 +182,7 @@ public class IjkVideoView extends FrameLayout implements MediaController.MediaPl
         addView(subtitleDisplay, layoutParams_txt);
     }
 
+
     public void setRenderView(IRenderView renderView) {
         if (mRenderView != null) {
             if (mMediaPlayer != null)

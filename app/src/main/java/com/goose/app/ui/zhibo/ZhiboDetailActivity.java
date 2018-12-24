@@ -1,8 +1,10 @@
 package com.goose.app.ui.zhibo;
 
+import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.os.Handler;
 import android.os.Message;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -17,11 +19,15 @@ import com.demo.yilv.videodemo.media.PlayerManager;
 import com.goose.app.R;
 import com.goose.app.configs.Configs;
 import com.goose.app.model.PictureDetailInfo;
+import com.goose.app.model.PictureInfo;
 import com.goose.app.ui.login.LoginActivity;
+import com.goose.app.ui.video.VideoDetailActivity;
 import com.taoyr.app.base.BaseActivity;
 import com.taoyr.app.utility.ValidUtil;
 import com.taoyr.widget.widgets.TopBar;
+import com.taoyr.widget.widgets.dialog.ConfirmDialog;
 
+import java.util.ArrayList;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -42,10 +48,12 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
 
     TopBar top_bar;
     String mProductId;
-    String mTitle;
+    int position;
+    int maxPosition;
+
     String mUrl;
-    PictureDetailInfo mDetailInfo;
     private PlayerManager player;
+
     @BindView(R.id.ll_loading)
     LinearLayout ll_loading;
     @BindView(R.id.txt_progress)
@@ -53,6 +61,8 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
 
     @BindView(R.id.img_loading)
     ImageView img_loading;
+
+    ArrayList<PictureInfo> listObj;
 
     @Override
     protected int getLayoutResID() {
@@ -63,45 +73,62 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
     public void handleIntent(Intent intent) {
         super.handleIntent(intent);
         mProductId = intent.getStringExtra(Configs.EXTRA_ID);
-        mTitle = intent.getStringExtra(Configs.EXTRA_TITLE);
-        mUrl = intent.getStringExtra(Configs.EXTRA_URL);
-        top_bar.setTitle(mTitle);
-        // mProductCategory = intent.getStringExtra(Configs.EXTRA_CATEGORY);
-        //mPresenter.getProductDetail(mProductId);
-        //mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
-        initVideo(mUrl);
+        position = intent.getIntExtra(Configs.EXTRA_POSITION, 0);
+        listObj = (ArrayList<PictureInfo>) getIntent().getSerializableExtra(Configs.EXTRA_LIST);
+        maxPosition = listObj.size();
     }
 
     @Override
     protected void initView() {
         this.setStatusBarTransparent(true);
         //得到当前界面的装饰视图
-        top_bar.setVisibility(View.GONE);
+
+
+        initVideo(position);
+        //mPresenter.getProductDetail(mProductId);
+        //mPresenter.operateProduct(mProductId, DataProvider.OPERATION_TYPE_VIEW);
+
+        setGestureListener();
+    }
+
+//    @Override
+//    public void getProductDetailOnUi(PictureDetailInfo info) {
+//        if (info != null && !ValidUtil.isEmpty(info.url)) {
+//            mUrl = info.url;
+//            initVideo(info.url);
+//        } else {
+//            showToast("播放异常");
+//            this.finish();
+//        }
+//
+//    }
+
+    private void initVideo(int position) {
+        top_bar.setVisibility(View.VISIBLE);
+
+        if (mVideoView!=null&& mVideoView.isPlaying()) {
+            mVideoView.release(true);
+        }
+
+        player = new PlayerManager(this, mVideoView);
+        player.live(true);
+
+        player.setScaleType(PlayerManager.SCALETYPE_FILLPARENT);
+
+        PictureInfo pictureInfo = listObj.get(position);
+        mUrl = pictureInfo.url;
+        top_bar.setTitle(pictureInfo.title);
+
+        player.showActionBar(true);
+        player.play(mUrl);
+
         img_loading.setVisibility(View.VISIBLE);
         ll_loading.setVisibility(View.VISIBLE);
         Animation anim = AnimationUtils.loadAnimation(ZhiboDetailActivity.this, com.goose.pictureviewer.R.anim.roll_image_loading);
         // 加载图标转起来
         img_loading.setImageResource(com.goose.pictureviewer.R.drawable.roll_icon_loading);
         img_loading.startAnimation(anim);
-    }
 
-    @Override
-    public void getProductDetailOnUi(PictureDetailInfo info) {
-        if (info != null && !ValidUtil.isEmpty(info.url)) {
-            mDetailInfo = info;
-            initVideo(info.url);
-        } else {
-            showToast("播放异常");
-            this.finish();
-        }
-
-    }
-
-    private void initVideo(String url) {
-        player = new PlayerManager(this, mVideoView);
-        player.live(true);
-        player.setScaleType(PlayerManager.SCALETYPE_FILLPARENT);
-        player.play(url);
         mVideoView.setOnInfoListener(new IMediaPlayer.OnInfoListener() {
             @Override
             public boolean onInfo(IMediaPlayer mp, int what, int extra) {
@@ -139,6 +166,7 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
                             ll_loading.setVisibility(View.INVISIBLE);
                             img_loading.setVisibility(View.INVISIBLE);
                             txt_progress.setVisibility(View.INVISIBLE);
+                            top_bar.setVisibility(View.GONE);
                         }
                         break;
                 }
@@ -171,30 +199,48 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
     public void operateProductOnUi(String type) {
     }
 
+
     @Override
     public void goLogin() {
+        showConfirmDialog("您还不是会员，请先注册哦", new ConfirmDialog.Callback() {
+            @Override
+            public void onConfirm() {
+                startActivity(new Intent(mContext, LoginActivity.class));
+            }
 
-        startActivity(new Intent(mContext, LoginActivity.class));
+            @Override
+            public void onCancel() {
+                ZhiboDetailActivity.this.finish();
+            }
+        });
+
     }
 
     @Override
     protected void onStop() {
-        player.stop();
         super.onStop();
+    }
+
+    @Override
+    protected void onDestroy() {
+     //   player.stop();
+        super.onDestroy();
     }
 
     @Override
     protected void onResume() {
 
-        if (player.isPlaying()==false&&mUrl != null) {
-            initVideo(mUrl);
-        }
+//        if (player != null && !player.isPlaying()) {
+//            initVideo(position);
+//        }
         super.onResume();
     }
 
     @Override
     public void onBackPressed() {
-        player.stop();
+        if (player != null && player.isPlaying()) {
+            player.stop();
+        }
         super.onBackPressed();
     }
 
@@ -208,8 +254,6 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
             }
             super.handleMessage(msg);
         }
-
-        ;
     };
     Timer timer = new Timer();
     TimerTask task = new TimerTask() {
@@ -223,4 +267,61 @@ public class ZhiboDetailActivity extends BaseActivity<ZhiboDetailContract.Presen
         }
     };
 
+
+    /**
+     * 设置上下滑动作监听器
+     *
+     * @author jczmdeveloper
+     */
+    float mPosX, mPosY, mCurPosX, mCurPosY;
+
+    @SuppressLint("ClickableViewAccessibility")
+    private void setGestureListener() {
+        mVideoView.setOnTouchListener(new View.OnTouchListener() {
+
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+                switch (event.getAction()) {
+
+                    case MotionEvent.ACTION_DOWN:
+                        mPosX = event.getX();
+                        mPosY = event.getY();
+                        break;
+                    case MotionEvent.ACTION_MOVE:
+                        mCurPosX = event.getX();
+                        mCurPosY = event.getY();
+
+                        break;
+                    case MotionEvent.ACTION_UP:
+                        if (mCurPosY - mPosY > 0 && (Math.abs(mCurPosY - mPosY) > 1000)) {
+                            //向下滑動
+                            position--;
+                            if (position < 0) {
+                                showToast("已经到顶了");
+                                position=0;
+                            } else {
+                                player.stop();
+                                initVideo(position);
+                            }
+
+                        } else if (mCurPosY - mPosY < 0 && (Math.abs(mCurPosY - mPosY) > 1000)) {
+                            //向上滑动
+                            position++;
+                            if (position >= maxPosition - 1) {
+                                showToast("无更多数据");
+                                position=maxPosition;
+                            } else {
+                                player.stop();
+                                initVideo(position);
+                            }
+
+                        }
+
+                        break;
+                }
+                return true;
+            }
+
+        });
+    }
 }

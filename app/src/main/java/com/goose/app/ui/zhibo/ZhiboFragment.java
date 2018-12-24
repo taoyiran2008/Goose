@@ -62,7 +62,7 @@ public class ZhiboFragment extends BaseFragment<ZhiboContract.Presenter> impleme
     PageManager mPageManager = new PageManager() {
         @Override
         public void loadPage(int pageSize, int pageIndex) {
-            mPresenter.getProductList(mCategoryCode, pageIndex, pageSize);
+            mPresenter.getProductList(mCategoryCode, pageIndex, Integer.MAX_VALUE);
         }
     };
 

@@ -95,7 +95,7 @@ public class VideoFragment extends BaseFragment<VideoContract.Presenter> impleme
     @Override
     protected void initView() {
         initPullToRefreshWidget();
-        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 1, 5);
+        base_recycler_view.initialize(new VideoListController(mContext), BaseRecyclerView.ORIENTATION_VERTICAL, 2, 5);
 
         mPresenter.getBannerList();
 

@@ -131,4 +131,6 @@ dependencies {
     compile 'site.gemus:openingstartanimation:1.0.0'
 
     compile 'tv.danmaku.ijk.media:ijkplayer-java:0.8.3'
+
+
 }

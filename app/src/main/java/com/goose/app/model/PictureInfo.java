@@ -1,10 +1,12 @@
 package com.goose.app.model;
 
+import java.io.Serializable;
+
 /**
  * Created by taoyr on 2018/6/25.
  */
 
-public class PictureInfo {
+public class PictureInfo implements Serializable {
 
     public String id;
     public String type;

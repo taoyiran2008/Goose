@@ -88,17 +88,17 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
     @Override
     public void setUserVisibleHint(boolean isVisibleToUser) {
         super.setUserVisibleHint(isVisibleToUser);
-        final BaseActivity activity = (BaseActivity) getActivity();
-        if (isVisibleToUser) {
-            if (activity != null) {
-                activity.setStatusBarTransparent(true);
-            }
-        } else {
-            // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
-            if (activity != null) {
-                activity.setStatusBarTransparent(false);
-            }
-        }
+        //  final BaseActivity activity = (BaseActivity) getActivity();
+//        if (isVisibleToUser) {
+//            if (activity != null) {
+//                activity.setStatusBarTransparent(true);
+//            }
+//        } else {
+//            // 注意：第一次进入MainActivity即会执行，可能因为控件没有初始化完毕，而会导致NPE
+//            if (activity != null) {
+//                activity.setStatusBarTransparent(false);
+//            }
+//        }
     }
 
     @Override
@@ -109,7 +109,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
         activity.setStatusBarTransparent(false);*/
     }
 
-    @OnClick({R.id.ev_my_picture, R.id.img_head, R.id.ll_clock_in,R.id.ev_invite,R.id.ev_exit,R.id.txt_nick_name})
+    @OnClick({R.id.ev_my_picture, R.id.img_head, R.id.ll_clock_in, R.id.ev_invite, R.id.ev_exit, R.id.txt_nick_name})
     public void onClick(View v) {
         switch (v.getId()) {
             case R.id.ev_my_picture:
@@ -122,11 +122,11 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
                 mPresenter.getLastSignInfo();
                 break;
             case R.id.ev_invite:
-                if(GooseApplication.getInstance().getToken()==null){
+                if (GooseApplication.getInstance().getToken() == null) {
                     mPresenter.getUserInfo();
-                }else {
+                } else {
                     Intent intent2 = new Intent(mContext, InviteActivity.class);
-                    intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE,userDetailInfo.shareCode);
+                    intent2.putExtra(Configs.EXTRA_USER_SHARE_CODE, userDetailInfo.shareCode);
                     startActivity(intent2);
                 }
                 break;
@@ -134,7 +134,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
                 GooseApplication.getInstance().setToken(null);
                 Intent intent3 = new Intent(mContext, LoginActivity.class);
                 startActivity(intent3);
-               // mApplication.getBaseActivityManager().finishAllActivity();
+                // mApplication.getBaseActivityManager().finishAllActivity();
                 break;
             case R.id.txt_nick_name:
                 mPresenter.getUserInfo();
@@ -178,7 +178,7 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @Override
     protected void initView() {
-        if (!ValidUtil.isEmpty(GooseApplication.getInstance().getToken() )) {
+        if (!ValidUtil.isEmpty(GooseApplication.getInstance().getToken())) {
             mPresenter.getUserInfo();
         }
         //mPresenter.getUserInfo();
@@ -223,11 +223,11 @@ public class AccountFragment extends BaseFragment<AccountContract.Presenter> imp
 
     @Override
     public void getUserInfo(UserDetailInfo user) {
-        userDetailInfo=user;
+        userDetailInfo = user;
         updateUserUi(user);
         txt_coin.setText(user.coin + "个金币");
         try {
-            if(ValidUtil.isEmpty(user.lastSignTime)){
+            if (ValidUtil.isEmpty(user.lastSignTime)) {
                 sign_tv.setText("签到领积分");
                 return;
             }
